@@ -1,2 +1,1 @@
-# evcli
- Attestation Evidence manipulation tool
+# Attestation Evidence manipulation tool
