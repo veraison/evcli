@@ -1,2 +1,2 @@
 # evcli
-Command line tool for handling attestation evidence
+ Attestation Evidence manipulation tool
