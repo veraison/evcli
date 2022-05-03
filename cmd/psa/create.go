@@ -84,6 +84,8 @@ Note that the default profile is http://arm.com/psa/2.0.0.
 				return fmt.Errorf("error saving PSA attesation token to file %s: %w", fn, err)
 			}
 
+			fmt.Printf(">> %q successfully created\n", fn)
+
 			return nil
 		},
 	}
