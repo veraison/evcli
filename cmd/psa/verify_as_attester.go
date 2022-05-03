@@ -32,17 +32,16 @@ func NewAttesterCmd(fs afero.Fs, attesterVeraisonClient common.IVeraisonClient) 
 	cmd := &cobra.Command{
 		Use:   "attester",
 		Short: "Emulate an Attester",
-		Long: `
-	This command implements the "attester mode" of interaction, where the
-	verifier is the protocol challenger.  Here, the nonce is provided by the API
-	server and the PSA attestation token needs to be created on the fly based on
-	the attester's claims and signing IAK.
+		Long: `This command implements the "attester mode" of a challenge-response
+interaction, where the verifier is the protocol challenger.  Therefore, the
+nonce is provided by the Veraison API server and the PSA attestation token needs
+to be created on the fly based on the attester's claims and signing IAK.
 	
-		evcli psa verify-as attester \
-		              --api-server=https://veraison.example/challenge-response/v1 \
-		              --claims=claims.json \
-		              --key=es256.jwk \
-		              --nonce-size=32
+	evcli psa verify-as attester \
+	              --api-server=https://veraison.example/challenge-response/v1 \
+	              --claims=claims.json \
+	              --key=es256.jwk \
+	              --nonce-size=32
 	
 	`,
 		RunE: func(cmd *cobra.Command, args []string) error {

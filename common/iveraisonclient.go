@@ -5,6 +5,8 @@ package common
 
 import "github.com/veraison/apiclient/verification"
 
+// IVeraisonClient is an interface for dealing with Veraison's
+// apiclient/verification ChallengeResponseConfig objects
 type IVeraisonClient interface {
 	Run() ([]byte, error)
 	SetNonce(nonce []byte) error

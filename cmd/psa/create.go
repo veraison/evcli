@@ -26,24 +26,25 @@ func NewCreateCmd(fs afero.Fs) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "create",
 		Short: "create a PSA attestation token from the supplied claims and IAK",
-		Long: `create a PSA attestation token from the JSON-encoded claims and Initial Attestation Key
-
-	Create a PSA attestation token from claims contained in claims.json, sign
-	with es256.jwk and save the result to my.cbor:
+		Long: `Create a PSA attestation token from the JSON-encoded claims and
+Initial Attestation Key, optionally specifying the wanted profile
+		
+Create a PSA attestation token from claims contained in claims.json, sign
+with es256.jwk and save the result to my.cbor:
 	
-		evcli psa create --claims=claims.json --key=es256.jwk --token=my.cbor
+	evcli psa create --claims=claims.json --key=es256.jwk --token=my.cbor
 	
-	Or, equivalently:
+Or, equivalently:
 
-		evcli psa create -c claims.json -k es256.jwk -t my.cbor
+	evcli psa create -c claims.json -k es256.jwk -t my.cbor
 
-	Create a PSA attestation token from claims contained in te-profile1.json
-	(using PSA_IOT_PROFILE_1), sign with es256.jwk and save the result to
-	te-profile1.cbor:
+Create a PSA attestation token from claims contained in te-profile1.json
+(using PSA_IOT_PROFILE_1), sign with es256.jwk and save the result to
+te-profile1.cbor:
 
-		evcli psa create -c te-profile1.json -k es256.jwk -p PSA_IOT_PROFILE_1
+	evcli psa create -c te-profile1.json -k es256.jwk -p PSA_IOT_PROFILE_1
 
-	Note that the default profile is http://arm.com/psa/2.0.0.
+Note that the default profile is http://arm.com/psa/2.0.0.
 	`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if err := checkProfile(createTokenProfile); err != nil {

@@ -48,8 +48,6 @@ _mocks: $(MOCK_FILES)
 .PHONY: test test-cover
 test test-cover: _mocks; go test $(GOTEST_ARGS)
 
-realtest: _mocks; go test $(GOTEST_ARGS)
-.PHONY: realtest
 
 .PHONY: clean
 clean: ; $(RM) $(CLEANFILES)

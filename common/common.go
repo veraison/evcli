@@ -20,6 +20,8 @@ import (
 
 var Fs = afero.NewOsFs()
 
+// SignerFromJWK creates a go-cose Signer object from the supplied JSON Web Key
+// (JWK) description
 func SignerFromJWK(rawJWK []byte) (*cose.Signer, error) {
 	var (
 		crv    elliptic.Curve
@@ -61,6 +63,8 @@ func SignerFromJWK(rawJWK []byte) (*cose.Signer, error) {
 	return cose.NewSignerFromKey(alg, rawkey)
 }
 
+// PubKeyFromJWK extracts the PublicKey (if any) from the supplied JSON Web Key
+// (JWK) description
 func PubKeyFromJWK(rawJWK []byte) (*crypto.PublicKey, error) {
 	s, err := SignerFromJWK(rawJWK)
 	if err != nil {

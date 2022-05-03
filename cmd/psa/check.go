@@ -23,21 +23,22 @@ func NewCheckCmd(fs afero.Fs) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "check",
 		Short: "do the syntactic and cryptographic signature checks over a PSA attestation token",
-		Long: `Run the syntactic and cryptographic signature checks over the supplied PSA attestation token.
+		Long: `Run the syntactic and cryptographic signature checks over the
+supplied PSA attestation token.
 
-	Check a PSA attestation token contained in my.cbor using es256.jwk and (if
-	possible) save the embedded claims to claims.json:
+Check a PSA attestation token contained in my.cbor using es256.jwk and
+save the embedded claims to claims.json:
 	
-		evcli psa check --token=my.cbor --key=es256.jwk --claims=claims.json
+	evcli psa check --token=my.cbor --key=es256.jwk --claims=claims.json
 	
-	Or, equivalently:
+Or, equivalently:
 
-		evcli psa check -t my.cbor -k es256.jwt -c claims.json
+	evcli psa check -t my.cbor -k es256.jwt -c claims.json
 
-	check a PSA attestation token contained in te.json using the public IAK in
-	es256.jwk and dump the embedded claims (if possible) to standard output:
+check a PSA attestation token contained in te.cbor using the public IAK in
+es256.jwk and dump the embedded claims to standard output:
 	
-		evcli psa check -t te.cbor -k es256.jwk
+	evcli psa check -t te.cbor -k es256.jwk
 	`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			key, err := afero.ReadFile(fs, *checkKeyFile)
@@ -95,7 +96,7 @@ func NewCheckCmd(fs afero.Fs) *cobra.Command {
 }
 
 func init() {
-	if err := checkCmd.MarkFlagRequired("claims"); err != nil {
+	if err := checkCmd.MarkFlagRequired("token"); err != nil {
 		panic(err)
 	}
 	if err := checkCmd.MarkFlagRequired("key"); err != nil {

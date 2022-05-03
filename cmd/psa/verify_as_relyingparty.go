@@ -29,16 +29,16 @@ func NewRelyingPartyCmd(fs afero.Fs, veraisonClient common.IVeraisonClient) *cob
 	cmd := &cobra.Command{
 		Use:   "relying-party",
 		Short: "Emulate a Relying Party",
-		Long: `
-	This command implements the "relying party mode" of interaction, where the
-	relying party was the challenger, and therefore the nonce is provided by the
-	caller implicitly in an already well-formed and signed PSA attestation
-	token, possibly produced by a previous invocation to "evcli psa create".
-	
-		evcli psa verify-as relying-party \
-		              --api-server=https://veraison.example/challenge-response/v1 \
-		              --token=psa-token.cbor
-	
+		Long: `This command implements the "relying party mode" of a
+challenge-response interaction, where the relying party was the original
+challenger, and therefore the nonce is provided by the caller implicitly in an
+already well-formed and signed PSA attestation token, possibly produced by a
+previous invocation to "evcli psa create".
+
+	evcli psa verify-as relying-party \
+	              --api-server=https://veraison.example/challenge-response/v1 \
+	              --token=psa-token.cbor
+
 	`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			token, err := afero.ReadFile(fs, *relyingPartyTokenFile)

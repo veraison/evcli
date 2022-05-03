@@ -11,6 +11,27 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+func Test_CheckCmd_ok(t *testing.T) {
+	fs := afero.NewMemMapFs()
+
+	err := afero.WriteFile(fs, "psatoken.cbor", testValidPSAToken, 0644)
+	require.NoError(t, err)
+
+	err = afero.WriteFile(fs, "es256.jwk", testValidKey, 0644)
+	require.NoError(t, err)
+
+	cmd := NewCheckCmd(fs)
+	cmd.SetArgs(
+		[]string{
+			"--token=psatoken.cbor",
+			"--key=es256.jwk",
+		},
+	)
+
+	err = cmd.Execute()
+	assert.NoError(t, err)
+}
+
 func Test_CheckCmd_token_not_found(t *testing.T) {
 	fs := afero.NewMemMapFs()
 
@@ -122,27 +143,6 @@ func Test_CheckCmd_bad_token(t *testing.T) {
 
 	err = cmd.Execute()
 	assert.EqualError(t, err, expectedErr)
-}
-
-func Test_CheckCmd_ok(t *testing.T) {
-	fs := afero.NewMemMapFs()
-
-	err := afero.WriteFile(fs, "psatoken.cbor", testValidPSAToken, 0644)
-	require.NoError(t, err)
-
-	err = afero.WriteFile(fs, "es256.jwk", testValidKey, 0644)
-	require.NoError(t, err)
-
-	cmd := NewCheckCmd(fs)
-	cmd.SetArgs(
-		[]string{
-			"--token=psatoken.cbor",
-			"--key=es256.jwk",
-		},
-	)
-
-	err = cmd.Execute()
-	assert.NoError(t, err)
 }
 
 func Test_CheckCmd_bad_signature(t *testing.T) {
