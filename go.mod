@@ -14,12 +14,6 @@ require (
 	github.com/veraison/psatoken v0.0.2-0.20220427110107-d562b9ff4014
 )
 
-replace (
-	github.com/veraison/evcli/cmd => ./cmd
-	github.com/veraison/evcli/cmd/psa => ./cmd/psa
-	github.com/veraison/evcli/common => ./common
-)
-
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.0.0-20210816181553-5444fa50b93d // indirect
