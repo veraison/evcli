@@ -9,7 +9,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var cmdValidArgs = []string{"client", "create", "verify"}
+var cmdValidArgs = []string{"verify-as", "create", "check"}
 
 var Cmd = &cobra.Command{
 	Use:   "psa",

@@ -11,6 +11,27 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+func Test_CreateCmd_ok(t *testing.T) {
+	fs := afero.NewMemMapFs()
+
+	err := afero.WriteFile(fs, "es256.jwk", testValidKey, 0644)
+	require.NoError(t, err)
+
+	err = afero.WriteFile(fs, "claims.json", testValidPSAClaimsWithNonce, 0644)
+	require.NoError(t, err)
+
+	cmd := NewCreateCmd(fs)
+	cmd.SetArgs(
+		[]string{
+			"--claims=claims.json",
+			"--key=es256.jwk",
+		},
+	)
+
+	err = cmd.Execute()
+	assert.NoError(t, err)
+}
+
 func Test_CreateCmd_claims_not_found(t *testing.T) {
 	fs := afero.NewMemMapFs()
 

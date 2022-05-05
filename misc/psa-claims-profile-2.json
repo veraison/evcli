@@ -1,0 +1,23 @@
+{
+  "profile": "http://arm.com/psa/2.0.0",
+  "partition-id": 1,
+  "security-life-cycle": 12288,
+  "implementation-id": "UFFSU1RVVldQUVJTVFVWV1BRUlNUVVZXUFFSU1RVVlc=",
+  "boot-seed": "3q2+796tvu/erb7v3q2+796tvu/erb7v3q2+796tvu8=",
+  "hardware-version": "1234567890123",
+  "software-components": [
+    {
+      "measurement-type": "BL",
+      "measurement-value": "AAECBAABAgQAAQIEAAECBAABAgQAAQIEAAECBAABAgQ=",
+      "signer-id": "UZIA/1GSAP9RkgD/UZIA/1GSAP9RkgD/UZIA/1GSAP8="
+    },
+    {
+      "measurement-type": "PRoT",
+      "measurement-value": "BQYHCAUGBwgFBgcIBQYHCAUGBwgFBgcIBQYHCAUGBwg=",
+      "signer-id": "UZIA/1GSAP9RkgD/UZIA/1GSAP9RkgD/UZIA/1GSAP8="
+    }
+  ],
+  "instance-id": "AaChoqOgoaKjoKGio6ChoqOgoaKjoKGio6ChoqOgoaKj",
+  "verification-service-indicator": "https://psa-verifier.org",
+  "nonce": "QUp8F0FBs9DpodKK8xUg8NQimf6sQAfe2J1ormzZLxk="
+}
