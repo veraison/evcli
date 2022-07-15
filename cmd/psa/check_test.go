@@ -14,7 +14,7 @@ import (
 func Test_CheckCmd_ok(t *testing.T) {
 	fs := afero.NewMemMapFs()
 
-	err := afero.WriteFile(fs, "psatoken.cbor", testValidPSAToken, 0644)
+	err := afero.WriteFile(fs, "psatoken.cbor", testValidP2PSAToken, 0644)
 	require.NoError(t, err)
 
 	err = afero.WriteFile(fs, "es256.jwk", testValidKey, 0644)
@@ -55,7 +55,7 @@ func Test_CheckCmd_token_not_found(t *testing.T) {
 func Test_CheckCmd_key_not_found(t *testing.T) {
 	fs := afero.NewMemMapFs()
 
-	err := afero.WriteFile(fs, "psatoken.cbor", testValidPSAToken, 0644)
+	err := afero.WriteFile(fs, "psatoken.cbor", testValidP2PSAToken, 0644)
 	require.NoError(t, err)
 
 	cmd := NewCheckCmd(fs)
@@ -75,7 +75,7 @@ func Test_CheckCmd_key_not_found(t *testing.T) {
 func Test_CheckCmd_claims_file_write_failed(t *testing.T) {
 	fs := afero.NewMemMapFs()
 
-	err := afero.WriteFile(fs, "psatoken.cbor", testValidPSAToken, 0644)
+	err := afero.WriteFile(fs, "psatoken.cbor", testValidP2PSAToken, 0644)
 	require.NoError(t, err)
 
 	err = afero.WriteFile(fs, "es256.jwk", testValidKey, 0644)
@@ -102,7 +102,7 @@ func Test_CheckCmd_claims_file_write_failed(t *testing.T) {
 func Test_CheckCmd_bad_key(t *testing.T) {
 	fs := afero.NewMemMapFs()
 
-	err := afero.WriteFile(fs, "psatoken.cbor", testValidPSAToken, 0644)
+	err := afero.WriteFile(fs, "psatoken.cbor", testValidP2PSAToken, 0644)
 	require.NoError(t, err)
 
 	err = afero.WriteFile(fs, "es256.jwk", testInvalidKey, 0644)
@@ -139,7 +139,7 @@ func Test_CheckCmd_bad_token(t *testing.T) {
 		},
 	)
 
-	expectedErr := `the supplied CWT is not a COSE-Sign1 message`
+	expectedErr := `failed CBOR decoding for CWT: cbor: invalid COSE_Sign1_Tagged object`
 
 	err = cmd.Execute()
 	assert.EqualError(t, err, expectedErr)
@@ -148,7 +148,7 @@ func Test_CheckCmd_bad_token(t *testing.T) {
 func Test_CheckCmd_bad_signature(t *testing.T) {
 	fs := afero.NewMemMapFs()
 
-	tamperedPSAToken := testValidPSAToken
+	tamperedPSAToken := testValidP2PSAToken
 	tamperedPSAToken[len(tamperedPSAToken)-1] ^= 1
 
 	err := afero.WriteFile(fs, "psatoken.cbor", tamperedPSAToken, 0644)
@@ -165,7 +165,7 @@ func Test_CheckCmd_bad_signature(t *testing.T) {
 		},
 	)
 
-	expectedErr := `signature verification failed: verification failed ecdsa.Verify`
+	expectedErr := `signature verification failed: verification error`
 
 	err = cmd.Execute()
 	assert.EqualError(t, err, expectedErr)

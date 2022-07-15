@@ -48,7 +48,7 @@ previous invocation to "evcli psa create".
 
 			var e psatoken.Evidence
 
-			if err = e.FromCOSE(token, psatoken.PSA_PROFILE_1, psatoken.PSA_PROFILE_2); err != nil {
+			if err = e.FromCOSE(token); err != nil {
 				return err
 			}
 

@@ -48,7 +48,7 @@ func Test_RelyingPartyCmd_token_invalid(t *testing.T) {
 		},
 	)
 
-	expectedErr := `the supplied CWT is not a COSE-Sign1 message`
+	expectedErr := `failed CBOR decoding for CWT: cbor: invalid COSE_Sign1_Tagged object`
 
 	err = cmd.Execute()
 	assert.EqualError(t, err, expectedErr)
@@ -57,7 +57,7 @@ func Test_RelyingPartyCmd_token_invalid(t *testing.T) {
 func Test_RelyingPartyCmd_bad_server_url(t *testing.T) {
 	fs := afero.NewMemMapFs()
 
-	err := afero.WriteFile(fs, "psatoken.cbor", testValidPSAToken, 0644)
+	err := afero.WriteFile(fs, "psatoken.cbor", testValidP2PSAToken, 0644)
 	require.NoError(t, err)
 
 	cmd := NewRelyingPartyCmd(fs, relyingPartyVeraisonClient)
@@ -88,7 +88,7 @@ func Test_RelyingPartyCmd_ok(t *testing.T) {
 
 	fs := afero.NewMemMapFs()
 
-	err := afero.WriteFile(fs, "psatoken.cbor", testValidPSAToken, 0644)
+	err := afero.WriteFile(fs, "psatoken.cbor", testValidP2PSAToken, 0644)
 	require.NoError(t, err)
 
 	cmd := NewRelyingPartyCmd(fs, mc)
@@ -117,7 +117,7 @@ func Test_RelyingPartyCmd_protocol_run_failed(t *testing.T) {
 
 	fs := afero.NewMemMapFs()
 
-	err := afero.WriteFile(fs, "psatoken.cbor", testValidPSAToken, 0644)
+	err := afero.WriteFile(fs, "psatoken.cbor", testValidP2PSAToken, 0644)
 	require.NoError(t, err)
 
 	cmd := NewRelyingPartyCmd(fs, mc)
@@ -136,7 +136,7 @@ func Test_RelyingPartyCmd_protocol_run_failed(t *testing.T) {
 
 func Test_relyingPartyEvidenceBuilder_BuildEvidence_ok(t *testing.T) {
 	mut := relyingPartyEvidenceBuilder{
-		Token: testValidPSAToken,
+		Token: testValidP2PSAToken,
 		Nonce: testNonce,
 	}
 
@@ -144,7 +144,7 @@ func Test_relyingPartyEvidenceBuilder_BuildEvidence_ok(t *testing.T) {
 		"a", PSATokenMediaType, "b", "c",
 	}
 
-	expectedEvidence := testValidPSAToken
+	expectedEvidence := testValidP2PSAToken
 	expectedMediaType := PSATokenMediaType
 
 	actualEvidence, actualMediaType, err := mut.BuildEvidence(testNonce, supportedMediaTypes)
@@ -156,7 +156,7 @@ func Test_relyingPartyEvidenceBuilder_BuildEvidence_ok(t *testing.T) {
 
 func Test_relyingPartyEvidenceBuilder_BuildEvidence_nonce_not_matching(t *testing.T) {
 	mut := relyingPartyEvidenceBuilder{
-		Token: testValidPSAToken,
+		Token: testValidP2PSAToken,
 		Nonce: testNonce,
 	}
 
@@ -180,7 +180,7 @@ func Test_relyingPartyEvidenceBuilder_BuildEvidence_nonce_not_matching(t *testin
 
 func Test_relyingPartyEvidenceBuilder_BuildEvidence_unsupported_media_type(t *testing.T) {
 	mut := relyingPartyEvidenceBuilder{
-		Token: testValidPSAToken,
+		Token: testValidP2PSAToken,
 		Nonce: testNonce,
 	}
 
