@@ -20,58 +20,64 @@ import (
 
 var Fs = afero.NewOsFs()
 
-// SignerFromJWK creates a go-cose Signer object from the supplied JSON Web Key
-// (JWK) description
-func SignerFromJWK(rawJWK []byte) (*cose.Signer, error) {
+func getAlgAndKeyFromJWK(rawJWK []byte) (cose.Algorithm, crypto.Signer, error) {
 	var (
 		crv    elliptic.Curve
-		alg    *cose.Algorithm
-		rawkey interface{}
+		alg    cose.Algorithm
+		rawkey crypto.Signer
 	)
 
 	key, err := jwk.ParseKey(rawJWK)
 	if err != nil {
-		return nil, fmt.Errorf("failed to parse key: %w", err)
+		return alg, rawkey, fmt.Errorf("failed to parse key: %w", err)
 	}
 
 	if err := key.Raw(&rawkey); err != nil {
-		return nil, fmt.Errorf("failed to create key: %w", err)
+		return alg, rawkey, fmt.Errorf("failed to create key: %w", err)
 	}
 
 	switch v := rawkey.(type) {
 	case *rsa.PrivateKey:
-		alg = cose.PS256
+		alg = cose.AlgorithmES256
 	case *ecdsa.PrivateKey:
 		crv = v.Curve
 		if crv == elliptic.P256() {
-			alg = cose.ES256
+			alg = cose.AlgorithmES256
 			break
 		}
 		if crv == elliptic.P384() {
-			alg = cose.ES384
+			alg = cose.AlgorithmES384
 			break
 		}
-		if crv == elliptic.P521() {
-			alg = cose.ES512
-			break
-		}
-		return nil, fmt.Errorf("unknown elliptic curve %v", crv)
+		return alg, rawkey, fmt.Errorf("unknown elliptic curve %v", crv)
 	default:
-		return nil, fmt.Errorf("unknown private key type %v", reflect.TypeOf(key))
+		return alg, rawkey, fmt.Errorf("unknown private key type %v", reflect.TypeOf(key))
+	}
+	return alg, rawkey, nil
+}
+
+// SignerFromJWK creates a go-cose Signer object from the supplied JSON Web Key
+// (JWK) description
+func SignerFromJWK(rawJWK []byte) (cose.Signer, error) {
+	var noSigner cose.Signer
+	alg, rawkey, err := getAlgAndKeyFromJWK(rawJWK)
+	if err != nil {
+		return noSigner, err
 	}
 
-	return cose.NewSignerFromKey(alg, rawkey)
+	return cose.NewSigner(alg, rawkey)
 }
 
 // PubKeyFromJWK extracts the PublicKey (if any) from the supplied JSON Web Key
 // (JWK) description
-func PubKeyFromJWK(rawJWK []byte) (*crypto.PublicKey, error) {
-	s, err := SignerFromJWK(rawJWK)
+func PubKeyFromJWK(rawJWK []byte) (crypto.PublicKey, error) {
+	var noPubkey crypto.PublicKey
+	_, key, err := getAlgAndKeyFromJWK(rawJWK)
 	if err != nil {
-		return nil, err
+		return noPubkey, err
 	}
 
-	return &s.Verifier().PublicKey, nil
+	return key.Public(), nil
 }
 
 func MakeFileName(dirName, baseName, ext string) string {

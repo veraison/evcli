@@ -1,11 +1,11 @@
 {
-  "legacy-profile": "PSA_IOT_PROFILE_1",
-  "partition-id": 1,
-  "security-life-cycle": 12288,
-  "implementation-id": "UFFSU1RVVldQUVJTVFVWV1BRUlNUVVZXUFFSU1RVVlc=",
-  "boot-seed": "3q2+796tvu/erb7v3q2+796tvu/erb7v3q2+796tvu8=",
-  "hardware-version": "1234567890123",
-  "software-components": [
+  "psa-profile": "PSA_IOT_PROFILE_1",
+  "psa-client-id": 1,
+  "psa-security-lifecycle": 12288,
+  "psa-implementation-id": "UFFSU1RVVldQUVJTVFVWV1BRUlNUVVZXUFFSU1RVVlc=",
+  "psa-boot-seed": "3q2+796tvu/erb7v3q2+796tvu/erb7v3q2+796tvu8=",
+  "psa-hwver": "1234567890123",
+  "psa-software-components": [
     {
       "measurement-type": "BL",
       "measurement-value": "AAECBAABAgQAAQIEAAECBAABAgQAAQIEAAECBAABAgQ=",
@@ -17,7 +17,7 @@
       "signer-id": "UZIA/1GSAP9RkgD/UZIA/1GSAP9RkgD/UZIA/1GSAP8="
     }
   ],
-  "legacy-instance-id": "AaChoqOgoaKjoKGio6ChoqOgoaKjoKGio6ChoqOgoaKj",
-  "verification-service-indicator": "https://psa-verifier.org",
-  "legacy-nonce": "QUp8F0FBs9DpodKK8xUg8NQimf6sQAfe2J1ormzZLxk="
+  "psa-instance-id": "AaChoqOgoaKjoKGio6ChoqOgoaKjoKGio6ChoqOgoaKj",
+  "psa-verification-service-indicator": "https://psa-verifier.org",
+  "psa-nonce": "QUp8F0FBs9DpodKK8xUg8NQimf6sQAfe2J1ormzZLxk="
 }

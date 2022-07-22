@@ -51,14 +51,24 @@ Note that the default profile is http://arm.com/psa/2.0.0.
 				return err
 			}
 
-			claims, err := loadClaimsFromFile(fs, *createClaimsFile)
+			validateClaims := true
+			claims, err := loadClaimsFromFile(fs, *createClaimsFile, validateClaims)
 			if err != nil {
 				return err
 			}
 
+			profile, err := claims.GetProfile()
+			if err != nil {
+				return fmt.Errorf("error loading profile from claims %w", err)
+			}
+			if profile != *createTokenProfile {
+				return fmt.Errorf("profile mismatch: requested: %s loaded: %s", *createTokenProfile, profile)
+
+			}
+
 			evidence := psatoken.Evidence{}
 
-			if err = evidence.SetClaims(claims, *createTokenProfile); err != nil {
+			if err = evidence.SetClaims(claims); err != nil {
 				return err
 			}
 
@@ -103,7 +113,7 @@ Note that the default profile is http://arm.com/psa/2.0.0.
 	)
 
 	createTokenProfile = cmd.Flags().StringP(
-		"profile", "p", psatoken.PSA_PROFILE_2, "name of the PSA profile to use",
+		"profile", "p", psatoken.PsaProfile2, "name of the PSA profile to use",
 	)
 
 	return cmd
@@ -115,11 +125,11 @@ func checkProfile(profile *string) error {
 	}
 
 	switch *profile {
-	case psatoken.PSA_PROFILE_1, psatoken.PSA_PROFILE_2:
+	case psatoken.PsaProfile1, psatoken.PsaProfile2:
 		return nil
 	}
 
-	return fmt.Errorf("wrong profile %s: allowed profiles are %s and %s", *profile, psatoken.PSA_PROFILE_2, psatoken.PSA_PROFILE_1)
+	return fmt.Errorf("wrong profile %s: allowed profiles are %s and %s", *profile, psatoken.PsaProfile2, psatoken.PsaProfile1)
 }
 
 func tokenFileName() string {

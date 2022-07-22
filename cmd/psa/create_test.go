@@ -17,7 +17,7 @@ func Test_CreateCmd_ok(t *testing.T) {
 	err := afero.WriteFile(fs, "es256.jwk", testValidKey, 0644)
 	require.NoError(t, err)
 
-	err = afero.WriteFile(fs, "claims.json", testValidPSAClaimsWithNonce, 0644)
+	err = afero.WriteFile(fs, "claims.json", testValidP2PSAClaimsWithNonce, 0644)
 	require.NoError(t, err)
 
 	cmd := NewCreateCmd(fs)
@@ -25,6 +25,28 @@ func Test_CreateCmd_ok(t *testing.T) {
 		[]string{
 			"--claims=claims.json",
 			"--key=es256.jwk",
+		},
+	)
+
+	err = cmd.Execute()
+	assert.NoError(t, err)
+}
+
+func Test_CreateCmd_WithP1Claims_ok(t *testing.T) {
+	fs := afero.NewMemMapFs()
+
+	err := afero.WriteFile(fs, "es256.jwk", testValidKey, 0644)
+	require.NoError(t, err)
+
+	err = afero.WriteFile(fs, "claims.json", testValidP1PSAClaims, 0644)
+	require.NoError(t, err)
+
+	cmd := NewCreateCmd(fs)
+	cmd.SetArgs(
+		[]string{
+			"--claims=claims.json",
+			"--key=es256.jwk",
+			"--profile=PSA_IOT_PROFILE_1",
 		},
 	)
 
@@ -55,7 +77,7 @@ func Test_CreateCmd_claims_not_found(t *testing.T) {
 func Test_CreateCmd_key_not_found(t *testing.T) {
 	fs := afero.NewMemMapFs()
 
-	err := afero.WriteFile(fs, "claims.json", testValidPSAClaimsWithNonce, 0644)
+	err := afero.WriteFile(fs, "claims.json", testValidP2PSAClaimsWithNonce, 0644)
 	require.NoError(t, err)
 
 	cmd := NewCreateCmd(fs)
@@ -75,7 +97,7 @@ func Test_CreateCmd_key_not_found(t *testing.T) {
 func Test_CreateCmd_token_file_write_failed(t *testing.T) {
 	fs := afero.NewMemMapFs()
 
-	err := afero.WriteFile(fs, "claims.json", testValidPSAClaimsWithNonce, 0644)
+	err := afero.WriteFile(fs, "claims.json", testValidP2PSAClaimsWithNonce, 0644)
 	require.NoError(t, err)
 
 	err = afero.WriteFile(fs, "es256.jwk", testValidKey, 0644)
@@ -101,7 +123,7 @@ func Test_CreateCmd_token_file_write_failed(t *testing.T) {
 func Test_CreateCmd_claims_profile_mismatch(t *testing.T) {
 	fs := afero.NewMemMapFs()
 
-	err := afero.WriteFile(fs, "claims.json", testValidPSAClaimsWithNonce, 0644)
+	err := afero.WriteFile(fs, "claims.json", testValidP2PSAClaimsWithNonce, 0644)
 	require.NoError(t, err)
 
 	err = afero.WriteFile(fs, "es256.jwk", testValidKey, 0644)
@@ -116,7 +138,7 @@ func Test_CreateCmd_claims_profile_mismatch(t *testing.T) {
 		},
 	)
 
-	expectedErr := `validation failed: legacy profile claim missing`
+	expectedErr := `profile mismatch: requested: PSA_IOT_PROFILE_1 loaded: http://arm.com/psa/2.0.0`
 
 	err = cmd.Execute()
 	assert.EqualError(t, err, expectedErr)
@@ -125,7 +147,7 @@ func Test_CreateCmd_claims_profile_mismatch(t *testing.T) {
 func Test_CreateCmd_unknown_profile(t *testing.T) {
 	fs := afero.NewMemMapFs()
 
-	err := afero.WriteFile(fs, "claims.json", testValidPSAClaimsWithNonce, 0644)
+	err := afero.WriteFile(fs, "claims.json", testValidP2PSAClaimsWithNonce, 0644)
 	require.NoError(t, err)
 
 	err = afero.WriteFile(fs, "es256.jwk", testValidKey, 0644)
@@ -149,7 +171,7 @@ func Test_CreateCmd_unknown_profile(t *testing.T) {
 func Test_CreateCmd_bad_key(t *testing.T) {
 	fs := afero.NewMemMapFs()
 
-	err := afero.WriteFile(fs, "claims.json", testValidPSAClaimsWithNonce, 0644)
+	err := afero.WriteFile(fs, "claims.json", testValidP2PSAClaimsWithNonce, 0644)
 	require.NoError(t, err)
 
 	err = afero.WriteFile(fs, "es256.jwk", testInvalidKey, 0644)

@@ -4,6 +4,7 @@
 package psa
 
 import (
+	"encoding/json"
 	"fmt"
 
 	"github.com/spf13/afero"
@@ -56,13 +57,18 @@ es256.jwk and dump the embedded claims to standard output:
 				return err
 			}
 
-			err = t.Verify(*pk)
+			err = t.Verify(pk)
 			if err != nil {
 				return fmt.Errorf("signature verification failed: %w", err)
 			}
 			fmt.Printf(">> %q verified\n", *checkTokenFile)
 
-			claims, err := t.Claims.ToJSON()
+			err = t.Claims.Validate()
+			if err != nil {
+				return fmt.Errorf("claims validation failed: %w", err)
+			}
+
+			claims, err := json.Marshal(t.Claims)
 			if err != nil {
 				return fmt.Errorf("claims extraction failed: %w", err)
 			}

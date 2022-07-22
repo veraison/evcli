@@ -49,7 +49,8 @@ to be created on the fly based on the attester's claims and signing IAK.
 				return err
 			}
 
-			claims, err := loadClaimsFromFile(fs, *attesterClaimsFile)
+			validateClaims := false
+			claims, err := loadClaimsFromFile(fs, *attesterClaimsFile, validateClaims)
 			if err != nil {
 				return err
 			}
@@ -123,8 +124,8 @@ func checkNonceSz(sz *uint) error {
 }
 
 type attesterEvidenceBuilder struct {
-	Claims *psatoken.Claims
-	Signer *cose.Signer
+	Claims psatoken.IClaims
+	Signer cose.Signer
 }
 
 func (eb attesterEvidenceBuilder) BuildEvidence(nonce []byte, accept []string) ([]byte, string, error) {
@@ -137,14 +138,14 @@ func (eb attesterEvidenceBuilder) BuildEvidence(nonce []byte, accept []string) (
 			return nil, "", fmt.Errorf("setting nonce: %w", err)
 		}
 
-		profile, err := eb.Claims.GetProfile()
+		_, err := eb.Claims.GetProfile()
 		if err != nil {
 			return nil, "", fmt.Errorf("getting profile: %w", err)
 		}
 
 		evidence := psatoken.Evidence{}
 
-		if err = evidence.SetClaims(eb.Claims, profile); err != nil {
+		if err = evidence.SetClaims(eb.Claims); err != nil {
 			return nil, "", fmt.Errorf("setting claims: %w", err)
 		}
 

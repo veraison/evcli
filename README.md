@@ -91,13 +91,13 @@ In such case, the claim set is printed to stdout in JSON format:
 
 ```json
 {
-  "profile": "http://arm.com/psa/2.0.0",
-  "partition-id": 1,
-  "security-life-cycle": 12288,
-  "implementation-id": "UFFSU1RVVldQUVJTVFVWV1BRUlNUVVZXUFFSU1RVVlc=",
-  "boot-seed": "3q2+796tvu/erb7v3q2+796tvu/erb7v3q2+796tvu8=",
-  "hardware-version": "1234567890123",
-  "software-components": [
+  "eat-profile": "http://arm.com/psa/2.0.0",
+  "psa-client-id": 1,
+  "psa-security-lifecycle": 12288,
+  "psa-implementation-id": "UFFSU1RVVldQUVJTVFVWV1BRUlNUVVZXUFFSU1RVVlc=",
+  "psa-boot-seed": "3q2+796tvu/erb7v3q2+796tvu/erb7v3q2+796tvu8=",
+  "psa-hardware-version": "1234567890123",
+  "psa-software-components": [
     {
       "measurement-type": "BL",
       "measurement-value": "AAECBAABAgQAAQIEAAECBAABAgQAAQIEAAECBAABAgQ=",
@@ -109,11 +109,10 @@ In such case, the claim set is printed to stdout in JSON format:
       "signer-id": "UZIA/1GSAP9RkgD/UZIA/1GSAP9RkgD/UZIA/1GSAP8="
     }
   ],
-  "nonce": "AAECAwABAgMAAQIDAAECAwABAgMAAQIDAAECAwABAgM=",
-  "instance-id": "AaChoqOgoaKjoKGio6ChoqOgoaKjoKGio6ChoqOgoaKj",
-  "verification-service-indicator": "https://psa-verifier.org",
-  "_partition-id-desc": "spe",
-  "_security-lifecycle-desc": "secured"
+  "psa-nonce": "AAECAwABAgMAAQIDAAECAwABAgMAAQIDAAECAwABAgM=",
+  "psa-instance-id": "AaChoqOgoaKjoKGio6ChoqOgoaKjoKGio6ChoqOgoaKj",
+  "psa-verification-service-indicator": "https://psa-verifier.org",
+  "psa-certification-reference": "1234567890123-12345",
 }
 ```
 
