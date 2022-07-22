@@ -62,7 +62,7 @@ Note that the default profile is http://arm.com/psa/2.0.0.
 				return fmt.Errorf("error loading profile from claims %w", err)
 			}
 			if profile != *createTokenProfile {
-				return fmt.Errorf("profile mismatch input: %s and created: %s", *createTokenProfile, profile)
+				return fmt.Errorf("profile mismatch: requested: %s loaded: %s", *createTokenProfile, profile)
 
 			}
 

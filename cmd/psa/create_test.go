@@ -138,7 +138,7 @@ func Test_CreateCmd_claims_profile_mismatch(t *testing.T) {
 		},
 	)
 
-	expectedErr := `profile mismatch input: PSA_IOT_PROFILE_1 and created: http://arm.com/psa/2.0.0`
+	expectedErr := `profile mismatch: requested: PSA_IOT_PROFILE_1 loaded: http://arm.com/psa/2.0.0`
 
 	err = cmd.Execute()
 	assert.EqualError(t, err, expectedErr)
