@@ -96,7 +96,7 @@ In such case, the claim set is printed to stdout in JSON format:
   "psa-security-lifecycle": 12288,
   "psa-implementation-id": "UFFSU1RVVldQUVJTVFVWV1BRUlNUVVZXUFFSU1RVVlc=",
   "psa-boot-seed": "3q2+796tvu/erb7v3q2+796tvu/erb7v3q2+796tvu8=",
-  "psa-hardware-version": "1234567890123",
+  "psa-hwver": "1234567890123",
   "psa-software-components": [
     {
       "measurement-type": "BL",
@@ -112,6 +112,7 @@ In such case, the claim set is printed to stdout in JSON format:
   "psa-nonce": "AAECAwABAgMAAQIDAAECAwABAgMAAQIDAAECAwABAgM=",
   "psa-instance-id": "AaChoqOgoaKjoKGio6ChoqOgoaKjoKGio6ChoqOgoaKj",
   "psa-verification-service-indicator": "https://psa-verifier.org",
+  "psa-certification-reference": "1234567890123-12345",
 }
 ```
 

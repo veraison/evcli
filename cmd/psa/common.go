@@ -37,7 +37,12 @@ func claimsFromJSON(j []byte, validate bool) (psatoken.IClaims, error) {
 
 	err2 := json.Unmarshal(j, p2)
 	if err2 == nil {
-		if validate || p2.Validate() == nil {
+		if validate {
+			err2 := p2.Validate()
+			if err2 == nil {
+				return p2, nil
+			}
+		} else {
 			return p2, nil
 		}
 	}
@@ -46,7 +51,12 @@ func claimsFromJSON(j []byte, validate bool) (psatoken.IClaims, error) {
 
 	err1 := json.Unmarshal(j, p1)
 	if err1 == nil {
-		if validate || p1.Validate() == nil {
+		if validate {
+			err1 := p1.Validate()
+			if err1 == nil {
+				return p1, nil
+			}
+		} else {
 			return p1, nil
 		}
 	}

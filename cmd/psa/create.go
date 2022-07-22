@@ -51,7 +51,7 @@ Note that the default profile is http://arm.com/psa/2.0.0.
 				return err
 			}
 
-			validateClaims := false
+			validateClaims := true
 			claims, err := loadClaimsFromFile(fs, *createClaimsFile, validateClaims)
 			if err != nil {
 				return err
