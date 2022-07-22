@@ -49,7 +49,8 @@ to be created on the fly based on the attester's claims and signing IAK.
 				return err
 			}
 
-			claims, err := loadClaimsFromFile(fs, *attesterClaimsFile, true)
+			validateClaims := true
+			claims, err := loadClaimsFromFile(fs, *attesterClaimsFile, validateClaims)
 			if err != nil {
 				return err
 			}

@@ -51,9 +51,19 @@ Note that the default profile is http://arm.com/psa/2.0.0.
 				return err
 			}
 
-			claims, err := loadClaimsFromFile(fs, *createClaimsFile, false)
+			validateClaims := false
+			claims, err := loadClaimsFromFile(fs, *createClaimsFile, validateClaims)
 			if err != nil {
 				return err
+			}
+
+			profile, err := claims.GetProfile()
+			if err != nil {
+				return fmt.Errorf("error loading profile from claims %w", err)
+			}
+			if profile != *createTokenProfile {
+				return fmt.Errorf("profile mismatch input: %s and created: %s", *createTokenProfile, profile)
+
 			}
 
 			evidence := psatoken.Evidence{}
@@ -61,13 +71,7 @@ Note that the default profile is http://arm.com/psa/2.0.0.
 			if err = evidence.SetClaims(claims); err != nil {
 				return err
 			}
-			profile, err := claims.GetProfile()
-			if err != nil {
-				return fmt.Errorf("error loading profile from claims %w", err)
-			}
-			if err := matchProfile(profile); err != nil {
-				return err
-			}
+
 			key, err := afero.ReadFile(fs, *createKeyFile)
 			if err != nil {
 				return fmt.Errorf("error loading signing key from %s: %w", *createKeyFile, err)
@@ -126,14 +130,6 @@ func checkProfile(profile *string) error {
 	}
 
 	return fmt.Errorf("wrong profile %s: allowed profiles are %s and %s", *profile, psatoken.PsaProfile2, psatoken.PsaProfile1)
-}
-
-func matchProfile(profile string) error {
-	if profile != *createTokenProfile {
-		return fmt.Errorf("profile mismatch input: %s and created: %s", *createTokenProfile, profile)
-
-	}
-	return nil
 }
 
 func tokenFileName() string {

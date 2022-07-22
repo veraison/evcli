@@ -5,7 +5,6 @@ package psa
 
 import (
 	"encoding/hex"
-	"encoding/json"
 
 	"github.com/veraison/evcli/common"
 	"github.com/veraison/go-cose"
@@ -108,27 +107,13 @@ var (
 		  }`)
 )
 
-func makeClaimsFromJSON(j []byte, partial bool) psatoken.IClaims {
-	p2 := &psatoken.P2Claims{}
-
-	err2 := json.Unmarshal(j, p2)
-	if err2 == nil {
-		if partial || p2.Validate() == nil {
-			return p2
-		}
+func makeClaimsFromJSON(j []byte, validate bool) psatoken.IClaims {
+	claims, err := claimsFromJSON(j, validate)
+	if err != nil {
+		panic(err)
 	}
+	return claims
 
-	p1 := &psatoken.P1Claims{}
-
-	err1 := json.Unmarshal(j, p1)
-	if err1 == nil {
-		if partial || p1.Validate() == nil {
-			return p1
-		}
-	} else {
-		panic(err1)
-	}
-	return nil
 }
 
 func makeSignerFromJWK(j []byte) cose.Signer {

@@ -163,7 +163,7 @@ func Test_AttesterCmd_ok(t *testing.T) {
 	assert.NoError(t, err)
 }
 
-func Test_AttesterCmd_bad_nonce_Sz(t *testing.T) {
+func Test_AttesterCmd_bad_nonceSz(t *testing.T) {
 	fs := afero.NewMemMapFs()
 
 	err := afero.WriteFile(fs, "claims.json", testValidP2PSAClaims, 0644)
@@ -277,7 +277,7 @@ func Test_attesterEvidenceBuilder_BuildP1Evidence_ok(t *testing.T) {
 
 func Test_attesterEvidenceBuilder_BuildEvidence_unsupported_media_type(t *testing.T) {
 	mut := attesterEvidenceBuilder{
-		Claims: makeClaimsFromJSON(testValidP2PSAClaims, false),
+		Claims: makeClaimsFromJSON(testValidP2PSAClaimsWithNonce, false),
 		Signer: makeSignerFromJWK(testValidKey),
 	}
 

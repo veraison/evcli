@@ -63,6 +63,11 @@ es256.jwk and dump the embedded claims to standard output:
 			}
 			fmt.Printf(">> %q verified\n", *checkTokenFile)
 
+			err = t.Claims.Validate()
+			if err != nil {
+				return fmt.Errorf("claims validation failed: %w", err)
+			}
+
 			claims, err := json.Marshal(t.Claims)
 			if err != nil {
 				return fmt.Errorf("claims extraction failed: %w", err)
