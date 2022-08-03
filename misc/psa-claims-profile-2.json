@@ -1,6 +1,6 @@
 {
   "eat-profile": "http://arm.com/psa/2.0.0",
-  "psa-partition-id": 1,
+  "psa-client-id": 1,
   "psa-security-lifecycle": 12288,
   "psa-implementation-id": "UFFSU1RVVldQUVJTVFVWV1BRUlNUVVZXUFFSU1RVVlc=",
   "psa-boot-seed": "3q2+796tvu/erb7v3q2+796tvu/erb7v3q2+796tvu8=",
