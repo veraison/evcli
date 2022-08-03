@@ -137,7 +137,7 @@ The `attester` subcommand implements the "attester mode" of a challenge-response
 
 ```shell
 evcli psa verify-as attester \
-    --api-server=https://veraison.example/challenge-response/v1 \
+    --api-server=https://veraison.example/challenge-response/v1/newSession \
     --claims=psa-claims-profile-2-without-nonce.json \
     --key=es256.json
 ```
@@ -148,7 +148,7 @@ By default, the command will request 48 bytes nonce from the server.  If needed,
 
 ```shell
 evcli psa verify-as attester \
-    --api-server=https://veraison.example/challenge-response/v1 \
+    --api-server=https://veraison.example/challenge-response/v1/newSession \
     --claims=psa-claims-profile-2-without-nonce.json \
     --key=es256.json \
     --nonce-size=32
