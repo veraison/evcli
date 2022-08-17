@@ -160,7 +160,7 @@ The `relying-party` subcommand implements the "relying party mode" of a challeng
 
 ```shell
 evcli psa verify-as relying-party \
-    --api-server=https://veraison.example/challenge-response/v1 \
+    --api-server=https://veraison.example/challenge-response/v1/newSession \
     --token=my.cbor
 ```
 

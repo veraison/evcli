@@ -36,7 +36,7 @@ already well-formed and signed PSA attestation token, possibly produced by a
 previous invocation to "evcli psa create".
 
 	evcli psa verify-as relying-party \
-	              --api-server=https://veraison.example/challenge-response/v1 \
+	              --api-server=https://veraison.example/challenge-response/v1/newSession \
 	              --token=psa-token.cbor
 
 	`,
