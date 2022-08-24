@@ -38,7 +38,7 @@ nonce is provided by the Veraison API server and the PSA attestation token needs
 to be created on the fly based on the attester's claims and signing IAK.
 	
 	evcli psa verify-as attester \
-	              --api-server=https://veraison.example/challenge-response/v1 \
+	              --api-server=https://veraison.example/challenge-response/v1/newSession \
 	              --claims=claims.json \
 	              --key=es256.jwk \
 	              --nonce-size=32
