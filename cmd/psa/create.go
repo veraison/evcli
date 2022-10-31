@@ -91,7 +91,7 @@ Note that the default profile is http://arm.com/psa/2.0.0.
 
 			err = afero.WriteFile(fs, fn, cwt, 0644)
 			if err != nil {
-				return fmt.Errorf("error saving PSA attesation token to file %s: %w", fn, err)
+				return fmt.Errorf("error saving PSA attestation token to file %s: %w", fn, err)
 			}
 
 			fmt.Printf(">> %q successfully created\n", fn)
@@ -109,7 +109,7 @@ Note that the default profile is http://arm.com/psa/2.0.0.
 	)
 
 	createTokenFile = cmd.Flags().StringP(
-		"token", "t", "", "name of the file where the produced PSA attesation token will be stored",
+		"token", "t", "", "name of the file where the produced PSA attestation token will be stored",
 	)
 
 	createTokenProfile = cmd.Flags().StringP(
