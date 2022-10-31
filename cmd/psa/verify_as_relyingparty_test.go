@@ -193,7 +193,9 @@ func Test_relyingPartyEvidenceBuilder_BuildEvidence_unsupported_media_type(t *te
 
 	actualEvidence, actualMediaType, err := mut.BuildEvidence(testNonce, supportedMediaTypes)
 
-	expectedErr := fmt.Sprintf("expecting media type %s, got %s", PSATokenMediaType, strings.Join(supportedMediaTypes, ", "))
+	expectedErr := fmt.Sprintf("expecting media type %s, got %s",
+		PSATokenMediaType, strings.Join(supportedMediaTypes, ", "),
+	)
 
 	assert.EqualError(t, err, expectedErr)
 	assert.Equal(t, expectedEvidence, actualEvidence)
