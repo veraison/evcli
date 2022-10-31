@@ -129,7 +129,10 @@ func checkProfile(profile *string) error {
 		return nil
 	}
 
-	return fmt.Errorf("wrong profile %s: allowed profiles are %s and %s", *profile, psatoken.PsaProfile2, psatoken.PsaProfile1)
+	return fmt.Errorf(
+		"wrong profile %s: allowed profiles are %s and %s",
+		*profile, psatoken.PsaProfile2, psatoken.PsaProfile1,
+	)
 }
 
 func tokenFileName() string {

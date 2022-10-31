@@ -87,7 +87,10 @@ es256.jwk and dump the embedded claims to standard output:
 	}
 
 	checkClaimsFile = cmd.Flags().StringP(
-		"claims", "c", "", "file where the PSA attestation claims extracted from the token are saved.  Default is to use stdout",
+		"claims",
+		"c",
+		"",
+		"file where the PSA attestation claims extracted from the token are saved.  Default is to use stdout",
 	)
 
 	checkKeyFile = cmd.Flags().StringP(
