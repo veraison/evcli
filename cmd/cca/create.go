@@ -4,14 +4,12 @@
 package cca
 
 import (
-	"encoding/json"
 	"fmt"
 
 	"github.com/spf13/afero"
 	"github.com/spf13/cobra"
 	"github.com/veraison/ccatoken"
 	"github.com/veraison/evcli/common"
-	"github.com/veraison/psatoken"
 )
 
 var (
@@ -36,29 +34,44 @@ with pak.jwk and rak.jwk and save the result to my.cbor:
 	evcli cca create --claims=claims.json --pak=pak.jwk --rak=rak.jwk --token=my.cbor
 	`,
 		RunE: func(cmd *cobra.Command, args []string) error {
-			evidence, err := loadCCAEvidenceFromFile(fs, *createClaimsFile)
+			evidence, err := loadCCAClaimsFromFile(fs, *createClaimsFile)
 			if err != nil {
-				return err
+				return fmt.Errorf(
+					"error loading CCA claims from %s: %w",
+					*createClaimsFile, err,
+				)
 			}
 
 			rak, err := afero.ReadFile(fs, *createRAKFile)
 			if err != nil {
-				return fmt.Errorf("error loading RAK signing key from %s: %w", *createRAKFile, err)
+				return fmt.Errorf(
+					"error loading RAK signing key from %s: %w",
+					*createRAKFile, err,
+				)
 			}
 
 			rSigner, err := common.SignerFromJWK(rak)
 			if err != nil {
-				return fmt.Errorf("error decoding RAK signing key from %s: %w", *createRAKFile, err)
+				return fmt.Errorf(
+					"error decoding RAK signing key from %s: %w",
+					*createRAKFile, err,
+				)
 			}
 
 			pak, err := afero.ReadFile(fs, *createPAKFile)
 			if err != nil {
-				return fmt.Errorf("error loading PAK signing key from %s: %w", *createPAKFile, err)
+				return fmt.Errorf(
+					"error loading PAK signing key from %s: %w",
+					*createPAKFile, err,
+				)
 			}
 
 			pSigner, err := common.SignerFromJWK(pak)
 			if err != nil {
-				return fmt.Errorf("error decoding PAK signing key from %s: %w", *createPAKFile, err)
+				return fmt.Errorf(
+					"error decoding PAK signing key from %s: %w",
+					*createPAKFile, err,
+				)
 			}
 
 			b, err := evidence.Sign(pSigner, rSigner)
@@ -70,7 +83,10 @@ with pak.jwk and rak.jwk and save the result to my.cbor:
 
 			err = afero.WriteFile(fs, fn, b, 0644)
 			if err != nil {
-				return fmt.Errorf("error saving CCA attestation token to file %s: %w", fn, err)
+				return fmt.Errorf(
+					"error saving CCA attestation token to file %s: %w",
+					fn, err,
+				)
 			}
 
 			fmt.Printf(">> %q successfully created\n", fn)
@@ -106,45 +122,16 @@ func init() {
 	}
 }
 
-func loadCCAEvidenceFromFile(fs afero.Fs, fn string) (*ccatoken.CcaEvidence, error) {
+func loadCCAClaimsFromFile(fs afero.Fs, fn string) (*ccatoken.Evidence, error) {
 	buf, err := afero.ReadFile(fs, fn)
 	if err != nil {
 		return nil, err
 	}
 
-	type C struct {
-		P json.RawMessage `json:"cca-platform-token"`
-		R json.RawMessage `json:"cca-realm-delegated-token"`
-	}
+	var e ccatoken.Evidence
 
-	var c C
-
-	if err = json.Unmarshal(buf, &c); err != nil {
-		return nil, fmt.Errorf("unmarshaling claims from %s: %w", fn, err)
-	}
-
-	var e ccatoken.CcaEvidence
-
-	// platform
-	p := &psatoken.CcaPlatformClaims{}
-
-	if err = json.Unmarshal(c.P, &p); err != nil {
-		return nil, fmt.Errorf("unmarshaling platform claims from %s: %w", fn, err)
-	}
-
-	if err := e.SetCcaPlatformClaims(p); err != nil {
-		return nil, fmt.Errorf("setting platform claims: %w", err)
-	}
-
-	// realm
-	r := &ccatoken.CcaRealmClaims{}
-
-	if err = json.Unmarshal(c.R, &r); err != nil {
-		return nil, fmt.Errorf("unmarshaling realm claims from %s: %w", fn, err)
-	}
-
-	if err := e.SetCcaRealmClaims(r); err != nil {
-		return nil, fmt.Errorf("setting realm claims: %w", err)
+	if err := e.UnmarshalJSON(buf); err != nil {
+		return nil, err
 	}
 
 	return &e, nil
