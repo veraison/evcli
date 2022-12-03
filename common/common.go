@@ -7,10 +7,11 @@ import (
 	"crypto"
 	"crypto/ecdsa"
 	"crypto/elliptic"
-	"crypto/rsa"
+	"encoding/hex"
 	"fmt"
 	"path/filepath"
 	"reflect"
+	"regexp"
 	"strings"
 
 	"github.com/lestrrat-go/jwx/jwk"
@@ -22,23 +23,21 @@ var Fs = afero.NewOsFs()
 
 func getAlgAndKeyFromJWK(rawJWK []byte) (cose.Algorithm, crypto.Signer, error) {
 	var (
-		crv    elliptic.Curve
-		alg    cose.Algorithm
-		rawkey crypto.Signer
+		crv  elliptic.Curve
+		alg  cose.Algorithm
+		sKey crypto.Signer
 	)
 
 	key, err := jwk.ParseKey(rawJWK)
 	if err != nil {
-		return alg, rawkey, fmt.Errorf("failed to parse key: %w", err)
+		return alg, sKey, fmt.Errorf("failed to parse key: %w", err)
 	}
 
-	if err := key.Raw(&rawkey); err != nil {
-		return alg, rawkey, fmt.Errorf("failed to create key: %w", err)
+	if err := key.Raw(&sKey); err != nil {
+		return alg, sKey, fmt.Errorf("failed to create key: %w", err)
 	}
 
-	switch v := rawkey.(type) {
-	case *rsa.PrivateKey:
-		alg = cose.AlgorithmES256
+	switch v := sKey.(type) {
 	case *ecdsa.PrivateKey:
 		crv = v.Curve
 		if crv == elliptic.P256() {
@@ -49,32 +48,31 @@ func getAlgAndKeyFromJWK(rawJWK []byte) (cose.Algorithm, crypto.Signer, error) {
 			alg = cose.AlgorithmES384
 			break
 		}
-		return alg, rawkey, fmt.Errorf("unknown elliptic curve %v", crv)
+		return alg, sKey, fmt.Errorf("unknown elliptic curve %v", crv)
 	default:
-		return alg, rawkey, fmt.Errorf("unknown private key type %v", reflect.TypeOf(key))
+		return alg, sKey, fmt.Errorf("unknown private key type %v", reflect.TypeOf(key))
 	}
-	return alg, rawkey, nil
+
+	return alg, sKey, nil
 }
 
 // SignerFromJWK creates a go-cose Signer object from the supplied JSON Web Key
 // (JWK) description
 func SignerFromJWK(rawJWK []byte) (cose.Signer, error) {
-	var noSigner cose.Signer
-	alg, rawkey, err := getAlgAndKeyFromJWK(rawJWK)
+	alg, key, err := getAlgAndKeyFromJWK(rawJWK)
 	if err != nil {
-		return noSigner, err
+		return nil, err
 	}
 
-	return cose.NewSigner(alg, rawkey)
+	return cose.NewSigner(alg, key)
 }
 
 // PubKeyFromJWK extracts the PublicKey (if any) from the supplied JSON Web Key
 // (JWK) description
 func PubKeyFromJWK(rawJWK []byte) (crypto.PublicKey, error) {
-	var noPubkey crypto.PublicKey
 	_, key, err := getAlgAndKeyFromJWK(rawJWK)
 	if err != nil {
-		return noPubkey, err
+		return nil, err
 	}
 
 	return key.Public(), nil
@@ -90,4 +88,18 @@ func MakeFileName(dirName, baseName, ext string) string {
 			),
 		)+ext,
 	)
+}
+
+func MustHexDecode(s string) []byte {
+	comments := regexp.MustCompile("#.*\n")
+	emptiness := regexp.MustCompile("[ \t\n]")
+
+	s = comments.ReplaceAllString(s, "")
+	s = emptiness.ReplaceAllString(s, "")
+
+	b, err := hex.DecodeString(s)
+	if err != nil {
+		panic(err)
+	}
+	return b
 }

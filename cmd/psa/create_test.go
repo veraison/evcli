@@ -114,7 +114,7 @@ func Test_CreateCmd_token_file_write_failed(t *testing.T) {
 		},
 	)
 
-	expectedErr := `error saving PSA attesation token to file claims.cbor: operation not permitted`
+	expectedErr := `error saving PSA attestation token to file claims.cbor: operation not permitted`
 
 	err = cmd.Execute()
 	assert.EqualError(t, err, expectedErr)

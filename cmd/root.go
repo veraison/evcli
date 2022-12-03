@@ -8,21 +8,22 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
+	"github.com/veraison/evcli/cmd/cca"
+	"github.com/veraison/evcli/cmd/psa"
 
 	"github.com/spf13/viper"
-	"github.com/veraison/evcli/cmd/psa"
 )
 
 var (
 	cfgFile   string
-	validArgs = []string{"psa"}
+	validArgs = []string{"psa", "cca"}
 )
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:           "evcli",
 	Short:         "Attestation Evidence swiss-army knife",
-	Version:       "0.0.1",
+	Version:       "0.0.2",
 	SilenceUsage:  true,
 	SilenceErrors: true,
 	ValidArgs:     validArgs,
@@ -36,7 +37,9 @@ func init() {
 	cobra.OnInitialize(initConfig)
 
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.evcli)")
+
 	rootCmd.AddCommand(psa.Cmd)
+	rootCmd.AddCommand(cca.Cmd)
 }
 
 // initConfig reads in config file and ENV variables if set
@@ -47,7 +50,7 @@ func initConfig() {
 		home, err := os.UserHomeDir()
 		cobra.CheckErr(err)
 
-		// search config in home directory with name ".evcli" (withouy extension)
+		// search config in home directory with name ".evcli" (without extension)
 		viper.AddConfigPath(home)
 		viper.SetConfigType("yaml")
 		viper.SetConfigName(".evcli")

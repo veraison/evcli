@@ -93,7 +93,7 @@ func Test_CheckCmd_claims_file_write_failed(t *testing.T) {
 		},
 	)
 
-	expectedErr := `error saving PSA attesation claims to file nonexistent/claims.json: operation not permitted`
+	expectedErr := `error saving PSA attestation claims to file nonexistent/claims.json: operation not permitted`
 
 	err = cmd.Execute()
 	assert.EqualError(t, err, expectedErr)

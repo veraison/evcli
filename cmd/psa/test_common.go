@@ -4,30 +4,13 @@
 package psa
 
 import (
-	"encoding/hex"
-	"regexp"
-
 	"github.com/veraison/evcli/common"
 	"github.com/veraison/go-cose"
 	"github.com/veraison/psatoken"
 )
 
-func mustHexDecode(s string) []byte {
-	comments := regexp.MustCompile("#.*\n")
-	emptiness := regexp.MustCompile("[ \t\n]")
-
-	s = comments.ReplaceAllString(s, "")
-	s = emptiness.ReplaceAllString(s, "")
-
-	b, err := hex.DecodeString(s)
-	if err != nil {
-		panic(err)
-	}
-	return b
-}
-
 var (
-	testValidP2PSAToken = mustHexDecode(`
+	testValidP2PSAToken = common.MustHexDecode(`
 d28443a10126a0590174a91901097818687474703a2f2f61726d2e636f6d2f7073612f32
 2e302e3019095a0119095b19300019095c58205051525354555657505152535455565750
 51525354555657505152535455565719095d5820deadbeefdeadbeefdeadbeefdeadbeef
@@ -102,7 +85,7 @@ d9637dbde057197f5b096669ea9a2b7b
 		"d": "870MB6gfuTJ4HtUnUvYMyJpr5eUZNP4Bk43bVdj3eAE"
 	}`)
 	testInvalidKey      = []byte(`[]`)
-	testValidP1PSAToken = mustHexDecode(`
+	testValidP1PSAToken = common.MustHexDecode(`
 d28443a10126a0590193aa3a000124f7715053415f494f545f50524f46494c455f313a00
 0124f8013a000124f91930003a000124fa58205051525354555657505152535455565750
 5152535455565750515253545556573a000124fb5820deadbeefdeadbeefdeadbeefdead

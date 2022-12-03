@@ -78,7 +78,7 @@ es256.jwk and dump the embedded claims to standard output:
 			} else {
 				err = afero.WriteFile(fs, *checkClaimsFile, []byte(claims), 0644)
 				if err != nil {
-					return fmt.Errorf("error saving PSA attesation claims to file %s: %w", *checkClaimsFile, err)
+					return fmt.Errorf("error saving PSA attestation claims to file %s: %w", *checkClaimsFile, err)
 				}
 			}
 
@@ -98,7 +98,7 @@ es256.jwk and dump the embedded claims to standard output:
 	)
 
 	checkTokenFile = cmd.Flags().StringP(
-		"token", "t", "", "CBOR file containing the PSA attesation token to be verified",
+		"token", "t", "", "CBOR file containing the PSA attestation token to be verified",
 	)
 
 	return cmd
