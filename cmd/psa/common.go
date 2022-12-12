@@ -33,32 +33,35 @@ func loadClaimsFromFile(fs afero.Fs, fn string, validate bool) (psatoken.IClaims
 }
 
 func claimsFromJSON(j []byte, validate bool) (psatoken.IClaims, error) {
-	p2 := &psatoken.P2Claims{}
+	var (
+		err1, err2 error
+		p2         psatoken.P2Claims
+		p1         psatoken.P1Claims
+	)
 
-	err2 := json.Unmarshal(j, p2)
+	err2 = json.Unmarshal(j, &p2)
 	if err2 == nil {
 		if validate {
-			err2 := p2.Validate()
+			err2 = p2.Validate()
 			if err2 == nil {
-				return p2, nil
+				return &p2, nil
 			}
 		} else {
-			return p2, nil
+			return &p2, nil
 		}
 	}
 
-	p1 := &psatoken.P1Claims{}
-
-	err1 := json.Unmarshal(j, p1)
+	err1 = json.Unmarshal(j, &p1)
 	if err1 == nil {
 		if validate {
-			err1 := p1.Validate()
+			err1 = p1.Validate()
 			if err1 == nil {
-				return p1, nil
+				return &p1, nil
 			}
 		} else {
-			return p1, nil
+			return &p1, nil
 		}
 	}
+
 	return nil, fmt.Errorf("p1 error: (%v) and p2 error: (%v)", err1, err2)
 }
