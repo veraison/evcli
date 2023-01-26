@@ -17,7 +17,7 @@ func Test_CheckCmd_ok(t *testing.T) {
 	err := afero.WriteFile(fs, "psatoken.cbor", testValidP2PSAToken, 0644)
 	require.NoError(t, err)
 
-	err = afero.WriteFile(fs, "es256.jwk", testValidKey, 0644)
+	err = afero.WriteFile(fs, "es256.jwk", testValidKeyPub, 0644)
 	require.NoError(t, err)
 
 	cmd := NewCheckCmd(fs)
@@ -35,7 +35,7 @@ func Test_CheckCmd_ok(t *testing.T) {
 func Test_CheckCmd_token_not_found(t *testing.T) {
 	fs := afero.NewMemMapFs()
 
-	err := afero.WriteFile(fs, "es256.jwk", testValidKey, 0644)
+	err := afero.WriteFile(fs, "es256.jwk", testValidKeyPub, 0644)
 	require.NoError(t, err)
 
 	cmd := NewCheckCmd(fs)
@@ -78,7 +78,7 @@ func Test_CheckCmd_claims_file_write_failed(t *testing.T) {
 	err := afero.WriteFile(fs, "psatoken.cbor", testValidP2PSAToken, 0644)
 	require.NoError(t, err)
 
-	err = afero.WriteFile(fs, "es256.jwk", testValidKey, 0644)
+	err = afero.WriteFile(fs, "es256.jwk", testValidKeyPub, 0644)
 	require.NoError(t, err)
 
 	// freeze the FS so that writing is not possible anymore
@@ -128,7 +128,7 @@ func Test_CheckCmd_bad_token(t *testing.T) {
 	err := afero.WriteFile(fs, "psatoken.cbor", testInvalidPSAToken, 0644)
 	require.NoError(t, err)
 
-	err = afero.WriteFile(fs, "es256.jwk", testValidKey, 0644)
+	err = afero.WriteFile(fs, "es256.jwk", testValidKeyPub, 0644)
 	require.NoError(t, err)
 
 	cmd := NewCheckCmd(fs)
@@ -154,7 +154,7 @@ func Test_CheckCmd_bad_signature(t *testing.T) {
 	err := afero.WriteFile(fs, "psatoken.cbor", tamperedPSAToken, 0644)
 	require.NoError(t, err)
 
-	err = afero.WriteFile(fs, "es256.jwk", testValidKey, 0644)
+	err = afero.WriteFile(fs, "es256.jwk", testValidKeyPub, 0644)
 	require.NoError(t, err)
 
 	cmd := NewCheckCmd(fs)

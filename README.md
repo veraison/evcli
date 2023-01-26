@@ -59,7 +59,7 @@ evcli psa create \
     --token=my.cbor
 ```
 
-By default, PSA tokens are created according to the "http://arm.com/psa/2.0.0" profile.  If you are using the legacy "PSA_IOT_PROFILE_1" instead, you will need to explicitly pass it via the command line using the `--profile` switch (abbrev.  `-p`):
+By default, PSA tokens are created according to the "http://arm.com/psa/2.0.0" profile.  If you are using the legacy "PSA_IOT_PROFILE_1" instead, you will need to explicitly pass it via the command line using the `--profile` switch (abbrev. `-p`):
 
 ```shell
 evcli psa create \
@@ -72,13 +72,12 @@ evcli psa create \
 
 Use the `psa check` subcommand to verify the cryptographic signature over the supplied PSA attestation token as well as checking whether its claim set is well-formed.
 
-To check the PSA attestation token in my.cbor using the public key in es256.json:
-
+To check the PSA attestation token in my.cbor using the public key in es256-pub.json:
 
 ```shell
 evcli psa check \
     --token=my.cbor \
-    --key=es256.json
+    --key=es256-pub.json
 ```
 
 A message will indicate whether the signature has been successfully verified:
@@ -116,12 +115,12 @@ In such case, the claim set is printed to stdout in JSON format:
 }
 ```
 
-The claim set can also be saved to a file using the `--claims` switch (abbrev.  `-c`), as in:
+The claim set can also be saved to a file using the `--claims` switch (abbrev. `-c`), as in:
 
 ```shell
 evcli psa check \
     --token=my.cbor \
-    --key=es256.json \
+    --key=es256-pub.json \
     --claims=output-claims.json
 ```
 
@@ -165,4 +164,3 @@ evcli psa verify-as relying-party \
 ```
 
 <a name="inputs-ex">1</a>: Examples of PSA claims, signing keys, etc., can be found in the [misc](misc) folder.
-

@@ -20,6 +20,20 @@ var (
 		"y": "4Etl6SRW2YiLUrN5vfvVHuhp7x8PxltmWWlbbM4IFyM",
 		"d": "870MB6gfuTJ4HtUnUvYMyJpr5eUZNP4Bk43bVdj3eAE"
 	}`)
+	testValidRAKPub = []byte(`{
+		"kid": "valid-rak-pub",
+		"kty": "EC",
+		"crv": "P-384",
+		"x": "gvvRMqm1w5aHn7sVNA2QUJeOVcedUnmiug6VhU834gzS9k87crVwu9dz7uLOdoQl",
+		"y": "7fVF7b6J_6_g6Wu9RuJw8geWxEi5ja9Gp2TSdELm5u2E-M7IF-bsxqcdOj3n1n7N"
+	}`)
+	testValidPAKPub = []byte(`{
+		"kid": "valid-pak-pub",
+		"kty": "EC",
+		"crv": "P-256",
+		"x": "MKBCTNIcKUSDii11ySs3526iDZ8AiTo7Tu6KPAqv7D4",
+		"y": "4Etl6SRW2YiLUrN5vfvVHuhp7x8PxltmWWlbbM4IFyM"
+	}`)
 	testInvalidCCAClaims = []byte(`{}`)
 	testValidCCAClaims   = []byte(`{
 		"cca-platform-token": {
