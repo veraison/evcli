@@ -71,13 +71,9 @@ func SignerFromJWK(rawJWK []byte) (cose.Signer, error) {
 func PubKeyFromJWK(rawJWK []byte) (crypto.PublicKey, error) {
 	var pKey crypto.PublicKey
 
-	key, err := jwk.ParseKey(rawJWK)
+	err := jwk.ParseRawKey(rawJWK, &pKey)
 	if err != nil {
-		return nil, fmt.Errorf("failed to parse key: %w", err)
-	}
-
-	if err := key.Raw(&pKey); err != nil {
-		return nil, fmt.Errorf("failed to extract public key: %w", err)
+		return nil, fmt.Errorf("%w", err)
 	}
 
 	return pKey, nil
