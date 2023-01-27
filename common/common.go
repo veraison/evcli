@@ -14,7 +14,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/lestrrat-go/jwx/jwk"
+	"github.com/lestrrat-go/jwx/v2/jwk"
 	"github.com/spf13/afero"
 	"github.com/veraison/go-cose"
 )
@@ -67,15 +67,16 @@ func SignerFromJWK(rawJWK []byte) (cose.Signer, error) {
 	return cose.NewSigner(alg, key)
 }
 
-// PubKeyFromJWK extracts the PublicKey (if any) from the supplied JSON Web Key
-// (JWK) description
+// PubKeyFromJWK extracts a crypto.PublicKey from the supplied JSON Web Key
 func PubKeyFromJWK(rawJWK []byte) (crypto.PublicKey, error) {
-	_, key, err := getAlgAndKeyFromJWK(rawJWK)
+	var pKey crypto.PublicKey
+
+	err := jwk.ParseRawKey(rawJWK, &pKey)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("%w", err)
 	}
 
-	return key.Public(), nil
+	return pKey, nil
 }
 
 func MakeFileName(dirName, baseName, ext string) string {

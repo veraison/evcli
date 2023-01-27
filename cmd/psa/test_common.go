@@ -84,6 +84,12 @@ d9637dbde057197f5b096669ea9a2b7b
 		"y": "4Etl6SRW2YiLUrN5vfvVHuhp7x8PxltmWWlbbM4IFyM",
 		"d": "870MB6gfuTJ4HtUnUvYMyJpr5eUZNP4Bk43bVdj3eAE"
 	}`)
+	testValidKeyPub = []byte(`{
+		"kty": "EC",
+		"crv": "P-256",
+		"x": "MKBCTNIcKUSDii11ySs3526iDZ8AiTo7Tu6KPAqv7D4",
+		"y": "4Etl6SRW2YiLUrN5vfvVHuhp7x8PxltmWWlbbM4IFyM"
+	}`)
 	testInvalidKey      = []byte(`[]`)
 	testValidP1PSAToken = common.MustHexDecode(`
 d28443a10126a0590193aa3a000124f7715053415f494f545f50524f46494c455f313a00

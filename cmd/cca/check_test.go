@@ -17,7 +17,7 @@ func Test_CheckCmd_claims_to_stdout_ok(t *testing.T) {
 	err := afero.WriteFile(fs, "ccatoken.cbor", testValidCCAToken, 0644)
 	require.NoError(t, err)
 
-	err = afero.WriteFile(fs, "es256.jwk", testValidPAK, 0644)
+	err = afero.WriteFile(fs, "es256.jwk", testValidPAKPub, 0644)
 	require.NoError(t, err)
 
 	cmd := NewCheckCmd(fs)
@@ -38,7 +38,7 @@ func Test_CheckCmd_claims_to_file_ok(t *testing.T) {
 	err := afero.WriteFile(fs, "ccatoken.cbor", testValidCCAToken, 0644)
 	require.NoError(t, err)
 
-	err = afero.WriteFile(fs, "es256.jwk", testValidPAK, 0644)
+	err = afero.WriteFile(fs, "es256.jwk", testValidPAKPub, 0644)
 	require.NoError(t, err)
 
 	cmd := NewCheckCmd(fs)
@@ -63,7 +63,7 @@ func Test_CheckCmd_claims_to_file_fail(t *testing.T) {
 	err := afero.WriteFile(fs, "ccatoken.cbor", testValidCCAToken, 0644)
 	require.NoError(t, err)
 
-	err = afero.WriteFile(fs, "es256.jwk", testValidPAK, 0644)
+	err = afero.WriteFile(fs, "es256.jwk", testValidPAKPub, 0644)
 	require.NoError(t, err)
 
 	// freeze the FS so that writing is not possible any more
@@ -113,7 +113,7 @@ func Test_CheckCmd_key_mismatch(t *testing.T) {
 	err := afero.WriteFile(fs, "ccatoken.cbor", testValidCCAToken, 0644)
 	require.NoError(t, err)
 
-	err = afero.WriteFile(fs, "es256.jwk", testValidRAK, 0644)
+	err = afero.WriteFile(fs, "es256.jwk", testValidRAKPub, 0644)
 	require.NoError(t, err)
 
 	cmd := NewCheckCmd(fs)
@@ -153,7 +153,7 @@ func Test_CheckCmd_key_not_found(t *testing.T) {
 func Test_CheckCmd_token_not_found(t *testing.T) {
 	fs := afero.NewMemMapFs()
 
-	err := afero.WriteFile(fs, "es256.jwk", testValidPAK, 0644)
+	err := afero.WriteFile(fs, "es256.jwk", testValidPAKPub, 0644)
 	require.NoError(t, err)
 
 	cmd := NewCheckCmd(fs)
@@ -176,7 +176,7 @@ func Test_CheckCmd_token_invalid_format(t *testing.T) {
 	err := afero.WriteFile(fs, "ccatoken.cbor", testInvalidCCAToken, 0644)
 	require.NoError(t, err)
 
-	err = afero.WriteFile(fs, "es256.jwk", testValidPAK, 0644)
+	err = afero.WriteFile(fs, "es256.jwk", testValidPAKPub, 0644)
 	require.NoError(t, err)
 
 	cmd := NewCheckCmd(fs)
@@ -188,6 +188,29 @@ func Test_CheckCmd_token_invalid_format(t *testing.T) {
 	)
 
 	expectedErr := `loading CCA evidence from ccatoken.cbor: cbor decoding of CCA evidence failed: unexpected EOF`
+
+	err = cmd.Execute()
+	assert.EqualError(t, err, expectedErr)
+}
+
+func Test_CheckCmd_regression_bug_18(t *testing.T) {
+	fs := afero.NewMemMapFs()
+
+	err := afero.WriteFile(fs, "ccatoken.cbor", testValidCCAToken, 0644)
+	require.NoError(t, err)
+
+	err = afero.WriteFile(fs, "not-a-public-key.jwk", testValidPAK, 0644)
+	require.NoError(t, err)
+
+	cmd := NewCheckCmd(fs)
+	cmd.SetArgs(
+		[]string{
+			"--token=ccatoken.cbor",
+			"--key=not-a-public-key.jwk",
+		},
+	)
+
+	expectedErr := `verifying CCA evidence from ccatoken.cbor using key from not-a-public-key.jwk: unable to verify platform token: unable to instantiate verifier: ES256: algorithm mismatch`
 
 	err = cmd.Execute()
 	assert.EqualError(t, err, expectedErr)
