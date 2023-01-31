@@ -5,7 +5,6 @@ package psa
 
 import (
 	"github.com/veraison/evcli/common"
-	"github.com/veraison/go-cose"
 	"github.com/veraison/psatoken"
 )
 
@@ -139,13 +138,4 @@ func makeClaimsFromJSON(j []byte, validate bool) psatoken.IClaims {
 	}
 	return claims
 
-}
-
-func makeSignerFromJWK(j []byte) cose.Signer {
-	s, err := common.SignerFromJWK(j)
-	if err != nil {
-		panic(err)
-	}
-
-	return s
 }

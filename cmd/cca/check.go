@@ -39,7 +39,7 @@ Or, equivalently:
 check a CCA attestation token contained in te.cbor using the public PAK in
 es256.jwk and dump the embedded claims to standard output:
 
-	evcli psa check -t te.cbor -k es256.jwk
+	evcli cca check -t te.cbor -k es256.jwk
 	`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			key, err := afero.ReadFile(fs, *checkKeyFile)

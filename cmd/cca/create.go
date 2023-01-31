@@ -8,7 +8,6 @@ import (
 
 	"github.com/spf13/afero"
 	"github.com/spf13/cobra"
-	"github.com/veraison/ccatoken"
 	"github.com/veraison/evcli/common"
 )
 
@@ -120,21 +119,6 @@ func init() {
 			panic(err)
 		}
 	}
-}
-
-func loadCCAClaimsFromFile(fs afero.Fs, fn string) (*ccatoken.Evidence, error) {
-	buf, err := afero.ReadFile(fs, fn)
-	if err != nil {
-		return nil, err
-	}
-
-	var e ccatoken.Evidence
-
-	if err := e.UnmarshalJSON(buf); err != nil {
-		return nil, err
-	}
-
-	return &e, nil
 }
 
 func tokenFileName() string {

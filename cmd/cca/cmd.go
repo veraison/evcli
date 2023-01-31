@@ -9,7 +9,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var cmdValidArgs = []string{"create"}
+var cmdValidArgs = []string{"create", "check", "verify-as"}
 
 var Cmd = &cobra.Command{
 	Use:   "cca",
@@ -26,4 +26,5 @@ var Cmd = &cobra.Command{
 func init() {
 	Cmd.AddCommand(createCmd)
 	Cmd.AddCommand(checkCmd)
+	Cmd.AddCommand(verifyAsCmd)
 }
