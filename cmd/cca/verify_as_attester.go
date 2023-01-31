@@ -44,7 +44,7 @@ func NewAttesterCmd(fs afero.Fs, attesterVeraisonClient common.IVeraisonClient) 
 		Long: `This command implements the "attester mode" of a challenge-response
 interaction, where the verifier is the protocol challenger.  Therefore, the nonce or 
 challenge is provided by the Veraison API server and the CCA attestation token needs
-to be created on the fly based on the attester's claims and platform signing key (PAK)
+to be created on the fly based on the attester's claims, platform signing key (PAK)
 and realm signing key (RAK).
 	
 	evcli cca verify-as attester \
@@ -63,22 +63,22 @@ and realm signing key (RAK).
 
 			key, err := afero.ReadFile(fs, *platformKeyFile)
 			if err != nil {
-				return fmt.Errorf("error loading signing key from %s: %w", *platformKeyFile, err)
+				return fmt.Errorf("error loading Platform signing key from %s: %w", *platformKeyFile, err)
 			}
 
 			platSigner, err := common.SignerFromJWK(key)
 			if err != nil {
-				return fmt.Errorf("error decoding signing key from %s: %w", *platformKeyFile, err)
+				return fmt.Errorf("error decoding Platform signing key from %s: %w", *platformKeyFile, err)
 			}
 
 			key, err = afero.ReadFile(fs, *realmKeyFile)
 			if err != nil {
-				return fmt.Errorf("error loading signing key from %s: %w", *realmKeyFile, err)
+				return fmt.Errorf("error loading Realm signing key from %s: %w", *realmKeyFile, err)
 			}
 
 			realmSigner, err := common.SignerFromJWK(key)
 			if err != nil {
-				return fmt.Errorf("error decoding signing key from %s: %w", *platformKeyFile, err)
+				return fmt.Errorf("error decoding Realm signing key from %s: %w", *realmKeyFile, err)
 			}
 
 			eb := attesterEvidenceBuilder{Pclaims: ev.PlatformClaims, Rclaims: ev.RealmClaims, Psigner: platSigner, Rsigner: realmSigner}
@@ -98,7 +98,7 @@ and realm signing key (RAK).
 			attesterVeraisonClient.SetDeleteSession(true)
 			attestationResults, err := attesterVeraisonClient.Run()
 			if err != nil {
-				return err
+				return fmt.Errorf("error in attesterVeraisonClient Run %w", err)
 			}
 
 			fmt.Println(string(attestationResults))
@@ -136,14 +136,8 @@ func (eb attesterEvidenceBuilder) BuildEvidence(nonce []byte, accept []string) (
 			return nil, "", fmt.Errorf("setting nonce: %w", err)
 		}
 
-		_, err := eb.Pclaims.GetProfile()
-		if err != nil {
-			return nil, "", fmt.Errorf("getting profile: %w", err)
-		}
-
 		evidence := ccatoken.Evidence{}
-
-		if err = evidence.SetClaims(eb.Pclaims, eb.Rclaims); err != nil {
+		if err := evidence.SetClaims(eb.Pclaims, eb.Rclaims); err != nil {
 			return nil, "", fmt.Errorf("setting claims: %w", err)
 		}
 

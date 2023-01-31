@@ -74,7 +74,7 @@ previous invocation to "evcli cca create" command.
 
 			attestationResults, err := veraisonClient.Run()
 			if err != nil {
-				return err
+				return fmt.Errorf("error in attesterVeraisonClient Run %w", err)
 			}
 
 			fmt.Println(string(attestationResults))

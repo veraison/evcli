@@ -128,7 +128,7 @@ func Test_RelyingPartyCmd_protocol_run_failed(t *testing.T) {
 		},
 	)
 
-	expectedErr := `failed`
+	expectedErr := `error in attesterVeraisonClient Run failed`
 
 	err = cmd.Execute()
 	assert.EqualError(t, err, expectedErr)

@@ -61,7 +61,7 @@ func Test_AttesterCmd_platform_key_not_found(t *testing.T) {
 		},
 	)
 
-	expectedErr := `error loading signing key from pak.jwk: open pak.jwk: file does not exist`
+	expectedErr := `error loading Platform signing key from pak.jwk: open pak.jwk: file does not exist`
 
 	err = cmd.Execute()
 	assert.EqualError(t, err, expectedErr)
@@ -86,7 +86,7 @@ func Test_AttesterCmd_realm_key_not_found(t *testing.T) {
 		},
 	)
 
-	expectedErr := `error loading signing key from rak.jwk: open rak.jwk: file does not exist`
+	expectedErr := `error loading Realm signing key from rak.jwk: open rak.jwk: file does not exist`
 
 	err = cmd.Execute()
 	assert.EqualError(t, err, expectedErr)
@@ -142,7 +142,7 @@ func Test_AttesterCmd_platform_key_invalid(t *testing.T) {
 		},
 	)
 
-	expectedErr := `error decoding signing key from pak.jwk: failed to parse key: invalid key type from JSON ()`
+	expectedErr := `error decoding Platform signing key from pak.jwk: failed to parse key: invalid key type from JSON ()`
 
 	err = cmd.Execute()
 	assert.ErrorContains(t, err, expectedErr)
@@ -170,7 +170,7 @@ func Test_AttesterCmd_realm_key_invalid(t *testing.T) {
 		},
 	)
 
-	expectedErr := `error decoding signing key from pak.jwk: failed to parse key: invalid key type from JSON ()`
+	expectedErr := `error decoding Realm signing key from rak.jwk: failed to parse key: invalid key type from JSON ()`
 
 	err = cmd.Execute()
 	assert.ErrorContains(t, err, expectedErr)
@@ -275,7 +275,7 @@ func Test_AttesterCmd_protocol_run_failed(t *testing.T) {
 	)
 
 	err = cmd.Execute()
-	assert.EqualError(t, err, "failed")
+	assert.EqualError(t, err, "error in attesterVeraisonClient Run failed")
 }
 
 func Test_attesterEvidenceBuilder_BuildCCAEvidence_ok(t *testing.T) {

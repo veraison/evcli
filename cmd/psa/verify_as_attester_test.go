@@ -224,7 +224,7 @@ func Test_AttesterCmd_protocol_run_failed(t *testing.T) {
 
 func Test_attesterEvidenceBuilder_BuildP2Evidence_ok(t *testing.T) {
 	signer, err := common.SignerFromJWK(testValidKey)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 
 	mut := attesterEvidenceBuilder{
 		Claims: makeClaimsFromJSON(testValidP2PSAClaims, false),
@@ -254,7 +254,7 @@ func Test_attesterEvidenceBuilder_BuildP2Evidence_ok(t *testing.T) {
 
 func Test_attesterEvidenceBuilder_BuildP1Evidence_ok(t *testing.T) {
 	signer, err := common.SignerFromJWK(testValidKey)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 
 	mut := attesterEvidenceBuilder{
 		Claims: makeClaimsFromJSON(testValidP1PSAClaims, true),
@@ -284,7 +284,7 @@ func Test_attesterEvidenceBuilder_BuildP1Evidence_ok(t *testing.T) {
 
 func Test_attesterEvidenceBuilder_BuildEvidence_unsupported_media_type(t *testing.T) {
 	signer, err := common.SignerFromJWK(testValidKey)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 
 	mut := attesterEvidenceBuilder{
 		Claims: makeClaimsFromJSON(testValidP2PSAClaims, false),
