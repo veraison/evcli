@@ -49,32 +49,32 @@ previous invocation to "evcli cca create" command.
 			var e ccatoken.Evidence
 
 			if err = e.FromCBOR(token); err != nil {
-				return err
+				return fmt.Errorf("ingesting %s: %v", *relyingPartyTokenFile, err)
 			}
 
 			nonce, err := e.RealmClaims.GetChallenge()
 			if err != nil {
-				return err
+				return fmt.Errorf("cannot extract challenge from %s: %v", *relyingPartyTokenFile, err)
 			}
 
 			if err = veraisonClient.SetNonce(nonce); err != nil {
-				return err
+				return fmt.Errorf("cannot configure nonce in Veraison API client: %v", err)
 			}
 
 			if err = veraisonClient.SetSessionURI(*relyingPartyAPIURL); err != nil {
-				return err
+				return fmt.Errorf("cannot configure URL in Veraison API client: %v", err)
 			}
 
 			eb := relyingPartyEvidenceBuilder{Token: token, Nonce: nonce}
 			if err = veraisonClient.SetEvidenceBuilder(eb); err != nil {
-				return err
+				return fmt.Errorf("cannot configure evidence builder in Veraison API client: %v", err)
 			}
 
 			veraisonClient.SetDeleteSession(true)
 
 			attestationResults, err := veraisonClient.Run()
 			if err != nil {
-				return fmt.Errorf("error in attesterVeraisonClient Run %w", err)
+				return fmt.Errorf("Veraison API client failed: %v", err)
 			}
 
 			fmt.Println(string(attestationResults))

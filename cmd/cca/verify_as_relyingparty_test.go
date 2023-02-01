@@ -48,7 +48,7 @@ func Test_RelyingPartyCmd_token_invalid(t *testing.T) {
 		},
 	)
 
-	expectedErr := `cbor decoding of CCA evidence failed: unexpected EOF`
+	expectedErr := `ingesting ccatoken.cbor: cbor decoding of CCA evidence failed: unexpected EOF`
 
 	err = cmd.Execute()
 	assert.EqualError(t, err, expectedErr)
@@ -68,7 +68,7 @@ func Test_RelyingPartyCmd_bad_server_url(t *testing.T) {
 		},
 	)
 
-	expectedErr := `malformed session URI: parse "http://vera:son": invalid port ":son" after host`
+	expectedErr := `cannot configure URL in Veraison API client: malformed session URI: parse "http://vera:son": invalid port ":son" after host`
 
 	err = cmd.Execute()
 	assert.EqualError(t, err, expectedErr)
@@ -113,7 +113,7 @@ func Test_RelyingPartyCmd_protocol_run_failed(t *testing.T) {
 	mc.EXPECT().SetSessionURI(testSessionURI)
 	mc.EXPECT().SetEvidenceBuilder(gomock.Any())
 	mc.EXPECT().SetDeleteSession(true)
-	mc.EXPECT().Run().Return(nil, errors.New("failed"))
+	mc.EXPECT().Run().Return(nil, errors.New("some kind of error"))
 
 	fs := afero.NewMemMapFs()
 
@@ -128,7 +128,7 @@ func Test_RelyingPartyCmd_protocol_run_failed(t *testing.T) {
 		},
 	)
 
-	expectedErr := `error in attesterVeraisonClient Run failed`
+	expectedErr := `Veraison API client failed: some kind of error`
 
 	err = cmd.Execute()
 	assert.EqualError(t, err, expectedErr)
