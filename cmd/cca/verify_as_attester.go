@@ -56,7 +56,7 @@ and realm signing key (RAK).
 	`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 
-			ev, err := loadCCAClaimsFromFile(fs, *attesterClaimsFile)
+			pClaims, rClaims, err := loadUnValidatedCCAClaimsFromFile(fs, *attesterClaimsFile)
 			if err != nil {
 				return err
 			}
@@ -81,7 +81,7 @@ and realm signing key (RAK).
 				return fmt.Errorf("error decoding Realm signing key from %s: %w", *realmKeyFile, err)
 			}
 
-			eb := attesterEvidenceBuilder{Pclaims: ev.PlatformClaims, Rclaims: ev.RealmClaims, Psigner: platSigner, Rsigner: realmSigner}
+			eb := attesterEvidenceBuilder{Pclaims: pClaims, Rclaims: rClaims, Psigner: platSigner, Rsigner: realmSigner}
 
 			if err = attesterVeraisonClient.SetEvidenceBuilder(eb); err != nil {
 				return err

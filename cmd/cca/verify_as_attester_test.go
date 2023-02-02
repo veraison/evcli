@@ -279,9 +279,12 @@ func Test_AttesterCmd_protocol_run_failed(t *testing.T) {
 }
 
 func Test_attesterEvidenceBuilder_BuildCCAEvidence_ok(t *testing.T) {
-	pClaims, rClaims, err := loadCCAClaimsFromJSON(testValidCCAClaims)
-	assert.NoError(t, err)
+	fs := afero.NewMemMapFs()
+	err := afero.WriteFile(fs, "claims.json", testValidCCAClaimsNoNonce, 0644)
+	require.NoError(t, err)
 
+	pClaims, rClaims, err := loadUnValidatedCCAClaimsFromFile(fs, "claims.json")
+	assert.NoError(t, err)
 	pSigner, err := common.SignerFromJWK(testValidPAK)
 	assert.NoError(t, err)
 
@@ -305,7 +308,11 @@ func Test_attesterEvidenceBuilder_BuildCCAEvidence_ok(t *testing.T) {
 }
 
 func Test_attesterEvidenceBuilder_BuildEvidence_unsupported_media_type(t *testing.T) {
-	pClaims, rClaims, err := loadCCAClaimsFromJSON(testValidCCAClaims)
+	fs := afero.NewMemMapFs()
+	err := afero.WriteFile(fs, "claims.json", testValidCCAClaimsNoNonce, 0644)
+	require.NoError(t, err)
+
+	pClaims, rClaims, err := loadUnValidatedCCAClaimsFromFile(fs, "claims.json")
 	assert.NoError(t, err)
 
 	pSigner, err := common.SignerFromJWK(testValidPAK)

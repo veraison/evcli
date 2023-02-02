@@ -10,7 +10,7 @@ require (
 	github.com/spf13/viper v1.11.0
 	github.com/stretchr/testify v1.8.1
 	github.com/veraison/apiclient v0.0.3-0.20220426121030-d5eddd28c5e1
-	github.com/veraison/ccatoken v0.0.0-20230125184806-33e92b180627
+	github.com/veraison/ccatoken v0.0.0-20230126092956-f7bb240c763c
 	github.com/veraison/go-cose v1.0.0
 	github.com/veraison/psatoken v1.0.0-rc2.0.20230124001050-d5d26fdd5322
 )

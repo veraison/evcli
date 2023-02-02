@@ -48,7 +48,7 @@ func Test_RelyingPartyCmd_token_invalid(t *testing.T) {
 		},
 	)
 
-	expectedErr := `ingesting ccatoken.cbor: cbor decoding of CCA evidence failed: unexpected EOF`
+	expectedErr := `ingesting ccatoken.cbor: CBOR decoding of CCA evidence failed: unexpected EOF`
 
 	err = cmd.Execute()
 	assert.EqualError(t, err, expectedErr)

@@ -14,7 +14,7 @@ import (
 func Test_CheckCmd_claims_to_stdout_ok(t *testing.T) {
 	fs := afero.NewMemMapFs()
 
-	err := afero.WriteFile(fs, "ccatoken.cbor", testValidCCAToken, 0644)
+	err := afero.WriteFile(fs, "ccatoken.CBOR", testValidCCAToken, 0644)
 	require.NoError(t, err)
 
 	err = afero.WriteFile(fs, "es256.jwk", testValidPAKPub, 0644)
@@ -23,7 +23,7 @@ func Test_CheckCmd_claims_to_stdout_ok(t *testing.T) {
 	cmd := NewCheckCmd(fs)
 	cmd.SetArgs(
 		[]string{
-			"--token=ccatoken.cbor",
+			"--token=ccatoken.CBOR",
 			"--key=es256.jwk",
 		},
 	)
@@ -35,7 +35,7 @@ func Test_CheckCmd_claims_to_stdout_ok(t *testing.T) {
 func Test_CheckCmd_claims_to_file_ok(t *testing.T) {
 	fs := afero.NewMemMapFs()
 
-	err := afero.WriteFile(fs, "ccatoken.cbor", testValidCCAToken, 0644)
+	err := afero.WriteFile(fs, "ccatoken.CBOR", testValidCCAToken, 0644)
 	require.NoError(t, err)
 
 	err = afero.WriteFile(fs, "es256.jwk", testValidPAKPub, 0644)
@@ -44,7 +44,7 @@ func Test_CheckCmd_claims_to_file_ok(t *testing.T) {
 	cmd := NewCheckCmd(fs)
 	cmd.SetArgs(
 		[]string{
-			"--token=ccatoken.cbor",
+			"--token=ccatoken.CBOR",
 			"--key=es256.jwk",
 			"--claims=claims.json",
 		},
@@ -60,7 +60,7 @@ func Test_CheckCmd_claims_to_file_ok(t *testing.T) {
 func Test_CheckCmd_claims_to_file_fail(t *testing.T) {
 	fs := afero.NewMemMapFs()
 
-	err := afero.WriteFile(fs, "ccatoken.cbor", testValidCCAToken, 0644)
+	err := afero.WriteFile(fs, "ccatoken.CBOR", testValidCCAToken, 0644)
 	require.NoError(t, err)
 
 	err = afero.WriteFile(fs, "es256.jwk", testValidPAKPub, 0644)
@@ -72,7 +72,7 @@ func Test_CheckCmd_claims_to_file_fail(t *testing.T) {
 	cmd := NewCheckCmd(fs)
 	cmd.SetArgs(
 		[]string{
-			"--token=ccatoken.cbor",
+			"--token=ccatoken.CBOR",
 			"--key=es256.jwk",
 			"--claims=claims.json",
 		},
@@ -87,7 +87,7 @@ func Test_CheckCmd_claims_to_file_fail(t *testing.T) {
 func Test_CheckCmd_key_invalid(t *testing.T) {
 	fs := afero.NewMemMapFs()
 
-	err := afero.WriteFile(fs, "ccatoken.cbor", testValidCCAToken, 0644)
+	err := afero.WriteFile(fs, "ccatoken.CBOR", testValidCCAToken, 0644)
 	require.NoError(t, err)
 
 	err = afero.WriteFile(fs, "es256.jwk", testInvalidKey, 0644)
@@ -96,7 +96,7 @@ func Test_CheckCmd_key_invalid(t *testing.T) {
 	cmd := NewCheckCmd(fs)
 	cmd.SetArgs(
 		[]string{
-			"--token=ccatoken.cbor",
+			"--token=ccatoken.CBOR",
 			"--key=es256.jwk",
 		},
 	)
@@ -110,7 +110,7 @@ func Test_CheckCmd_key_invalid(t *testing.T) {
 func Test_CheckCmd_key_mismatch(t *testing.T) {
 	fs := afero.NewMemMapFs()
 
-	err := afero.WriteFile(fs, "ccatoken.cbor", testValidCCAToken, 0644)
+	err := afero.WriteFile(fs, "ccatoken.CBOR", testValidCCAToken, 0644)
 	require.NoError(t, err)
 
 	err = afero.WriteFile(fs, "es256.jwk", testValidRAKPub, 0644)
@@ -119,12 +119,12 @@ func Test_CheckCmd_key_mismatch(t *testing.T) {
 	cmd := NewCheckCmd(fs)
 	cmd.SetArgs(
 		[]string{
-			"--token=ccatoken.cbor",
+			"--token=ccatoken.CBOR",
 			"--key=es256.jwk",
 		},
 	)
 
-	expectedErr := `verifying CCA evidence from ccatoken.cbor using key from es256.jwk: unable to verify platform token: verification error`
+	expectedErr := `verifying CCA evidence from ccatoken.CBOR using key from es256.jwk: unable to verify platform token: verification error`
 
 	err = cmd.Execute()
 	assert.EqualError(t, err, expectedErr)
@@ -187,7 +187,7 @@ func Test_CheckCmd_token_invalid_format(t *testing.T) {
 		},
 	)
 
-	expectedErr := `loading CCA evidence from ccatoken.cbor: cbor decoding of CCA evidence failed: unexpected EOF`
+	expectedErr := `loading CCA evidence from ccatoken.cbor: CBOR decoding of CCA evidence failed: unexpected EOF`
 
 	err = cmd.Execute()
 	assert.EqualError(t, err, expectedErr)
