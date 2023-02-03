@@ -370,6 +370,8 @@ github.com/veraison/apiclient v0.0.3-0.20220426121030-d5eddd28c5e1 h1:gV8v131P4x
 github.com/veraison/apiclient v0.0.3-0.20220426121030-d5eddd28c5e1/go.mod h1:H8YDx1ixM24GYP/aLbhq+HJsej0lVUqFCRIL5Uu4B0o=
 github.com/veraison/ccatoken v0.0.0-20230125184806-33e92b180627 h1:VPHasJI9JPVbhCZIouS1XnQNW7FyVKh/Ffhy1ficlsA=
 github.com/veraison/ccatoken v0.0.0-20230125184806-33e92b180627/go.mod h1:tHh48NBedUooX/DguS+cUC27yCgdv7bBtZ188jZ3fqo=
+github.com/veraison/ccatoken v0.0.0-20230126092956-f7bb240c763c h1:07a/5cI61NiJnsQMgEOaeVEzb7r9l6HYAA9hftxlCzw=
+github.com/veraison/ccatoken v0.0.0-20230126092956-f7bb240c763c/go.mod h1:tHh48NBedUooX/DguS+cUC27yCgdv7bBtZ188jZ3fqo=
 github.com/veraison/eat v0.0.0-20210331113810-3da8a4dd42ff/go.mod h1:+kxt8iuFiVvKRs2VQ1Ho7bbAScXAB/kHFFuP5Biw19I=
 github.com/veraison/eat v0.0.0-20220117140849-ddaf59d69f53 h1:5gnX2TrGd/Xz8DOp2OaLtg/jLoIubSUTrgz6iZ58pJ4=
 github.com/veraison/eat v0.0.0-20220117140849-ddaf59d69f53/go.mod h1:+kxt8iuFiVvKRs2VQ1Ho7bbAScXAB/kHFFuP5Biw19I=
