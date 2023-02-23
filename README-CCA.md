@@ -1,10 +1,13 @@
 ## CCA attestation tokens manipulation
 
-The `cca` subcommand allows you to [create](#create), [check](#check) and [verify](#verify) CCA attestation tokens.
+The `cca` subcommand allows you to [create](#create), [check](#check) and
+[verify](#verify) CCA attestation tokens.
 
 ### Create
 
-Use the `cca create` subcommand to create a CCA attestation token from the supplied claims in JSON format, the Platform Attestation Key (PAK) and Realm Attestation Key (RAK) in JSON Web Key (JWK) format<sup>[1](#inputs-ex)</sup>.
+Use the `cca create` subcommand to create a CCA attestation token from the
+supplied claims in JSON format, the Platform Attestation Key (PAK) and Realm
+Attestation Key (RAK) in JSON Web Key (JWK) format<sup>[1](#inputs-ex)</sup>.
 
 ```shell
 evcli cca create \
@@ -19,7 +22,9 @@ On success, you should see the following printed to stdout:
 >> "cca-claims.cbor" successfully created
 ```
 
-The CBOR-encoded CCA token is stored in the current working directory with a name derived from the claims file you supplied.  If you want, you can specify a different name using the `--token` command line switch (abbrev. `-t`).
+The CBOR-encoded CCA token is stored in the current working directory with a
+name derived from the claims file you supplied.  If you want, you can specify a
+different name using the `--token` command line switch (abbrev. `-t`).
 
 For example:
 
@@ -33,9 +38,14 @@ evcli cca create \
 
 ### Check
 
-Use the `cca check` subcommand to verify the cryptographic signature on the supplied CCA attestation token as well as checking whether all claim sets within CCA token are well-formed. Please note that only one key (the public part of platform IAK) needs to be supplied, as the public part of RAK, present in the token is used for signature verification.
+Use the `cca check` subcommand to verify the cryptographic signature on the
+supplied CCA attestation token as well as checking whether all claim sets
+within CCA token are well-formed. Please note that only one key (the public
+part of platform IAK) needs to be supplied, as the public part of RAK, present
+in the token is used for signature verification.
 
-To check the CCA attestation token in my.cbor using the public key in es256-pub.json:
+To check the CCA attestation token in my.cbor using the public key in
+es256-pub.json:
 
 ```shell
 evcli cca check \
@@ -98,13 +108,21 @@ evcli cca check \
 
 ### Verify
 
-The `cca verify-as` subcommand allows you to interact with the Veraison Verifier (or another Attestation Verifier implementing the Veraison [challenge-response API](https://github.com/veraison/docs/tree/main/api/challenge-response)).
+The `cca verify-as` subcommand allows you to interact with the Veraison
+Verifier (or another Attestation Verifier implementing the Veraison
+[challenge-response API](https://github.com/veraison/docs/tree/main/api/challenge-response)).
 
-There are two modes of operation corresponding to the emulated roles: [Attester](#attester) or [Relying Party](#relying-party).  (For background, see [RATS architecture](https://datatracker.ietf.org/doc/draft-ietf-rats-architecture/).)
+There are two modes of operation corresponding to the emulated roles:
+[Attester](#attester) or [Relying Party](#relying-party).  (For background, see
+[RATS architecture](https://datatracker.ietf.org/doc/draft-ietf-rats-architecture/).)
 
 #### Attester
 
-The `attester` subcommand implements the "attester mode" of a challenge-response interaction, where the verifier is the protocol challenger.  Therefore, the realm challenge is provided by the Veraison API server and the CCA attestation token needs to be created on the fly based on the attester's claims, platform signing (IAK) and realm signing key (RAK).
+The `attester` subcommand implements the "attester mode" of a
+challenge-response interaction, where the verifier is the protocol challenger.
+Therefore, the realm challenge is provided by the Veraison API server and the
+CCA attestation token needs to be created on the fly based on the attester's
+claims, platform signing (IAK) and realm signing key (RAK).
 
 ```shell
 evcli cca verify-as attester \
@@ -116,11 +134,17 @@ evcli cca verify-as attester \
 
 Note that the supplied claims file must not include a realm challenge claim.
 
-Note that for CCA the realm challenge is 64 bytes long. Hence the attester command sets a 64 byte challenge size, when requesting a challenge to Veraison verifier.
+Note that for CCA the realm challenge is 64 bytes long. Hence the attester
+command sets a 64 byte challenge size, when requesting a challenge to Veraison
+verifier.
 
 #### Relying Party
 
-The `relying-party` subcommand implements the "relying party mode" of a challenge-response interaction, where the relying party was the original challenger, and therefore the realm challenge is provided by the caller implicitly in an already well-formed and signed CCA attestation token, possibly produced by a previous invocation to [`evcli cca create`](#create).
+The `relying-party` subcommand implements the "relying party mode" of a
+challenge-response interaction, where the relying party was the original
+challenger, and therefore the realm challenge is provided by the caller
+implicitly in an already well-formed and signed CCA attestation token, possibly
+produced by a previous invocation to [`evcli cca create`](#create).
 
 ```shell
 evcli cca verify-as relying-party \
@@ -128,4 +152,5 @@ evcli cca verify-as relying-party \
     --token=my.cbor
 ```
 
-<a name="inputs-ex">1</a>: Examples of CCA claims, signing keys, etc., can be found in the [misc](misc) folder.
+<a name="inputs-ex">1</a>: Examples of CCA claims, signing keys, etc., can be
+found in the [misc](misc) folder.
