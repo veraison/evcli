@@ -8,7 +8,8 @@ To install the `evcli` command, do:
 go install github.com/veraison/evcli@latest
 ```
 
-To configure auto-completion, use the `completion` subcommand.  For example, if `bash` is your shell, you would do something like:
+To configure auto-completion, use the `completion` subcommand.  For example, if
+`bash` is your shell, you would do something like:
 
 ```shell
 evcli completion bash > ~/.bash_completion.d/evcli
@@ -30,9 +31,11 @@ evcli completion --help
 
 ## PSA attestation tokens manipulation
 
-For working with PSA attestation tokens follow the instructions given [here](./PSA-README.md)
+For working with PSA attestation tokens follow the instructions given
+[here](./PSA-README.md)
 
 
 ## CCA attestation tokens manipulation
 
-For working with CCA attestation tokens follow the instructions given [here](./CCA-README.md)
+For working with CCA attestation tokens follow the instructions given
+[here](./CCA-README.md)
