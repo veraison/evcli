@@ -1,4 +1,4 @@
-.DEFAULT_GOAL := help
+.DEFAULT_GOAL := build
 
 SHELL := /bin/bash
 
@@ -41,10 +41,18 @@ endef
 
 $(foreach m,$(INTERFACES),$(eval $(call MOCK_template,$(m))))
 MOCK_FILES := $(foreach m,$(INTERFACES),$(join mock_,$(m)))
+
 CLEANFILES := $(MOCK_FILES)
+CLEANFILES += evcli
 
 _mocks: $(MOCK_FILES)
 .PHONY: _mocks
+
+.PHONY: build
+build: evcli
+
+evcli: $(shell find . -name \*.go)
+	go build
 
 .PHONY: test test-cover
 test test-cover: _mocks; go test $(GOTEST_ARGS)
@@ -68,6 +76,7 @@ licenses: ; @./scripts/licenses.sh
 .PHONY: help
 help:
 	@echo "Available targets:"
+	@echo "  * build:      build evcli executable"
 	@echo "  * test:       run unit tests for $(GOPKG)"
 	@echo "  * test-cover: run unit tests and measure coverage for $(GOPKG)"
 	@echo "  * lint:       lint sources using default configuration"
