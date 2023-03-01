@@ -12,15 +12,21 @@ import (
 	"github.com/veraison/psatoken"
 )
 
-func loadCCAClaimsFromFile(fs afero.Fs, fn string) (*ccatoken.Evidence, error) {
+func loadCCAClaimsFromFile(fs afero.Fs, fn string, validate bool) (*ccatoken.Evidence, error) {
 	buf, err := afero.ReadFile(fs, fn)
 	if err != nil {
 		return nil, err
 	}
 
 	var e ccatoken.Evidence
-	if err := e.UnmarshalJSON(buf); err != nil {
-		return nil, err
+	if validate {
+		if err := e.UnmarshalJSON(buf); err != nil {
+			return nil, err
+		}
+	} else {
+		if err := e.UnmarshalUnvalidatedJSON(buf); err != nil {
+			return nil, err
+		}
 	}
 
 	return &e, nil
