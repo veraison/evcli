@@ -18,6 +18,7 @@ var (
 	createKeyFile      *string
 	createTokenFile    *string
 	createTokenProfile *string
+	allowInvalidClaims *bool
 )
 
 var createCmd = NewCreateCmd(common.Fs)
@@ -28,12 +29,12 @@ func NewCreateCmd(fs afero.Fs) *cobra.Command {
 		Short: "create a PSA attestation token from the supplied claims and IAK",
 		Long: `Create a PSA attestation token from the JSON-encoded claims and
 Initial Attestation Key, optionally specifying the wanted profile
-		
+
 Create a PSA attestation token from claims contained in claims.json, sign
 with es256.jwk and save the result to my.cbor:
-	
+
 	evcli psa create --claims=claims.json --key=es256.jwk --token=my.cbor
-	
+
 Or, equivalently:
 
 	evcli psa create -c claims.json -k es256.jwk -t my.cbor
@@ -47,12 +48,13 @@ te-profile1.cbor:
 Note that the default profile is http://arm.com/psa/2.0.0.
 	`,
 		RunE: func(cmd *cobra.Command, args []string) error {
+			validate := !*allowInvalidClaims
+
 			if err := checkProfile(createTokenProfile); err != nil {
 				return err
 			}
 
-			validateClaims := true
-			claims, err := loadClaimsFromFile(fs, *createClaimsFile, validateClaims)
+			claims, err := loadClaimsFromFile(fs, *createClaimsFile, validate)
 			if err != nil {
 				return err
 			}
@@ -68,8 +70,12 @@ Note that the default profile is http://arm.com/psa/2.0.0.
 
 			evidence := psatoken.Evidence{}
 
-			if err = evidence.SetClaims(claims); err != nil {
-				return err
+			if validate {
+				if err = evidence.SetClaims(claims); err != nil {
+					return err
+				}
+			} else {
+				evidence.Claims = claims
 			}
 
 			key, err := afero.ReadFile(fs, *createKeyFile)
@@ -82,7 +88,12 @@ Note that the default profile is http://arm.com/psa/2.0.0.
 				return fmt.Errorf("error decoding signing key from %s: %w", *createKeyFile, err)
 			}
 
-			cwt, err := evidence.Sign(signer)
+			var cwt []byte
+			if validate {
+				cwt, err = evidence.Sign(signer)
+			} else {
+				cwt, err = evidence.SignUnvalidated(signer)
+			}
 			if err != nil {
 				return fmt.Errorf("signature failed: %w", err)
 			}
@@ -114,6 +125,12 @@ Note that the default profile is http://arm.com/psa/2.0.0.
 
 	createTokenProfile = cmd.Flags().StringP(
 		"profile", "p", psatoken.PsaProfile2, "name of the PSA profile to use",
+	)
+
+	allowInvalidClaims = cmd.Flags().BoolP(
+		"allow-invalid", "I", false,
+		"Do not validate provided claims, allowing invalid tokens to be generated. "+
+			"This is intended for testing.",
 	)
 
 	return cmd

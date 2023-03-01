@@ -54,6 +54,28 @@ func Test_CreateCmd_WithP1Claims_ok(t *testing.T) {
 	assert.NoError(t, err)
 }
 
+func Test_CreateCmd_allowInivalid_ok(t *testing.T) {
+	fs := afero.NewMemMapFs()
+
+	err := afero.WriteFile(fs, "es256.jwk", testValidKey, 0644)
+	require.NoError(t, err)
+
+	err = afero.WriteFile(fs, "claims.json", testValidP2PSAClaimsWithNonce, 0644)
+	require.NoError(t, err)
+
+	cmd := NewCreateCmd(fs)
+	cmd.SetArgs(
+		[]string{
+			"--claims=claims.json",
+			"--key=es256.jwk",
+			"--allow-invalid",
+		},
+	)
+
+	err = cmd.Execute()
+	assert.NoError(t, err)
+}
+
 func Test_CreateCmd_claims_not_found(t *testing.T) {
 	fs := afero.NewMemMapFs()
 

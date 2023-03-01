@@ -12,10 +12,11 @@ import (
 )
 
 var (
-	createClaimsFile *string
-	createRAKFile    *string
-	createPAKFile    *string
-	createTokenFile  *string
+	createClaimsFile   *string
+	createRAKFile      *string
+	createPAKFile      *string
+	createTokenFile    *string
+	allowInvalidClaims *bool
 )
 
 var createCmd = NewCreateCmd(common.Fs)
@@ -26,14 +27,16 @@ func NewCreateCmd(fs afero.Fs) *cobra.Command {
 		Short: "create a CCA attestation token from the supplied claims and keys",
 		Long: `Create a CCA attestation token from the JSON-encoded claims and
 keys (PAK and RAK)
-		
+
 Create a CCA attestation token from claims contained in claims.json, sign
 with pak.jwk and rak.jwk and save the result to my.cbor:
-	
+
 	evcli cca create --claims=claims.json --pak=pak.jwk --rak=rak.jwk --token=my.cbor
 	`,
 		RunE: func(cmd *cobra.Command, args []string) error {
-			evidence, err := loadCCAClaimsFromFile(fs, *createClaimsFile)
+			validate := !*allowInvalidClaims
+
+			evidence, err := loadCCAClaimsFromFile(fs, *createClaimsFile, validate)
 			if err != nil {
 				return fmt.Errorf(
 					"error loading CCA claims from %s: %w",
@@ -73,7 +76,14 @@ with pak.jwk and rak.jwk and save the result to my.cbor:
 				)
 			}
 
-			b, err := evidence.Sign(pSigner, rSigner)
+			var b []byte
+			if validate {
+				b, err = evidence.Sign(pSigner, rSigner)
+
+			} else {
+				b, err = evidence.SignUnvalidated(pSigner, rSigner)
+			}
+
 			if err != nil {
 				return fmt.Errorf("error signing evidence: %w", err)
 			}
@@ -108,6 +118,12 @@ with pak.jwk and rak.jwk and save the result to my.cbor:
 
 	createTokenFile = cmd.Flags().StringP(
 		"token", "t", "", "name of the file where the produced CCA attestation token will be stored",
+	)
+
+	allowInvalidClaims = cmd.Flags().BoolP(
+		"allow-invalid", "I", false,
+		"Do not validate provided claims, allowing invalid tokens to be generated. "+
+			"This is intended for testing.",
 	)
 
 	return cmd
