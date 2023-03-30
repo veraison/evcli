@@ -29,16 +29,16 @@ supplied PSA attestation token.
 
 Check a PSA attestation token contained in my.cbor using es256.jwk and
 save the embedded claims to claims.json:
-	
+
 	evcli psa check --token=my.cbor --key=es256.jwk --claims=claims.json
-	
+
 Or, equivalently:
 
 	evcli psa check -t my.cbor -k es256.jwt -c claims.json
 
 check a PSA attestation token contained in te.cbor using the public IAK in
 es256.jwk and dump the embedded claims to standard output:
-	
+
 	evcli psa check -t te.cbor -k es256.jwk
 	`,
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -59,7 +59,7 @@ es256.jwk and dump the embedded claims to standard output:
 
 			err = t.Verify(pk)
 			if err != nil {
-				return fmt.Errorf("signature verification failed: %w", err)
+				return err
 			}
 			fmt.Printf(">> %q verified\n", *checkTokenFile)
 

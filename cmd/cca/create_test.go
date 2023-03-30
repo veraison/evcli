@@ -245,7 +245,7 @@ func Test_CreateCmd_claims_invalid(t *testing.T) {
 		},
 	)
 
-	expectedErr := `error loading CCA claims from claims.json: unmarshaling platform claims: unexpected end of JSON input`
+	expectedErr := `error loading CCA claims from claims.json: unmarshaling CCA claims: missing platform claims`
 
 	err = cmd.Execute()
 	assert.EqualError(t, err, expectedErr)
