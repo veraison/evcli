@@ -32,10 +32,10 @@ evcli completion --help
 ## PSA attestation tokens manipulation
 
 For working with PSA attestation tokens follow the instructions given
-[here](./PSA-README.md)
+[here](./README-PSA.md)
 
 
 ## CCA attestation tokens manipulation
 
 For working with CCA attestation tokens follow the instructions given
-[here](./CCA-README.md)
+[here](./README-CCA.md)
