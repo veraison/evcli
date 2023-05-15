@@ -12,8 +12,8 @@ var (
 		"y": "7fVF7b6J_6_g6Wu9RuJw8geWxEi5ja9Gp2TSdELm5u2E-M7IF-bsxqcdOj3n1n7N",
 		"d": "ODkwMTIzNDU2Nzg5MDEyMz7deMbyLt8g4cjcxozuIoygLLlAeoQ1AfM9TSvxkFHJ"
 	}`)
-	testValidPAK = []byte(`{
-		"kid": "valid-pak",
+	testValidIAK = []byte(`{
+		"kid": "valid-iak",
 		"kty": "EC",
 		"crv": "P-256",
 		"x": "MKBCTNIcKUSDii11ySs3526iDZ8AiTo7Tu6KPAqv7D4",
@@ -27,8 +27,8 @@ var (
 		"x": "gvvRMqm1w5aHn7sVNA2QUJeOVcedUnmiug6VhU834gzS9k87crVwu9dz7uLOdoQl",
 		"y": "7fVF7b6J_6_g6Wu9RuJw8geWxEi5ja9Gp2TSdELm5u2E-M7IF-bsxqcdOj3n1n7N"
 	}`)
-	testValidPAKPub = []byte(`{
-		"kid": "valid-pak-pub",
+	testValidIAKPub = []byte(`{
+		"kid": "valid-iak-pub",
 		"kty": "EC",
 		"crv": "P-256",
 		"x": "MKBCTNIcKUSDii11ySs3526iDZ8AiTo7Tu6KPAqv7D4",

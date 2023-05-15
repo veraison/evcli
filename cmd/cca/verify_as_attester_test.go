@@ -20,7 +20,7 @@ import (
 func Test_AttesterCmd_claims_not_found(t *testing.T) {
 	fs := afero.NewMemMapFs()
 
-	err := afero.WriteFile(fs, "pak.jwk", testValidPAK, 0644)
+	err := afero.WriteFile(fs, "iak.jwk", testValidIAK, 0644)
 	require.NoError(t, err)
 
 	err = afero.WriteFile(fs, "rak.jwk", testValidRAK, 0644)
@@ -31,7 +31,7 @@ func Test_AttesterCmd_claims_not_found(t *testing.T) {
 		[]string{
 			"--api-server=http://veraison.example/challenge-response/v1",
 			"--claims=claims.json",
-			"--pak=pak.jwk",
+			"--iak=iak.jwk",
 			"--rak=rak.jwk",
 		},
 	)
@@ -56,12 +56,12 @@ func Test_AttesterCmd_platform_key_not_found(t *testing.T) {
 		[]string{
 			"--api-server=http://veraison.example/challenge-response/v1",
 			"--claims=claims.json",
-			"--pak=pak.jwk",
+			"--iak=iak.jwk",
 			"--rak=rak.jwk",
 		},
 	)
 
-	expectedErr := `error loading Platform signing key from pak.jwk: open pak.jwk: file does not exist`
+	expectedErr := `error loading Platform signing key from iak.jwk: open iak.jwk: file does not exist`
 
 	err = cmd.Execute()
 	assert.EqualError(t, err, expectedErr)
@@ -73,7 +73,7 @@ func Test_AttesterCmd_realm_key_not_found(t *testing.T) {
 	err := afero.WriteFile(fs, "claims.json", testValidCCAClaims, 0644)
 	require.NoError(t, err)
 
-	err = afero.WriteFile(fs, "pak.jwk", testValidPAK, 0644)
+	err = afero.WriteFile(fs, "iak.jwk", testValidIAK, 0644)
 	require.NoError(t, err)
 
 	cmd := NewAttesterCmd(fs, attesterVeraisonClient)
@@ -81,7 +81,7 @@ func Test_AttesterCmd_realm_key_not_found(t *testing.T) {
 		[]string{
 			"--api-server=http://veraison.example/challenge-response/v1",
 			"--claims=claims.json",
-			"--pak=pak.jwk",
+			"--iak=iak.jwk",
 			"--rak=rak.jwk",
 		},
 	)
@@ -98,7 +98,7 @@ func Test_AttesterCmd_claims_invalid(t *testing.T) {
 	err := afero.WriteFile(fs, "claims.json", testInvalidCCAClaims, 0644)
 	require.NoError(t, err)
 
-	err = afero.WriteFile(fs, "pak.jwk", testValidPAK, 0644)
+	err = afero.WriteFile(fs, "iak.jwk", testValidIAK, 0644)
 	require.NoError(t, err)
 
 	err = afero.WriteFile(fs, "rak.jwk", testValidRAK, 0644)
@@ -109,7 +109,7 @@ func Test_AttesterCmd_claims_invalid(t *testing.T) {
 		[]string{
 			"--api-server=http://veraison.example/challenge-response/v1",
 			"--claims=claims.json",
-			"--pak=pak.jwk",
+			"--iak=iak.jwk",
 			"--rak=rak.jwk",
 		},
 	)
@@ -126,7 +126,7 @@ func Test_AttesterCmd_platform_key_invalid(t *testing.T) {
 	err := afero.WriteFile(fs, "claims.json", testValidCCAClaims, 0644)
 	require.NoError(t, err)
 
-	err = afero.WriteFile(fs, "pak.jwk", testInvalidKey, 0644)
+	err = afero.WriteFile(fs, "iak.jwk", testInvalidKey, 0644)
 	require.NoError(t, err)
 
 	err = afero.WriteFile(fs, "rak.jwk", testValidRAK, 0644)
@@ -137,12 +137,12 @@ func Test_AttesterCmd_platform_key_invalid(t *testing.T) {
 		[]string{
 			"--api-server=http://veraison.example/challenge-response/v1",
 			"--claims=claims.json",
-			"--pak=pak.jwk",
+			"--iak=iak.jwk",
 			"--rak=rak.jwk",
 		},
 	)
 
-	expectedErr := `error decoding Platform signing key from pak.jwk: failed to parse key: invalid key type from JSON ()`
+	expectedErr := `error decoding Platform signing key from iak.jwk: failed to parse key: invalid key type from JSON ()`
 
 	err = cmd.Execute()
 	assert.ErrorContains(t, err, expectedErr)
@@ -154,7 +154,7 @@ func Test_AttesterCmd_realm_key_invalid(t *testing.T) {
 	err := afero.WriteFile(fs, "claims.json", testValidCCAClaims, 0644)
 	require.NoError(t, err)
 
-	err = afero.WriteFile(fs, "pak.jwk", testValidPAK, 0644)
+	err = afero.WriteFile(fs, "iak.jwk", testValidIAK, 0644)
 	require.NoError(t, err)
 
 	err = afero.WriteFile(fs, "rak.jwk", testInvalidKey, 0644)
@@ -165,7 +165,7 @@ func Test_AttesterCmd_realm_key_invalid(t *testing.T) {
 		[]string{
 			"--api-server=http://veraison.example/challenge-response/v1",
 			"--claims=claims.json",
-			"--pak=pak.jwk",
+			"--iak=iak.jwk",
 			"--rak=rak.jwk",
 		},
 	)
@@ -182,7 +182,7 @@ func Test_AttesterCmd_bad_server_url(t *testing.T) {
 	err := afero.WriteFile(fs, "claims.json", testValidCCAClaims, 0644)
 	require.NoError(t, err)
 
-	err = afero.WriteFile(fs, "pak.jwk", testValidPAK, 0644)
+	err = afero.WriteFile(fs, "iak.jwk", testValidIAK, 0644)
 	require.NoError(t, err)
 
 	err = afero.WriteFile(fs, "rak.jwk", testValidRAK, 0644)
@@ -193,7 +193,7 @@ func Test_AttesterCmd_bad_server_url(t *testing.T) {
 		[]string{
 			"--api-server=http://vera:son",
 			"--claims=claims.json",
-			"--pak=pak.jwk",
+			"--iak=iak.jwk",
 			"--rak=rak.jwk",
 		},
 	)
@@ -221,7 +221,7 @@ func Test_AttesterCmd_ok(t *testing.T) {
 	err := afero.WriteFile(fs, "claims.json", testValidCCAClaims, 0644)
 	require.NoError(t, err)
 
-	err = afero.WriteFile(fs, "pak.jwk", testValidPAK, 0644)
+	err = afero.WriteFile(fs, "iak.jwk", testValidIAK, 0644)
 	require.NoError(t, err)
 
 	err = afero.WriteFile(fs, "rak.jwk", testValidRAK, 0644)
@@ -232,7 +232,7 @@ func Test_AttesterCmd_ok(t *testing.T) {
 		[]string{
 			"--api-server=" + testSessionURI,
 			"--claims=claims.json",
-			"--pak=pak.jwk",
+			"--iak=iak.jwk",
 			"--rak=rak.jwk",
 		},
 	)
@@ -258,7 +258,7 @@ func Test_AttesterCmd_protocol_run_failed(t *testing.T) {
 	err := afero.WriteFile(fs, "claims.json", testValidCCAClaims, 0644)
 	require.NoError(t, err)
 
-	err = afero.WriteFile(fs, "pak.jwk", testValidPAK, 0644)
+	err = afero.WriteFile(fs, "iak.jwk", testValidIAK, 0644)
 	require.NoError(t, err)
 
 	err = afero.WriteFile(fs, "rak.jwk", testValidRAK, 0644)
@@ -269,7 +269,7 @@ func Test_AttesterCmd_protocol_run_failed(t *testing.T) {
 		[]string{
 			"--api-server=" + testSessionURI,
 			"--claims=claims.json",
-			"--pak=pak.jwk",
+			"--iak=iak.jwk",
 			"--rak=rak.jwk",
 		},
 	)
@@ -285,7 +285,7 @@ func Test_attesterEvidenceBuilder_BuildCCAEvidence_ok(t *testing.T) {
 
 	pClaims, rClaims, err := loadUnValidatedCCAClaimsFromFile(fs, "claims.json")
 	assert.NoError(t, err)
-	pSigner, err := common.SignerFromJWK(testValidPAK)
+	pSigner, err := common.SignerFromJWK(testValidIAK)
 	assert.NoError(t, err)
 
 	rSigner, err := common.SignerFromJWK(testValidRAK)
@@ -315,7 +315,7 @@ func Test_attesterEvidenceBuilder_BuildEvidence_unsupported_media_type(t *testin
 	pClaims, rClaims, err := loadUnValidatedCCAClaimsFromFile(fs, "claims.json")
 	assert.NoError(t, err)
 
-	pSigner, err := common.SignerFromJWK(testValidPAK)
+	pSigner, err := common.SignerFromJWK(testValidIAK)
 	assert.NoError(t, err)
 
 	rSigner, err := common.SignerFromJWK(testValidRAK)

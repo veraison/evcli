@@ -14,7 +14,7 @@ import (
 var (
 	createClaimsFile   *string
 	createRAKFile      *string
-	createPAKFile      *string
+	createIAKFile      *string
 	createTokenFile    *string
 	allowInvalidClaims *bool
 )
@@ -26,12 +26,12 @@ func NewCreateCmd(fs afero.Fs) *cobra.Command {
 		Use:   "create",
 		Short: "create a CCA attestation token from the supplied claims and keys",
 		Long: `Create a CCA attestation token from the JSON-encoded claims and
-keys (PAK and RAK)
+keys (IAK and RAK)
 
 Create a CCA attestation token from claims contained in claims.json, sign
-with pak.jwk and rak.jwk and save the result to my.cbor:
+with iak.jwk and rak.jwk and save the result to my.cbor:
 
-	evcli cca create --claims=claims.json --pak=pak.jwk --rak=rak.jwk --token=my.cbor
+	evcli cca create --claims=claims.json --iak=iak.jwk --rak=rak.jwk --token=my.cbor
 	`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			validate := !*allowInvalidClaims
@@ -60,19 +60,19 @@ with pak.jwk and rak.jwk and save the result to my.cbor:
 				)
 			}
 
-			pak, err := afero.ReadFile(fs, *createPAKFile)
+			iak, err := afero.ReadFile(fs, *createIAKFile)
 			if err != nil {
 				return fmt.Errorf(
-					"error loading PAK signing key from %s: %w",
-					*createPAKFile, err,
+					"error loading IAK signing key from %s: %w",
+					*createIAKFile, err,
 				)
 			}
 
-			pSigner, err := common.SignerFromJWK(pak)
+			pSigner, err := common.SignerFromJWK(iak)
 			if err != nil {
 				return fmt.Errorf(
-					"error decoding PAK signing key from %s: %w",
-					*createPAKFile, err,
+					"error decoding IAK signing key from %s: %w",
+					*createIAKFile, err,
 				)
 			}
 
@@ -112,8 +112,8 @@ with pak.jwk and rak.jwk and save the result to my.cbor:
 		"rak", "r", "", "JWK file with the key used for signing the realm token",
 	)
 
-	createPAKFile = cmd.Flags().StringP(
-		"pak", "p", "", "JWK file with the key used for signing the platform token",
+	createIAKFile = cmd.Flags().StringP(
+		"iak", "p", "", "JWK file with the key used for signing the platform token",
 	)
 
 	createTokenFile = cmd.Flags().StringP(
@@ -130,7 +130,7 @@ with pak.jwk and rak.jwk and save the result to my.cbor:
 }
 
 func init() {
-	for _, param := range []string{"claims", "rak", "pak"} {
+	for _, param := range []string{"claims", "rak", "iak"} {
 		if err := createCmd.MarkFlagRequired(param); err != nil {
 			panic(err)
 		}

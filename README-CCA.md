@@ -1,18 +1,18 @@
 ## CCA attestation tokens manipulation
 
 The `cca` subcommand allows you to [create](#create), [check](#check) and
-[verify](#verify) CCA attestation tokens.
+[verify](#verify) [CCA attestation tokens](https://github.com/veraison/ccatoken).
 
 ### Create
 
 Use the `cca create` subcommand to create a CCA attestation token from the
-supplied claims in JSON format, the Platform Attestation Key (PAK) and Realm
+supplied claims in JSON format, the Initial Attestation Key (IAK) and Realm
 Attestation Key (RAK) in JSON Web Key (JWK) format<sup>[1](#inputs-ex)</sup>.
 
 ```shell
 evcli cca create \
     --claims=cca-claims.json \
-    --pak=ec256.json \
+    --iak=ec256.json \
     --rak=ec384.json
 ```
 
@@ -31,7 +31,7 @@ For example:
 ```shell
 evcli cca create \
     --claims=cca-claims.json \
-    --pak=ec256.json \
+    --iak=ec256.json \
     --rak=ec384.json
     --token=my.cbor
 ```
@@ -41,7 +41,7 @@ evcli cca create \
 Use the `cca check` subcommand to verify the cryptographic signature on the
 supplied CCA attestation token as well as checking whether all claim sets
 within CCA token are well-formed. Please note that only one key (the public
-part of platform IAK) needs to be supplied, as the public part of RAK, present
+part of IAK) needs to be supplied, as the public part of RAK, present
 in the token is used for signature verification.
 
 To check the CCA attestation token in my.cbor using the public key in
@@ -128,7 +128,7 @@ claims, platform signing (IAK) and realm signing key (RAK).
 evcli cca verify-as attester \
     --api-server=https://veraison.example/challenge-response/v1/newSession \
     --claims=cca-claims-without-realm-challenge.json \
-    --pak=es256.json \
+    --iak=es256.json \
     --rak=ec384.json
 ```
 
