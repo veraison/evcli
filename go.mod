@@ -8,8 +8,8 @@ require (
 	github.com/spf13/afero v1.8.2
 	github.com/spf13/cobra v1.4.0
 	github.com/spf13/viper v1.11.0
-	github.com/stretchr/testify v1.8.1
-	github.com/veraison/apiclient v0.0.3-0.20220426121030-d5eddd28c5e1
+	github.com/stretchr/testify v1.8.2
+	github.com/veraison/apiclient v0.0.5
 	github.com/veraison/ccatoken v1.1.0
 	github.com/veraison/go-cose v1.0.0
 	github.com/veraison/psatoken v1.2.0
@@ -37,6 +37,7 @@ require (
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/subosito/gotenv v1.2.0 // indirect
+	github.com/veraison/cmw v0.1.0 // indirect
 	github.com/veraison/eat v0.0.0-20220117140849-ddaf59d69f53 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
 	golang.org/x/crypto v0.5.0 // indirect
