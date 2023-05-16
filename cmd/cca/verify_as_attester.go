@@ -44,13 +44,13 @@ func NewAttesterCmd(fs afero.Fs, attesterVeraisonClient common.IVeraisonClient) 
 		Long: `This command implements the "attester mode" of a challenge-response
 interaction, where the verifier is the protocol challenger.  Therefore, the nonce or 
 challenge is provided by the Veraison API server and the CCA attestation token needs
-to be created on the fly based on the attester's claims, platform signing key (PAK)
+to be created on the fly based on the attester's claims, platform signing key (IAK)
 and realm signing key (RAK).
 	
 	evcli cca verify-as attester \
 	              --api-server=https://veraison.example/challenge-response/v1/newSession \
 	              --claims=claims.json \
-	              --pak=pak.jwk \
+	              --iak=iak.jwk \
 			      --rak=rak.jwk
 				   
 	`,
@@ -112,7 +112,7 @@ and realm signing key (RAK).
 	)
 
 	platformKeyFile = cmd.Flags().StringP(
-		"pak", "p", "", "JWK file with the Platform Attestation Key used for signing",
+		"iak", "p", "", "JWK file with the Platform Attestation Key used for signing",
 	)
 
 	realmKeyFile = cmd.Flags().StringP(
@@ -156,7 +156,7 @@ func init() {
 	if err := attesterCmd.MarkFlagRequired("claims"); err != nil {
 		panic(err)
 	}
-	if err := attesterCmd.MarkFlagRequired("pak"); err != nil {
+	if err := attesterCmd.MarkFlagRequired("iak"); err != nil {
 		panic(err)
 	}
 	if err := attesterCmd.MarkFlagRequired("rak"); err != nil {

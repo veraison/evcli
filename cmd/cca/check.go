@@ -27,7 +27,7 @@ func NewCheckCmd(fs afero.Fs) *cobra.Command {
 		Long: `Run the syntactic and cryptographic signature checks over the
 supplied CCA attestation token.
 
-Check a CCA attestation token contained in my.cbor using the public PAK in
+Check a CCA attestation token contained in my.cbor using the public IAK in
 es256.jwk and save the embedded claims to claims.json:
 
 	evcli cca check --token=my.cbor --key=es256.jwk --claims=claims.json
@@ -36,7 +36,7 @@ Or, equivalently:
 
 	evcli cca check -t my.cbor -k es256.jwt -c claims.json
 
-check a CCA attestation token contained in te.cbor using the public PAK in
+check a CCA attestation token contained in te.cbor using the public IAK in
 es256.jwk and dump the embedded claims to standard output:
 
 	evcli cca check -t te.cbor -k es256.jwk
