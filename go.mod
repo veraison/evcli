@@ -1,4 +1,4 @@
-module github.com/veraison/evcli
+module github.com/veraison/evcli/v2
 
 go 1.17
 

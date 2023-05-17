@@ -9,7 +9,7 @@ import (
 
 	"github.com/spf13/afero"
 	"github.com/spf13/cobra"
-	"github.com/veraison/evcli/common"
+	"github.com/veraison/evcli/v2/common"
 	"github.com/veraison/psatoken"
 )
 

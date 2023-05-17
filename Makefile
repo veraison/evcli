@@ -4,8 +4,8 @@ SHELL := /bin/bash
 
 GO111MODULE := on
 
-GOPKG += github.com/veraison/evcli/cmd/psa
-GOPKG += github.com/veraison/evcli/cmd/cca
+GOPKG += github.com/veraison/evcli/v2/cmd/psa
+GOPKG += github.com/veraison/evcli/v2/cmd/cca
 
 MOCKGEN := $(shell go env GOPATH)/bin/mockgen
 INTERFACES := common/iveraisonclient.go

@@ -14,7 +14,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	mock_deps "github.com/veraison/evcli/cmd/mocks"
+	mock_deps "github.com/veraison/evcli/v2/cmd/mocks"
 )
 
 func Test_RelyingPartyCmd_token_not_found(t *testing.T) {
