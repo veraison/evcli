@@ -8,8 +8,8 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
-	"github.com/veraison/evcli/cmd/cca"
-	"github.com/veraison/evcli/cmd/psa"
+	"github.com/veraison/evcli/v2/cmd/cca"
+	"github.com/veraison/evcli/v2/cmd/psa"
 
 	"github.com/spf13/viper"
 )

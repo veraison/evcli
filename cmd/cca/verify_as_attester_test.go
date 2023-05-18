@@ -13,8 +13,8 @@ import (
 	"github.com/spf13/afero"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	mock_deps "github.com/veraison/evcli/cmd/mocks"
-	"github.com/veraison/evcli/common"
+	mock_deps "github.com/veraison/evcli/v2/cmd/mocks"
+	"github.com/veraison/evcli/v2/common"
 )
 
 func Test_AttesterCmd_claims_not_found(t *testing.T) {

@@ -12,7 +12,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/veraison/apiclient/verification"
 	"github.com/veraison/ccatoken"
-	"github.com/veraison/evcli/common"
+	"github.com/veraison/evcli/v2/common"
 )
 
 var (

@@ -4,7 +4,7 @@
 package psa
 
 import (
-	"github.com/veraison/evcli/common"
+	"github.com/veraison/evcli/v2/common"
 	"github.com/veraison/psatoken"
 )
 

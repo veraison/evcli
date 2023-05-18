@@ -4,7 +4,7 @@
 package main
 
 import (
-	"github.com/veraison/evcli/cmd"
+	"github.com/veraison/evcli/v2/cmd"
 )
 
 func main() {

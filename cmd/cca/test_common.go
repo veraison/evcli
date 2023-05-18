@@ -1,6 +1,6 @@
 package cca
 
-import "github.com/veraison/evcli/common"
+import "github.com/veraison/evcli/v2/common"
 
 var (
 	testInvalidKey = []byte(`{}`)
