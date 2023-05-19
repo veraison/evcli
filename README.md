@@ -5,7 +5,7 @@
 To install the `evcli` command, do:
 
 ```shell
-go install github.com/veraison/evcli@latest
+go install github.com/veraison/evcli/v2@latest
 ```
 
 To configure auto-completion, use the `completion` subcommand.  For example, if
