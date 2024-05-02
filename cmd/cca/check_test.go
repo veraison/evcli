@@ -210,7 +210,7 @@ func Test_CheckCmd_regression_bug_18(t *testing.T) {
 		},
 	)
 
-	expectedErr := `verifying CCA evidence from ccatoken.cbor using key from not-a-public-key.jwk: unable to verify platform token: unable to instantiate verifier: ES256: algorithm mismatch`
+	expectedErr := `verifying CCA evidence from ccatoken.cbor using key from not-a-public-key.jwk: unable to verify platform token: unable to instantiate verifier: ES256: invalid public key`
 
 	err = cmd.Execute()
 	assert.EqualError(t, err, expectedErr)
