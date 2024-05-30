@@ -14,4 +14,6 @@ type IVeraisonClient interface {
 	SetEvidenceBuilder(eb verification.EvidenceBuilder) error
 	SetDeleteSession(v bool)
 	SetNonceSz(nonceSz uint) error
+	SetIsInsecure(v bool)
+	SetCerts(paths []string)
 }

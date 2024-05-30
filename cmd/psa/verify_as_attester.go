@@ -1,4 +1,4 @@
-// Copyright 2022 Contributors to the Veraison project.
+// Copyright 2022-2024 Contributors to the Veraison project.
 // SPDX-License-Identifier: Apache-2.0
 
 package psa
@@ -21,6 +21,8 @@ var (
 	attesterKeyFile    *string
 	attesterAPIURL     *string
 	attesterNonceSz    *uint
+	attesterIsInsecure *bool
+	attesterCerts      *[]string
 )
 
 var (
@@ -79,6 +81,8 @@ to be created on the fly based on the attester's claims and signing IAK.
 			}
 
 			attesterVeraisonClient.SetDeleteSession(true)
+			attesterVeraisonClient.SetIsInsecure(*attesterIsInsecure)
+			attesterVeraisonClient.SetCerts(*attesterCerts)
 
 			attestationResults, err := attesterVeraisonClient.Run()
 			if err != nil {
@@ -105,6 +109,14 @@ to be created on the fly based on the attester's claims and signing IAK.
 
 	attesterNonceSz = cmd.Flags().UintP(
 		"nonce-size", "n", 48, "nonce size (32, 48 or 64)",
+	)
+
+	attesterIsInsecure = cmd.Flags().BoolP(
+		"insecure", "i", false, "Allow insecure connections (e.g. do not verify TLS certs)",
+	)
+
+	attesterCerts = cmd.Flags().StringArrayP(
+		"ca-cert", "E", nil, "path to a CA cert that will be used in addition to system certs; may be specified multiple times",
 	)
 
 	return cmd
