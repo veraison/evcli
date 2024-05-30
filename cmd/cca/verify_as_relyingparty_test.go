@@ -1,4 +1,4 @@
-// Copyright 2023 Contributors to the Veraison project.
+// Copyright 2023-2024 Contributors to the Veraison project.
 // SPDX-License-Identifier: Apache-2.0
 
 package cca
@@ -83,6 +83,8 @@ func Test_RelyingPartyCmd_ok(t *testing.T) {
 	mc.EXPECT().SetNonce(testNonce)
 	mc.EXPECT().SetSessionURI(testSessionURI)
 	mc.EXPECT().SetEvidenceBuilder(gomock.Any())
+	mc.EXPECT().SetIsInsecure(false)
+	mc.EXPECT().SetCerts(nil)
 	mc.EXPECT().SetDeleteSession(true)
 	mc.EXPECT().Run().Return([]byte("ok"), nil)
 
@@ -112,6 +114,8 @@ func Test_RelyingPartyCmd_protocol_run_failed(t *testing.T) {
 	mc.EXPECT().SetNonce(testNonce)
 	mc.EXPECT().SetSessionURI(testSessionURI)
 	mc.EXPECT().SetEvidenceBuilder(gomock.Any())
+	mc.EXPECT().SetIsInsecure(false)
+	mc.EXPECT().SetCerts(nil)
 	mc.EXPECT().SetDeleteSession(true)
 	mc.EXPECT().Run().Return(nil, errors.New("some kind of error"))
 

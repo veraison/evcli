@@ -1,4 +1,4 @@
-// Copyright 2022 Contributors to the Veraison project.
+// Copyright 2022-2024 Contributors to the Veraison project.
 // SPDX-License-Identifier: Apache-2.0
 
 package cca
@@ -30,6 +30,8 @@ var (
 	platformKeyFile    *string
 	realmKeyFile       *string
 	attesterAPIURL     *string
+	attesterIsInsecure *bool
+	attesterCerts      *[]string
 )
 
 var (
@@ -96,6 +98,9 @@ and realm signing key (RAK).
 			}
 
 			attesterVeraisonClient.SetDeleteSession(true)
+			attesterVeraisonClient.SetIsInsecure(*attesterIsInsecure)
+			attesterVeraisonClient.SetCerts(*attesterCerts)
+
 			attestationResults, err := attesterVeraisonClient.Run()
 			if err != nil {
 				return fmt.Errorf("error in attesterVeraisonClient Run %w", err)
@@ -121,6 +126,14 @@ and realm signing key (RAK).
 
 	attesterAPIURL = cmd.Flags().StringP(
 		"api-server", "s", "", "URL of the Veraison verification API",
+	)
+
+	attesterIsInsecure = cmd.Flags().BoolP(
+		"insecure", "i", false, "Allow insecure connections (e.g. do not verify TLS certs)",
+	)
+
+	attesterCerts = cmd.Flags().StringArrayP(
+		"ca-cert", "E", nil, "path to a CA cert that will be used in addition to system certs; may be specified multiple times",
 	)
 
 	return cmd

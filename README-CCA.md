@@ -154,3 +154,12 @@ evcli cca verify-as relying-party \
 
 <a name="inputs-ex">1</a>: Examples of CCA claims, signing keys, etc., can be
 found in the [misc](misc) folder.
+
+#### Note on TLS
+
+If the scheme in the API server URL is HTTPS, `evcli` will attempt to establish
+a TLS connection to the server, validating the server certificate using system CA
+certs. It is possible to disable server certificate validation with
+`-i`/`--insecure` flag. Alternatively, if the CA cert for the server is
+available but is not installed in the system, it may be specified using
+`-E`/`--ca-cert` flag.

@@ -1,4 +1,4 @@
-// Copyright 2022 Contributors to the Veraison project.
+// Copyright 2022-2024 Contributors to the Veraison project.
 // SPDX-License-Identifier: Apache-2.0
 
 package psa
@@ -139,6 +139,8 @@ func Test_AttesterCmd_ok(t *testing.T) {
 
 	mc.EXPECT().SetSessionURI(testSessionURI)
 	mc.EXPECT().SetEvidenceBuilder(gomock.Any())
+	mc.EXPECT().SetIsInsecure(false)
+	mc.EXPECT().SetCerts(nil)
 	mc.EXPECT().SetDeleteSession(true)
 	mc.EXPECT().SetNonceSz(uint(48))
 	mc.EXPECT().Run().Return([]byte("ok"), nil)
@@ -197,6 +199,8 @@ func Test_AttesterCmd_protocol_run_failed(t *testing.T) {
 
 	mc.EXPECT().SetSessionURI(testSessionURI)
 	mc.EXPECT().SetEvidenceBuilder(gomock.Any())
+	mc.EXPECT().SetIsInsecure(false)
+	mc.EXPECT().SetCerts(nil)
 	mc.EXPECT().SetDeleteSession(true)
 	mc.EXPECT().SetNonceSz(uint(48))
 	mc.EXPECT().Run().Return(nil, errors.New("failed"))

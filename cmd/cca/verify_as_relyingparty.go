@@ -1,4 +1,4 @@
-// Copyright 2023 Contributors to the Veraison project.
+// Copyright 2023-2024 Contributors to the Veraison project.
 // SPDX-License-Identifier: Apache-2.0
 
 package cca
@@ -16,8 +16,10 @@ import (
 )
 
 var (
-	relyingPartyTokenFile *string
-	relyingPartyAPIURL    *string
+	relyingPartyTokenFile  *string
+	relyingPartyAPIURL     *string
+	relyingPartyIsInsecure *bool
+	relyingPartyCerts      *[]string
 )
 
 var (
@@ -71,6 +73,8 @@ previous invocation to "evcli cca create" command.
 			}
 
 			veraisonClient.SetDeleteSession(true)
+			veraisonClient.SetIsInsecure(*relyingPartyIsInsecure)
+			veraisonClient.SetCerts(*relyingPartyCerts)
 
 			attestationResults, err := veraisonClient.Run()
 			if err != nil {
@@ -90,6 +94,15 @@ previous invocation to "evcli cca create" command.
 	relyingPartyAPIURL = cmd.Flags().StringP(
 		"api-server", "s", "", "URL of the Veraison verification API",
 	)
+
+	relyingPartyIsInsecure = cmd.Flags().BoolP(
+		"insecure", "i", false, "Allow insecure connections (e.g. do not verify TLS certs)",
+	)
+
+	relyingPartyCerts = cmd.Flags().StringArrayP(
+		"ca-cert", "E", nil, "path to a CA cert that will be used in addition to system certs; may be specified multiple times",
+	)
+
 
 	return cmd
 }
