@@ -4,11 +4,11 @@
 package cca
 
 import (
+	"encoding/json"
 	"fmt"
 
 	"github.com/spf13/afero"
 	"github.com/spf13/cobra"
-	"github.com/veraison/ccatoken"
 	"github.com/veraison/evcli/v2/common"
 )
 
@@ -73,7 +73,7 @@ es256.jwk and dump the embedded claims to standard output:
 				)
 			}
 
-			claims, err := t.MarshalJSON()
+			claims, err := json.MarshalIndent(t, "", "    ")
 			if err != nil {
 				return fmt.Errorf("serializing CCA evidence: %w", err)
 			}
@@ -116,19 +116,4 @@ func init() {
 	if err := checkCmd.MarkFlagRequired("key"); err != nil {
 		panic(err)
 	}
-}
-
-func loadTokenFromFile(fs afero.Fs, fn string) (*ccatoken.Evidence, error) {
-	buf, err := afero.ReadFile(fs, fn)
-	if err != nil {
-		return nil, err
-	}
-
-	e := ccatoken.Evidence{}
-
-	if err = e.FromCBOR(buf); err != nil {
-		return nil, err
-	}
-
-	return &e, nil
 }

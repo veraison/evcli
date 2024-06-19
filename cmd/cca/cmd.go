@@ -27,4 +27,5 @@ func init() {
 	Cmd.AddCommand(createCmd)
 	Cmd.AddCommand(checkCmd)
 	Cmd.AddCommand(verifyAsCmd)
+	Cmd.AddCommand(printCmd)
 }

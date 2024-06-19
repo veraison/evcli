@@ -59,3 +59,18 @@ func loadUnValidatedCCAClaimsFromFile(fs afero.Fs, fn string) (psatoken.IClaims,
 	}
 	return p, r, nil
 }
+
+func loadTokenFromFile(fs afero.Fs, fn string) (*ccatoken.Evidence, error) {
+	buf, err := afero.ReadFile(fs, fn)
+	if err != nil {
+		return nil, err
+	}
+
+	e := ccatoken.Evidence{}
+
+	if err = e.FromCBOR(buf); err != nil {
+		return nil, err
+	}
+
+	return &e, nil
+}
