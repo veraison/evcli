@@ -106,6 +106,60 @@ evcli cca check \
     --claims=output-claims.json
 ```
 
+### Print
+
+Use the `cca print` subcommand to display the claims of a CCA attestation
+token as pretty-printed JSON, without performing any signature checks. This will
+perform the same well-formedness check as the `check` command, but will skip
+cryptographic operations, meaning that a token can be inspected on its own without
+providing any keys or other additional inputs. Structured JSON text will be written to
+standard output.
+
+To print out the CCA attestation token in my.cbor:
+
+```shell
+evcli cca print \
+    --token=my.cbor
+```
+
+The claim set is printed to stdout in JSON format:
+
+```json
+{
+  "cca-platform-token": {
+    "cca-platform-profile": "http://arm.com/CCA-SSD/1.0.0",
+    "cca-platform-challenge": "Bea1iETGoM0ZOCBpuv2w5JRmKjrc+P3hFHjpM5Ua8XkP9d5ceOPbESPaCiB6i2ZVbgoi8Z7mS9wviZU7azJVXw==",
+    "cca-platform-implementation-id": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "cca-platform-instance-id": "AQICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIC",
+    "cca-platform-config": "AQID",
+    "cca-platform-lifecycle": 12288,
+    "cca-platform-sw-components": [
+      {
+        "measurement-value": "AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwM=",
+        "signer-id": "BAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQ="
+      }
+    ],
+    "cca-platform-service-indicator": "https://veraison.example/v1/challenge-response",
+    "cca-platform-hash-algo-id": "sha-256"
+  },
+  "cca-realm-delegated-token": {
+    "cca-realm-challenge": "QUJBQkFCQUJBQkFCQUJBQkFCQUJBQkFCQUJBQkFCQUJBQkFCQUJBQkFCQUJBQkFCQUJBQkFCQUJBQkFCQUJBQg==",
+    "cca-realm-personalization-value": "QURBREFEQURBREFEQURBREFEQURBREFEQURBREFEQURBREFEQURBREFEQURBREFEQURBREFEQURBREFEQURBRA==",
+    "cca-realm-initial-measurement": "Q0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQw==",
+    "cca-realm-extensible-measurements": [
+      "Q0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQw==",
+      "Q0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQw==",
+      "Q0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQw==",
+      "Q0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQw=="
+    ],
+    "cca-realm-hash-algo-id": "sha-256",
+    "cca-realm-public-key": "BIL70TKptcOWh5+7FTQNkFCXjlXHnVJ5oroOlYVPN+IM0vZPO3K1cLvXc+7iznaEJe31Re2+if+v4OlrvUbicPIHlsRIuY2vRqdk0nRC5ubthPjOyBfm7ManHTo959Z+zQ==",
+    "cca-realm-public-key-hash-algo-id": "sha-512"
+  }
+}
+
+```
+
 ### Verify
 
 The `cca verify-as` subcommand allows you to interact with the Veraison

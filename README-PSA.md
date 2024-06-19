@@ -106,6 +106,50 @@ evcli psa check \
     --claims=output-claims.json
 ```
 
+### Print
+
+Use the `psa print` subcommand to display the claims of a PSA attestation
+token as pretty-printed JSON, without performing any signature checks. This will
+perform the same well-formedness check as the `check` command, but will skip
+cryptographic operations, meaning that a token can be inspected on its own without
+providing any keys or other additional inputs. Structured JSON text will be written to
+standard output.
+
+To print out the PSA attestation token in my.cbor:
+
+```shell
+evcli psa print --token=my.cbor
+```
+
+The claim set is printed to stdout in JSON format:
+
+```json
+{
+  "eat-profile": "http://arm.com/psa/2.0.0",
+  "psa-client-id": 1,
+  "psa-security-lifecycle": 12288,
+  "psa-implementation-id": "UFFSU1RVVldQUVJTVFVWV1BRUlNUVVZXUFFSU1RVVlc=",
+  "psa-boot-seed": "3q2+796tvu/erb7v3q2+796tvu/erb7v3q2+796tvu8=",
+  "psa-hardware-version": "1234567890123",
+  "psa-software-components": [
+    {
+      "measurement-type": "BL",
+      "measurement-value": "AAECBAABAgQAAQIEAAECBAABAgQAAQIEAAECBAABAgQ=",
+      "signer-id": "UZIA/1GSAP9RkgD/UZIA/1GSAP9RkgD/UZIA/1GSAP8="
+    },
+    {
+      "measurement-type": "PRoT",
+      "measurement-value": "BQYHCAUGBwgFBgcIBQYHCAUGBwgFBgcIBQYHCAUGBwg=",
+      "signer-id": "UZIA/1GSAP9RkgD/UZIA/1GSAP9RkgD/UZIA/1GSAP8="
+    }
+  ],
+  "psa-nonce": "AAECAwABAgMAAQIDAAECAwABAgMAAQIDAAECAwABAgM=",
+  "psa-instance-id": "AaChoqOgoaKjoKGio6ChoqOgoaKjoKGio6ChoqOgoaKj",
+  "psa-verification-service-indicator": "https://psa-verifier.org",
+  "psa-certification-reference": "1234567890123-12345",
+}
+```
+
 ### Verify
 
 The `psa verify-as` subcommand allows you to interact with the Veraison
