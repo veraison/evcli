@@ -73,7 +73,7 @@ es256.jwk and dump the embedded claims to standard output:
 				)
 			}
 
-			claims, err := json.MarshalIndent(t, "", "    ")
+			claims, err := json.MarshalIndent(t, "", "  ")
 			if err != nil {
 				return fmt.Errorf("serializing CCA evidence: %w", err)
 			}

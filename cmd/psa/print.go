@@ -1,4 +1,4 @@
-// Copyright 2022 Contributors to the Veraison project.
+// Copyright 2024 Contributors to the Veraison project.
 // SPDX-License-Identifier: Apache-2.0
 
 package psa
@@ -39,7 +39,7 @@ Or, equivalently:
 				return err
 			}
 
-			claims, err := json.MarshalIndent(t.Claims, "", "    ")
+			claims, err := json.MarshalIndent(t.Claims, "", "  ")
 			if err != nil {
 				return fmt.Errorf("claims extraction failed: %w", err)
 			}
