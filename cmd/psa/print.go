@@ -22,7 +22,7 @@ func NewPrintCmd(fs afero.Fs) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "print",
 		Short: "print the contents of a PSA attestation token to the standard output",
-		Long: `Print the contents of the given PSA attestation tokan to the standard
+		Long: `Print the contents of the given PSA attestation token to the standard
 output, without performing any cryptographic checks.
 
 Print a PSA attestation token contained in my.cbor:
