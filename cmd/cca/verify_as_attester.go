@@ -4,11 +4,14 @@
 package cca
 
 import (
+	"errors"
 	"fmt"
 	"strings"
 
 	"github.com/spf13/afero"
 	"github.com/spf13/cobra"
+	"github.com/spf13/pflag"
+	"github.com/spf13/viper"
 	"github.com/veraison/apiclient/verification"
 	"github.com/veraison/ccatoken"
 	"github.com/veraison/evcli/v2/common"
@@ -29,9 +32,9 @@ var (
 	attesterClaimsFile *string
 	platformKeyFile    *string
 	realmKeyFile       *string
-	attesterAPIURL     *string
-	attesterIsInsecure *bool
-	attesterCerts      *[]string
+	attesterAPIURL     string
+	attesterIsInsecure bool
+	attesterCerts      []string
 )
 
 var (
@@ -57,6 +60,9 @@ and realm signing key (RAK).
 				   
 	`,
 		RunE: func(cmd *cobra.Command, args []string) error {
+			if err := attesterCheckSubmitArgs(); err != nil {
+				return err
+			}
 
 			pClaims, rClaims, err := loadUnValidatedCCAClaimsFromFile(fs, *attesterClaimsFile)
 			if err != nil {
@@ -89,7 +95,7 @@ and realm signing key (RAK).
 				return err
 			}
 
-			if err = attesterVeraisonClient.SetSessionURI(*attesterAPIURL); err != nil {
+			if err = attesterVeraisonClient.SetSessionURI(attesterAPIURL); err != nil {
 				return err
 			}
 
@@ -98,8 +104,8 @@ and realm signing key (RAK).
 			}
 
 			attesterVeraisonClient.SetDeleteSession(true)
-			attesterVeraisonClient.SetIsInsecure(*attesterIsInsecure)
-			attesterVeraisonClient.SetCerts(*attesterCerts)
+			attesterVeraisonClient.SetIsInsecure(attesterIsInsecure)
+			attesterVeraisonClient.SetCerts(attesterCerts)
 
 			attestationResults, err := attesterVeraisonClient.Run()
 			if err != nil {
@@ -124,19 +130,44 @@ and realm signing key (RAK).
 		"rak", "r", "", "JWK file with the Realm Attestation Key used for signing",
 	)
 
-	attesterAPIURL = cmd.Flags().StringP(
+	cmd.Flags().StringP(
 		"api-server", "s", "", "URL of the Veraison verification API",
 	)
 
-	attesterIsInsecure = cmd.Flags().BoolP(
+	cmd.Flags().BoolP(
 		"insecure", "i", false, "Allow insecure connections (e.g. do not verify TLS certs)",
 	)
 
-	attesterCerts = cmd.Flags().StringArrayP(
+	cmd.Flags().StringArrayP(
 		"ca-cert", "E", nil, "path to a CA cert that will be used in addition to system certs; may be specified multiple times",
 	)
 
+	cmd.Flags().VisitAll(func(flag *pflag.Flag) {
+		cfgName := strings.ReplaceAll(flag.Name, "-", "_")
+		if cfgName == "claims" || cfgName == "iak" || cfgName == "rak" {
+			// as claims and the corresponding key files are likely
+			// to be different on each invocation, it does not make
+			// sense for them be specified via the config.
+			return
+		}
+
+		err := viper.BindPFlag(cfgName, flag)
+		cobra.CheckErr(err)
+	})
+
 	return cmd
+}
+
+func attesterCheckSubmitArgs() error {
+	attesterAPIURL = viper.GetString("api_server")
+	if attesterAPIURL == "" {
+		return errors.New("API server URL is not configured")
+	}
+
+	attesterIsInsecure = viper.GetBool("insecure")
+	attesterCerts = viper.GetStringSlice("ca_cert")
+
+	return nil
 }
 
 func (eb attesterEvidenceBuilder) BuildEvidence(nonce []byte, accept []string) ([]byte, string, error) {
@@ -173,9 +204,6 @@ func init() {
 		panic(err)
 	}
 	if err := attesterCmd.MarkFlagRequired("rak"); err != nil {
-		panic(err)
-	}
-	if err := attesterCmd.MarkFlagRequired("api-server"); err != nil {
 		panic(err)
 	}
 }

@@ -5,11 +5,14 @@ package cca
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
 	"strings"
 
 	"github.com/spf13/afero"
 	"github.com/spf13/cobra"
+	"github.com/spf13/pflag"
+	"github.com/spf13/viper"
 	"github.com/veraison/apiclient/verification"
 	"github.com/veraison/ccatoken"
 	"github.com/veraison/evcli/v2/common"
@@ -17,9 +20,9 @@ import (
 
 var (
 	relyingPartyTokenFile  *string
-	relyingPartyAPIURL     *string
-	relyingPartyIsInsecure *bool
-	relyingPartyCerts      *[]string
+	relyingPartyAPIURL     string
+	relyingPartyIsInsecure bool
+	relyingPartyCerts      []string
 )
 
 var (
@@ -43,6 +46,10 @@ previous invocation to "evcli cca create" command.
 
 	`,
 		RunE: func(cmd *cobra.Command, args []string) error {
+			if err := relyingPartyCheckSubmitArgs(); err != nil {
+				return err
+			}
+
 			token, err := afero.ReadFile(fs, *relyingPartyTokenFile)
 			if err != nil {
 				return err
@@ -56,25 +63,35 @@ previous invocation to "evcli cca create" command.
 
 			nonce, err := e.RealmClaims.GetChallenge()
 			if err != nil {
-				return fmt.Errorf("cannot extract challenge from %s: %v", *relyingPartyTokenFile, err)
+				return fmt.Errorf("cannot extract challenge from %s: %v",
+					*relyingPartyTokenFile, err)
 			}
 
 			if err = veraisonClient.SetNonce(nonce); err != nil {
-				return fmt.Errorf("cannot configure nonce in Veraison API client: %v", err)
+				return fmt.Errorf(
+					"cannot configure nonce in Veraison API client: %v",
+					err,
+				)
 			}
 
-			if err = veraisonClient.SetSessionURI(*relyingPartyAPIURL); err != nil {
-				return fmt.Errorf("cannot configure URL in Veraison API client: %v", err)
+			if err = veraisonClient.SetSessionURI(relyingPartyAPIURL); err != nil {
+				return fmt.Errorf(
+					"cannot configure URL in Veraison API client: %v",
+					err,
+				)
 			}
 
 			eb := relyingPartyEvidenceBuilder{Token: token, Nonce: nonce}
 			if err = veraisonClient.SetEvidenceBuilder(eb); err != nil {
-				return fmt.Errorf("cannot configure evidence builder in Veraison API client: %v", err)
+				return fmt.Errorf(
+					"cannot configure evidence builder in Veraison API client: %v",
+					err,
+				)
 			}
 
 			veraisonClient.SetDeleteSession(true)
-			veraisonClient.SetIsInsecure(*relyingPartyIsInsecure)
-			veraisonClient.SetCerts(*relyingPartyCerts)
+			veraisonClient.SetIsInsecure(relyingPartyIsInsecure)
+			veraisonClient.SetCerts(relyingPartyCerts)
 
 			attestationResults, err := veraisonClient.Run()
 			if err != nil {
@@ -91,20 +108,44 @@ previous invocation to "evcli cca create" command.
 		"token", "t", "", "file containing a signed CCA attestation token",
 	)
 
-	relyingPartyAPIURL = cmd.Flags().StringP(
+	cmd.Flags().StringP(
 		"api-server", "s", "", "URL of the Veraison verification API",
 	)
 
-	relyingPartyIsInsecure = cmd.Flags().BoolP(
+	cmd.Flags().BoolP(
 		"insecure", "i", false, "Allow insecure connections (e.g. do not verify TLS certs)",
 	)
 
-	relyingPartyCerts = cmd.Flags().StringArrayP(
+	cmd.Flags().StringArrayP(
 		"ca-cert", "E", nil, "path to a CA cert that will be used in addition to system certs; may be specified multiple times",
 	)
 
+	cmd.Flags().VisitAll(func(flag *pflag.Flag) {
+		cfgName := strings.ReplaceAll(flag.Name, "-", "_")
+		if cfgName == "token" {
+			// as token is likely to be different on each
+			// invocation, it does not make sense for it be
+			// specified via the config.
+			return
+		}
+
+		err := viper.BindPFlag(cfgName, flag)
+		cobra.CheckErr(err)
+	})
 
 	return cmd
+}
+
+func relyingPartyCheckSubmitArgs() error {
+	relyingPartyAPIURL = viper.GetString("api_server")
+	if relyingPartyAPIURL == "" {
+		return errors.New("API server URL is not configured")
+	}
+
+	relyingPartyIsInsecure = viper.GetBool("insecure")
+	relyingPartyCerts = viper.GetStringSlice("ca_cert")
+
+	return nil
 }
 
 type relyingPartyEvidenceBuilder struct {
@@ -127,9 +168,6 @@ func (eb relyingPartyEvidenceBuilder) BuildEvidence(nonce []byte, accept []strin
 
 func init() {
 	if err := relyingPartyCmd.MarkFlagRequired("token"); err != nil {
-		panic(err)
-	}
-	if err := relyingPartyCmd.MarkFlagRequired("api-server"); err != nil {
 		panic(err)
 	}
 }

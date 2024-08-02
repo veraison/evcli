@@ -84,7 +84,7 @@ func Test_RelyingPartyCmd_ok(t *testing.T) {
 	mc.EXPECT().SetSessionURI(testSessionURI)
 	mc.EXPECT().SetEvidenceBuilder(gomock.Any())
 	mc.EXPECT().SetIsInsecure(false)
-	mc.EXPECT().SetCerts(nil)
+	mc.EXPECT().SetCerts([]string{})
 	mc.EXPECT().SetDeleteSession(true)
 	mc.EXPECT().Run().Return([]byte("ok"), nil)
 
@@ -115,7 +115,7 @@ func Test_RelyingPartyCmd_protocol_run_failed(t *testing.T) {
 	mc.EXPECT().SetSessionURI(testSessionURI)
 	mc.EXPECT().SetEvidenceBuilder(gomock.Any())
 	mc.EXPECT().SetIsInsecure(false)
-	mc.EXPECT().SetCerts(nil)
+	mc.EXPECT().SetCerts([]string{})
 	mc.EXPECT().SetDeleteSession(true)
 	mc.EXPECT().Run().Return(nil, errors.New("some kind of error"))
 
