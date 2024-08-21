@@ -6,6 +6,7 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"github.com/spf13/cobra"
 	"github.com/veraison/evcli/v2/cmd/cca"
@@ -36,7 +37,7 @@ func Execute() {
 func init() {
 	cobra.OnInitialize(initConfig)
 
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.evcli)")
+	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $XDG_CONFIG_HOME/evcli/config.yaml)")
 
 	rootCmd.AddCommand(psa.Cmd)
 	rootCmd.AddCommand(cca.Cmd)
@@ -47,13 +48,16 @@ func initConfig() {
 	if cfgFile != "" {
 		viper.SetConfigFile(cfgFile)
 	} else {
-		home, err := os.UserHomeDir()
+		wd, err := os.Getwd()
 		cobra.CheckErr(err)
 
-		// search config in home directory with name ".evcli" (without extension)
-		viper.AddConfigPath(home)
+		userConfigDir, err := os.UserConfigDir()
+		if err == nil {
+			viper.AddConfigPath(filepath.Join(userConfigDir, "evcli"))
+		}
+		viper.AddConfigPath(wd)
 		viper.SetConfigType("yaml")
-		viper.SetConfigName(".evcli")
+		viper.SetConfigName("config")
 	}
 
 	viper.AutomaticEnv() // read in environment variables that match
