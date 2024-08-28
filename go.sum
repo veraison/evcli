@@ -216,6 +216,8 @@ github.com/subosito/gotenv v1.2.0 h1:Slr1R9HxAlEKefgq5jn9U+DnETlIUa6HfgEzj0g5d7s
 github.com/subosito/gotenv v1.2.0/go.mod h1:N0PQaV/YGNqwC0u51sEeR/aUtSLEXKX9iv69rRypqCw=
 github.com/veraison/apiclient v0.2.1-0.20240531100343-8a3a730a1e94 h1:0d7vTs3K9Y4bskTtI3pvkFE0HiSHc4vWA3M6Fc0lWRM=
 github.com/veraison/apiclient v0.2.1-0.20240531100343-8a3a730a1e94/go.mod h1:LCXFZ3D/tJ3HLAOHUg8bnAKGvgTl53e1ntwdwjVbQ5A=
+github.com/veraison/apiclient v0.3.1-0.20240827095125-ab8774ee8e6d h1:o94WuvA9AjjHeFrsaUTLX6Dyuy4BK8hpPv9V6jFvwLc=
+github.com/veraison/apiclient v0.3.1-0.20240827095125-ab8774ee8e6d/go.mod h1:LCXFZ3D/tJ3HLAOHUg8bnAKGvgTl53e1ntwdwjVbQ5A=
 github.com/veraison/ccatoken v1.2.0 h1:vwZDeaM39LkNne5xFxeqevuAmxjhiSDTBGyd8Jg682Q=
 github.com/veraison/ccatoken v1.2.0/go.mod h1:HzEj02zAn/iKYsgZTJQcUbNok4lhqdpaeAjAEeYlTPk=
 github.com/veraison/cmw v0.1.0 h1:vD6tBlGPROCW/HlDcG1jh+XUJi5ihrjXatKZBjrv8mU=

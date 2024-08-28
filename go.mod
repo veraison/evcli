@@ -9,7 +9,7 @@ require (
 	github.com/spf13/cobra v1.4.0
 	github.com/spf13/viper v1.11.0
 	github.com/stretchr/testify v1.9.0
-	github.com/veraison/apiclient v0.2.1-0.20240531100343-8a3a730a1e94
+	github.com/veraison/apiclient v0.3.1-0.20240827095125-ab8774ee8e6d
 	github.com/veraison/ccatoken v1.2.0
 	github.com/veraison/go-cose v1.1.0
 	github.com/veraison/psatoken v1.2.0
