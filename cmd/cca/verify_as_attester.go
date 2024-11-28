@@ -17,7 +17,7 @@ import (
 	"github.com/veraison/ccatoken/platform"
 	"github.com/veraison/ccatoken/realm"
 	"github.com/veraison/evcli/v2/common"
-	"github.com/veraison/go-cose"
+	cose "github.com/veraison/go-cose"
 )
 
 type attesterEvidenceBuilder struct {
