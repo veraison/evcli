@@ -14,14 +14,15 @@ import (
 	"github.com/spf13/viper"
 	"github.com/veraison/apiclient/verification"
 	"github.com/veraison/ccatoken"
+	"github.com/veraison/ccatoken/platform"
+	"github.com/veraison/ccatoken/realm"
 	"github.com/veraison/evcli/v2/common"
 	"github.com/veraison/go-cose"
-	"github.com/veraison/psatoken"
 )
 
 type attesterEvidenceBuilder struct {
-	Pclaims psatoken.IClaims
-	Rclaims ccatoken.IClaims
+	Pclaims platform.IClaims
+	Rclaims realm.IClaims
 	Psigner cose.Signer
 	Rsigner cose.Signer
 }
@@ -185,7 +186,7 @@ func (eb attesterEvidenceBuilder) BuildEvidence(nonce []byte, accept []string) (
 			return nil, "", fmt.Errorf("setting claims: %w", err)
 		}
 
-		cwt, err := evidence.Sign(eb.Psigner, eb.Rsigner)
+		cwt, err := evidence.ValidateAndSign(eb.Psigner, eb.Rsigner)
 		if err != nil {
 			return nil, "", fmt.Errorf("signature failed: %w", err)
 		}

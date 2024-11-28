@@ -195,7 +195,7 @@ func (eb attesterEvidenceBuilder) BuildEvidence(nonce []byte, accept []string) (
 			return nil, "", fmt.Errorf("setting claims: %w", err)
 		}
 
-		cwt, err := evidence.Sign(eb.Signer)
+		cwt, err := evidence.ValidateAndSign(eb.Signer)
 		if err != nil {
 			return nil, "", fmt.Errorf("signature failed: %w", err)
 		}

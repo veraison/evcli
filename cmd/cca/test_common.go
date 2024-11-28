@@ -37,7 +37,7 @@ var (
 	testInvalidCCAClaims = []byte(`{}`)
 	testValidCCAClaims   = []byte(`{
 		"cca-platform-token": {
-			"cca-platform-profile": "http://arm.com/CCA-SSD/1.0.0",
+			"cca-platform-profile": "tag:arm.com,2023:cca_platform#1.0.0",
 			"cca-platform-implementation-id": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
 			"cca-platform-instance-id": "AQICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIC",
 			"cca-platform-config": "AQID",
@@ -62,13 +62,13 @@ var (
 				"Q0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQw=="
 			],
 			"cca-realm-hash-algo-id": "sha-256",
-			"cca-realm-public-key": "BIL70TKptcOWh5+7FTQNkFCXjlXHnVJ5oroOlYVPN+IM0vZPO3K1cLvXc+7iznaEJe31Re2+if+v4OlrvUbicPIHlsRIuY2vRqdk0nRC5ubthPjOyBfm7ManHTo959Z+zQ==",
-			"cca-realm-public-key-hash-algo-id": "sha-512"
+			"cca-realm-public-key": "pAECIAIhWDB2+YgJG+WF7UGAGuz6uFhUjGMFfhaw5nYSC70NL5wp4FbF1BoBMOucIVF4mdwjFGsiWDAo4bBivT6ksxX9IZ8cu1KMtudMpJvhZ3NzT2GhymEDGyu/PZGPL5T/xCKOUJGVRK4=",
+			"cca-realm-public-key-hash-algo-id": "sha-256"
 		}
 	}`)
 	testValidCCAClaimsNoNonce = []byte(`{
 		"cca-platform-token": {
-			"cca-platform-profile": "http://arm.com/CCA-SSD/1.0.0",
+			"cca-platform-profile": "tag:arm.com,2023:cca_platform#1.0.0",
 			"cca-platform-implementation-id": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
 			"cca-platform-instance-id": "AQICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIC",
 			"cca-platform-config": "AQID",
@@ -92,8 +92,8 @@ var (
 				"Q0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQw=="
 			],
 			"cca-realm-hash-algo-id": "sha-256",
-			"cca-realm-public-key": "BIL70TKptcOWh5+7FTQNkFCXjlXHnVJ5oroOlYVPN+IM0vZPO3K1cLvXc+7iznaEJe31Re2+if+v4OlrvUbicPIHlsRIuY2vRqdk0nRC5ubthPjOyBfm7ManHTo959Z+zQ==",
-			"cca-realm-public-key-hash-algo-id": "sha-512"
+			"cca-realm-public-key": "pAECIAIhWDB2+YgJG+WF7UGAGuz6uFhUjGMFfhaw5nYSC70NL5wp4FbF1BoBMOucIVF4mdwjFGsiWDAo4bBivT6ksxX9IZ8cu1KMtudMpJvhZ3NzT2GhymEDGyu/PZGPL5T/xCKOUJGVRK4=",
+			"cca-realm-public-key-hash-algo-id": "sha-256"
 		}
 	}`)
 	testSessionURI      = "http://veraison.example/challenge-response/v1"

@@ -55,9 +55,8 @@ previous invocation to "evcli cca create" command.
 				return err
 			}
 
-			var e ccatoken.Evidence
-
-			if err = e.FromCBOR(token); err != nil {
+			e, err := ccatoken.DecodeAndValidateEvidenceFromCBOR(token)
+			if err != nil {
 				return fmt.Errorf("ingesting %s: %v", *relyingPartyTokenFile, err)
 			}
 

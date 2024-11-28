@@ -15,7 +15,7 @@
 
 ```json
 {
-  "cca-platform-profile": "http://arm.com/CCA-SSD/1.0.0",
+  "cca-platform-profile": "tag:arm.com,2023:cca_platform#1.0.0",
   "cca-platform-challenge": "AQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQE=",
   "cca-platform-implementation-id": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
   "cca-platform-instance-id": "AQICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIC",

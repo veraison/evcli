@@ -90,9 +90,9 @@ Note that the default profile is http://arm.com/psa/2.0.0.
 
 			var cwt []byte
 			if validate {
-				cwt, err = evidence.Sign(signer)
+				cwt, err = evidence.ValidateAndSign(signer)
 			} else {
-				cwt, err = evidence.SignUnvalidated(signer)
+				cwt, err = evidence.Sign(signer)
 			}
 			if err != nil {
 				return fmt.Errorf("signature failed: %w", err)
@@ -124,7 +124,7 @@ Note that the default profile is http://arm.com/psa/2.0.0.
 	)
 
 	createTokenProfile = cmd.Flags().StringP(
-		"profile", "p", psatoken.PsaProfile2, "name of the PSA profile to use",
+		"profile", "p", psatoken.Profile2Name, "name of the PSA profile to use",
 	)
 
 	allowInvalidClaims = cmd.Flags().BoolP(
@@ -142,13 +142,13 @@ func checkProfile(profile *string) error {
 	}
 
 	switch *profile {
-	case psatoken.PsaProfile1, psatoken.PsaProfile2:
+	case psatoken.Profile1Name, psatoken.Profile2Name:
 		return nil
 	}
 
 	return fmt.Errorf(
 		"wrong profile %s: allowed profiles are %s and %s",
-		*profile, psatoken.PsaProfile2, psatoken.PsaProfile1,
+		*profile, psatoken.Profile2Name, psatoken.Profile1Name,
 	)
 }
 

@@ -76,8 +76,7 @@ func Test_AttesterCmd_claims_invalid(t *testing.T) {
 			"--key=es256.jwk",
 		},
 	)
-	comErr := `(json: cannot unmarshal array into Go value of type psatoken.`
-	expectedErr := `p1 error: ` + comErr + `P1Claims)` + ` and p2 error: ` + comErr + `P2Claims)`
+	expectedErr := `json: cannot unmarshal array into Go value of type map[string]interface {}`
 
 	err = cmd.Execute()
 	assert.EqualError(t, err, expectedErr)

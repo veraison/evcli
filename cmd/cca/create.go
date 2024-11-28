@@ -78,10 +78,10 @@ with iak.jwk and rak.jwk and save the result to my.cbor:
 
 			var b []byte
 			if validate {
-				b, err = evidence.Sign(pSigner, rSigner)
+				b, err = evidence.ValidateAndSign(pSigner, rSigner)
 
 			} else {
-				b, err = evidence.SignUnvalidated(pSigner, rSigner)
+				b, err = evidence.Sign(pSigner, rSigner)
 			}
 
 			if err != nil {
