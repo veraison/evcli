@@ -14,7 +14,7 @@ import (
 	"github.com/spf13/viper"
 	"github.com/veraison/apiclient/verification"
 	"github.com/veraison/evcli/v2/common"
-	"github.com/veraison/go-cose"
+	cose "github.com/veraison/go-cose"
 	"github.com/veraison/psatoken"
 )
 

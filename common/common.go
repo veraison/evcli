@@ -16,14 +16,13 @@ import (
 
 	"github.com/lestrrat-go/jwx/v2/jwk"
 	"github.com/spf13/afero"
-	"github.com/veraison/go-cose"
+	cose "github.com/veraison/go-cose"
 )
 
 var Fs = afero.NewOsFs()
 
 func getAlgAndKeyFromJWK(rawJWK []byte) (cose.Algorithm, crypto.Signer, error) {
 	var (
-		crv  elliptic.Curve
 		alg  cose.Algorithm
 		sKey crypto.Signer
 	)
@@ -39,7 +38,7 @@ func getAlgAndKeyFromJWK(rawJWK []byte) (cose.Algorithm, crypto.Signer, error) {
 
 	switch v := sKey.(type) {
 	case *ecdsa.PrivateKey:
-		crv = v.Curve
+		crv := v.Curve
 		if crv == elliptic.P256() {
 			alg = cose.AlgorithmES256
 			break
