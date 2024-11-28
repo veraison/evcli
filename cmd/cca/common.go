@@ -9,7 +9,8 @@ import (
 
 	"github.com/spf13/afero"
 	"github.com/veraison/ccatoken"
-	"github.com/veraison/psatoken"
+	"github.com/veraison/ccatoken/platform"
+	"github.com/veraison/ccatoken/realm"
 )
 
 func loadCCAClaimsFromFile(fs afero.Fs, fn string, validate bool) (*ccatoken.Evidence, error) {
@@ -18,21 +19,14 @@ func loadCCAClaimsFromFile(fs afero.Fs, fn string, validate bool) (*ccatoken.Evi
 		return nil, err
 	}
 
-	var e ccatoken.Evidence
 	if validate {
-		if err := e.UnmarshalJSON(buf); err != nil {
-			return nil, err
-		}
-	} else {
-		if err := e.UnmarshalUnvalidatedJSON(buf); err != nil {
-			return nil, err
-		}
+		return ccatoken.DecodeAndValidateEvidenceFromJSON(buf)
 	}
 
-	return &e, nil
+	return ccatoken.DecodeEvidenceFromJSON(buf)
 }
 
-func loadUnValidatedCCAClaimsFromFile(fs afero.Fs, fn string) (psatoken.IClaims, ccatoken.IClaims, error) {
+func loadUnValidatedCCAClaimsFromFile(fs afero.Fs, fn string) (platform.IClaims, realm.IClaims, error) {
 	var c ccatoken.JSONCollection
 
 	buf, err := afero.ReadFile(fs, fn)
@@ -45,18 +39,17 @@ func loadUnValidatedCCAClaimsFromFile(fs afero.Fs, fn string) (psatoken.IClaims,
 	}
 
 	// platform
-	p := &psatoken.CcaPlatformClaims{}
-
-	if err := json.Unmarshal(c.PlatformToken, &p); err != nil {
+	p, err := platform.DecodeClaimsFromJSON(c.PlatformToken)
+	if err != nil {
 		return nil, nil, fmt.Errorf("unmarshaling platform claims: %w", err)
 	}
 
 	// realm
-	r := &ccatoken.RealmClaims{}
-
-	if err := json.Unmarshal(c.RealmToken, &r); err != nil {
+	r, err := realm.DecodeClaimsFromJSON(c.RealmToken)
+	if err != nil {
 		return nil, nil, fmt.Errorf("unmarshaling realm claims: %w", err)
 	}
+
 	return p, r, nil
 }
 
@@ -66,11 +59,5 @@ func loadTokenFromFile(fs afero.Fs, fn string) (*ccatoken.Evidence, error) {
 		return nil, err
 	}
 
-	e := ccatoken.Evidence{}
-
-	if err = e.FromCBOR(buf); err != nil {
-		return nil, err
-	}
-
-	return &e, nil
+	return ccatoken.DecodeAndValidateEvidenceFromCBOR(buf)
 }

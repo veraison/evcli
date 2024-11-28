@@ -66,6 +66,8 @@ github.com/fsnotify/fsnotify v1.5.1/go.mod h1:T3375wBYaZdLLcVNkcVbzGHY7f1l/uK5T5
 github.com/fxamacker/cbor/v2 v2.2.0/go.mod h1:TA1xS00nchWmaBnEIxPSE5oHLuJBAVvqrtAnWBwBCVo=
 github.com/fxamacker/cbor/v2 v2.4.0 h1:ri0ArlOR+5XunOP8CRUowT0pSJOwhW098ZCUyskZD88=
 github.com/fxamacker/cbor/v2 v2.4.0/go.mod h1:TA1xS00nchWmaBnEIxPSE5oHLuJBAVvqrtAnWBwBCVo=
+github.com/fxamacker/cbor/v2 v2.5.0 h1:oHsG0V/Q6E/wqTS2O1Cozzsy69nqCiguo5Q1a1ADivE=
+github.com/fxamacker/cbor/v2 v2.5.0/go.mod h1:TA1xS00nchWmaBnEIxPSE5oHLuJBAVvqrtAnWBwBCVo=
 github.com/go-gl/glfw v0.0.0-20190409004039-e6da0acd62b1/go.mod h1:vR7hzQXu2zJy9AVAgeJqvqgH9Q5CA+iKCZ2gyEVpxRU=
 github.com/go-gl/glfw/v3.3/glfw v0.0.0-20191125211704-12ad95a8df72/go.mod h1:tQ2UAYgL5IevRw8kRxooKSPJfGvJ9fJQFa0TUsXzTg8=
 github.com/go-gl/glfw/v3.3/glfw v0.0.0-20200222043503-6f7a984d4dc4/go.mod h1:tQ2UAYgL5IevRw8kRxooKSPJfGvJ9fJQFa0TUsXzTg8=
@@ -220,6 +222,8 @@ github.com/veraison/apiclient v0.3.1-0.20240827095125-ab8774ee8e6d h1:o94WuvA9Aj
 github.com/veraison/apiclient v0.3.1-0.20240827095125-ab8774ee8e6d/go.mod h1:LCXFZ3D/tJ3HLAOHUg8bnAKGvgTl53e1ntwdwjVbQ5A=
 github.com/veraison/ccatoken v1.2.0 h1:vwZDeaM39LkNne5xFxeqevuAmxjhiSDTBGyd8Jg682Q=
 github.com/veraison/ccatoken v1.2.0/go.mod h1:HzEj02zAn/iKYsgZTJQcUbNok4lhqdpaeAjAEeYlTPk=
+github.com/veraison/ccatoken v1.3.1 h1:zUHXr2mPprxMYv5Mm2mumxzQZ3I9wy7QGayXqa9Rv/E=
+github.com/veraison/ccatoken v1.3.1/go.mod h1:vMqdbW4H/8A3oT+24qssuIK3Aefy06XqzTELGg+gWAg=
 github.com/veraison/cmw v0.1.0 h1:vD6tBlGPROCW/HlDcG1jh+XUJi5ihrjXatKZBjrv8mU=
 github.com/veraison/cmw v0.1.0/go.mod h1:WoBrlgByc6C1FeHhdze1/bQx1kv5d1sWKO5ezEf4Hs4=
 github.com/veraison/eat v0.0.0-20210331113810-3da8a4dd42ff/go.mod h1:+kxt8iuFiVvKRs2VQ1Ho7bbAScXAB/kHFFuP5Biw19I=
@@ -228,8 +232,12 @@ github.com/veraison/eat v0.0.0-20220117140849-ddaf59d69f53/go.mod h1:+kxt8iuFiVv
 github.com/veraison/go-cose v1.0.0-rc.1/go.mod h1:7ziE85vSq4ScFTg6wyoMXjucIGOf4JkFEZi/an96Ct4=
 github.com/veraison/go-cose v1.1.0 h1:AalPS4VGiKavpAzIlBjrn7bhqXiXi4jbMYY/2+UC+4o=
 github.com/veraison/go-cose v1.1.0/go.mod h1:7ziE85vSq4ScFTg6wyoMXjucIGOf4JkFEZi/an96Ct4=
+github.com/veraison/go-cose v1.3.0 h1:2/H5w8kdSpQJyVtIhx8gmwPJ2uSz1PkyWFx0idbd7rk=
+github.com/veraison/go-cose v1.3.0/go.mod h1:df09OV91aHoQWLmy1KsDdYiagtXgyAwAl8vFeFn1gMc=
 github.com/veraison/psatoken v1.2.0 h1:PeHy6YUbhFE9Z9xaQBoAMpMWUEqSHrF2JgfcwMTmFIA=
 github.com/veraison/psatoken v1.2.0/go.mod h1:2tHLoYMOIS4V4mO8MJT4VstRtpO50FLmhoOR35FyIr4=
+github.com/veraison/psatoken v1.2.1-0.20240719122628-26fe500fd5d4 h1:N7qg7vDF2mUg7I+8AoU+ieJ20cgcShwFHXHkV5b2YAA=
+github.com/veraison/psatoken v1.2.1-0.20240719122628-26fe500fd5d4/go.mod h1:6+WZzXr0ACXYiUAJJqTaCxW43gY2+gEaCoVNdDv3+Bw=
 github.com/x448/float16 v0.8.4 h1:qLwI1I70+NjRFUR3zs1JPUCgaCXSh3SW62uAKT1mSBM=
 github.com/x448/float16 v0.8.4/go.mod h1:14CWIYCyZA/cWjXOioeEpHeN/83MdbZDRQHoFcYsOfg=
 github.com/yuin/goldmark v1.1.25/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=

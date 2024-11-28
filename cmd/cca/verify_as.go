@@ -11,7 +11,7 @@ import (
 
 var verifyValidArgs = []string{"attester", "relying-party"}
 
-const CCATokenMediaType = `application/eat-collection; profile="http://arm.com/CCA-SSD/1.0.0"`
+const CCATokenMediaType = `application/eat-collection; profile="tag:arm.com,2023:cca_platform#1.0.0"`
 
 var verifyAsCmd = &cobra.Command{
 	Use:   "verify-as",

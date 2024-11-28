@@ -64,7 +64,7 @@ In such case, the claim set is printed to stdout in JSON format:
 ```json
 {
   "cca-platform-token": {
-    "cca-platform-profile": "http://arm.com/CCA-SSD/1.0.0",
+    "cca-platform-profile": "tag:arm.com,2023:cca_platform#1.0.0",
     "cca-platform-challenge": "Bea1iETGoM0ZOCBpuv2w5JRmKjrc+P3hFHjpM5Ua8XkP9d5ceOPbESPaCiB6i2ZVbgoi8Z7mS9wviZU7azJVXw==",
     "cca-platform-implementation-id": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
     "cca-platform-instance-id": "AQICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIC",
@@ -127,7 +127,7 @@ The claim set is printed to stdout in JSON format:
 ```json
 {
   "cca-platform-token": {
-    "cca-platform-profile": "http://arm.com/CCA-SSD/1.0.0",
+    "cca-platform-profile": "tag:arm.com,2023:cca_platform#1.0.0",
     "cca-platform-challenge": "Bea1iETGoM0ZOCBpuv2w5JRmKjrc+P3hFHjpM5Ua8XkP9d5ceOPbESPaCiB6i2ZVbgoi8Z7mS9wviZU7azJVXw==",
     "cca-platform-implementation-id": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
     "cca-platform-instance-id": "AQICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIC",

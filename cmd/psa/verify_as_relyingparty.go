@@ -55,9 +55,8 @@ previous invocation to "evcli psa create".
 				return err
 			}
 
-			var e psatoken.Evidence
-
-			if err = e.FromCOSE(token); err != nil {
+			e, err := psatoken.DecodeAndValidateEvidenceFromCOSE(token)
+			if err != nil {
 				return err
 			}
 

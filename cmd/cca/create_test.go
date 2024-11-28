@@ -245,7 +245,7 @@ func Test_CreateCmd_claims_invalid(t *testing.T) {
 		},
 	)
 
-	expectedErr := `error loading CCA claims from claims.json: unmarshaling CCA claims: missing platform claims`
+	expectedErr := `error loading CCA claims from claims.json: claims not set in evidence`
 
 	err = cmd.Execute()
 	assert.EqualError(t, err, expectedErr)
