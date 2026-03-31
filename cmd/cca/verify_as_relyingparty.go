@@ -94,7 +94,7 @@ previous invocation to "evcli cca create" command.
 
 			attestationResults, err := veraisonClient.Run()
 			if err != nil {
-				return fmt.Errorf("Veraison API client failed: %v", err)
+				return fmt.Errorf("Veraison API client failed: %v", err) // nolint: staticcheck
 			}
 
 			fmt.Println(string(attestationResults))

@@ -187,7 +187,7 @@ func Test_CheckCmd_token_invalid_format(t *testing.T) {
 		},
 	)
 
-	expectedErr := `loading CCA evidence from ccatoken.cbor: CBOR decoding of CCA evidence failed: unexpected EOF`
+	expectedErr := `loading CCA evidence from ccatoken.cbor: unmarshal top-level CBOR Tag: unexpected EOF`
 
 	err = cmd.Execute()
 	assert.EqualError(t, err, expectedErr)
