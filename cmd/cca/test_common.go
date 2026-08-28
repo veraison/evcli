@@ -52,6 +52,7 @@ var (
 			"cca-platform-hash-algo-id": "sha-256"
 		},
 		"cca-realm-delegated-token": {
+			"cca-realm-profile": "tag:arm.com,2023:realm#1.0.0",
 			"cca-realm-challenge": "QUJBQkFCQUJBQkFCQUJBQkFCQUJBQkFCQUJBQkFCQUJBQkFCQUJBQkFCQUJBQkFCQUJBQkFCQUJBQkFCQUJBQg==",
 			"cca-realm-personalization-value": "QURBREFEQURBREFEQURBREFEQURBREFEQURBREFEQURBREFEQURBREFEQURBREFEQURBREFEQURBREFEQURBRA==",
 			"cca-realm-initial-measurement": "Q0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQw==",
@@ -83,6 +84,7 @@ var (
 			"cca-platform-hash-algo-id": "sha-256"
 		},
 		"cca-realm-delegated-token": {
+			"cca-realm-profile": "tag:arm.com,2023:realm#1.0.0",
 			"cca-realm-personalization-value": "QURBREFEQURBREFEQURBREFEQURBREFEQURBREFEQURBREFEQURBREFEQURBREFEQURBREFEQURBREFEQURBRA==",
 			"cca-realm-initial-measurement": "Q0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQw==",
 			"cca-realm-extensible-measurements": [
