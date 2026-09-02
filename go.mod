@@ -11,9 +11,9 @@ require (
 	github.com/spf13/viper v1.11.0
 	github.com/stretchr/testify v1.11.1
 	github.com/veraison/apiclient v0.4.1-0.20260826100211-017a8838452e
-	github.com/veraison/ccatoken v1.3.2-0.20250512122414-b26aba0635c4
+	github.com/veraison/ccatoken v1.4.1-0.20260825135807-84623d402f35
 	github.com/veraison/go-cose v1.3.0
-	github.com/veraison/psatoken v1.2.1-0.20240719122628-26fe500fd5d4
+	github.com/veraison/psatoken v1.2.1-0.20240723091511-b9c092a19d7b
 )
 
 require (
