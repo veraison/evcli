@@ -45,51 +45,55 @@ func Test_AttesterCmd_claims_not_found(t *testing.T) {
 func Test_AttesterCmd_platform_key_not_found(t *testing.T) {
 	fs := afero.NewMemMapFs()
 
-	err := afero.WriteFile(fs, "claims.json", testValidCCAClaims, 0644)
+	err := afero.WriteFile(fs, "rak.jwk", testValidRAK, 0644)
 	require.NoError(t, err)
 
-	err = afero.WriteFile(fs, "rak.jwk", testValidRAK, 0644)
-	require.NoError(t, err)
+	for _, testVec := range testValidCCAClaimVecs {
+		err = afero.WriteFile(fs, "claims.json", testVec.data, 0644)
+		require.NoError(t, err)
 
-	cmd := NewAttesterCmd(fs, attesterVeraisonClient)
-	cmd.SetArgs(
-		[]string{
-			"--api-server=http://veraison.example/challenge-response/v1",
-			"--claims=claims.json",
-			"--iak=iak.jwk",
-			"--rak=rak.jwk",
-		},
-	)
+		cmd := NewAttesterCmd(fs, attesterVeraisonClient)
+		cmd.SetArgs(
+			[]string{
+				"--api-server=http://veraison.example/challenge-response/v1",
+				"--claims=claims.json",
+				"--iak=iak.jwk",
+				"--rak=rak.jwk",
+			},
+		)
 
-	expectedErr := `error loading Platform signing key from iak.jwk: open iak.jwk: file does not exist`
+		expectedErr := `error loading Platform signing key from iak.jwk: open iak.jwk: file does not exist`
 
-	err = cmd.Execute()
-	assert.EqualError(t, err, expectedErr)
+		err = cmd.Execute()
+		assert.EqualError(t, err, expectedErr, "wrong result for %s", testVec.name)
+	}
 }
 
 func Test_AttesterCmd_realm_key_not_found(t *testing.T) {
 	fs := afero.NewMemMapFs()
 
-	err := afero.WriteFile(fs, "claims.json", testValidCCAClaims, 0644)
+	err := afero.WriteFile(fs, "iak.jwk", testValidIAK, 0644)
 	require.NoError(t, err)
 
-	err = afero.WriteFile(fs, "iak.jwk", testValidIAK, 0644)
-	require.NoError(t, err)
+	for _, testVec := range testValidCCAClaimVecs {
+		err = afero.WriteFile(fs, "claims.json", testVec.data, 0644)
+		require.NoError(t, err)
 
-	cmd := NewAttesterCmd(fs, attesterVeraisonClient)
-	cmd.SetArgs(
-		[]string{
-			"--api-server=http://veraison.example/challenge-response/v1",
-			"--claims=claims.json",
-			"--iak=iak.jwk",
-			"--rak=rak.jwk",
-		},
-	)
+		cmd := NewAttesterCmd(fs, attesterVeraisonClient)
+		cmd.SetArgs(
+			[]string{
+				"--api-server=http://veraison.example/challenge-response/v1",
+				"--claims=claims.json",
+				"--iak=iak.jwk",
+				"--rak=rak.jwk",
+			},
+		)
 
-	expectedErr := `error loading Realm signing key from rak.jwk: open rak.jwk: file does not exist`
+		expectedErr := `error loading Realm signing key from rak.jwk: open rak.jwk: file does not exist`
 
-	err = cmd.Execute()
-	assert.EqualError(t, err, expectedErr)
+		err = cmd.Execute()
+		assert.EqualError(t, err, expectedErr, "wrong result for %s", testVec.name)
+	}
 }
 
 func Test_AttesterCmd_claims_invalid(t *testing.T) {
@@ -123,85 +127,91 @@ func Test_AttesterCmd_claims_invalid(t *testing.T) {
 func Test_AttesterCmd_platform_key_invalid(t *testing.T) {
 	fs := afero.NewMemMapFs()
 
-	err := afero.WriteFile(fs, "claims.json", testValidCCAClaims, 0644)
-	require.NoError(t, err)
-
-	err = afero.WriteFile(fs, "iak.jwk", testInvalidKey, 0644)
+	err := afero.WriteFile(fs, "iak.jwk", testInvalidKey, 0644)
 	require.NoError(t, err)
 
 	err = afero.WriteFile(fs, "rak.jwk", testValidRAK, 0644)
 	require.NoError(t, err)
 
-	cmd := NewAttesterCmd(fs, attesterVeraisonClient)
-	cmd.SetArgs(
-		[]string{
-			"--api-server=http://veraison.example/challenge-response/v1",
-			"--claims=claims.json",
-			"--iak=iak.jwk",
-			"--rak=rak.jwk",
-		},
-	)
+	for _, testVec := range testValidCCAClaimVecs {
+		err = afero.WriteFile(fs, "claims.json", testVec.data, 0644)
+		require.NoError(t, err)
 
-	expectedErr := `error decoding Platform signing key from iak.jwk: failed to parse key: invalid key type from JSON ()`
+		cmd := NewAttesterCmd(fs, attesterVeraisonClient)
+		cmd.SetArgs(
+			[]string{
+				"--api-server=http://veraison.example/challenge-response/v1",
+				"--claims=claims.json",
+				"--iak=iak.jwk",
+				"--rak=rak.jwk",
+			},
+		)
 
-	err = cmd.Execute()
-	assert.ErrorContains(t, err, expectedErr)
+		expectedErr := `error decoding Platform signing key from iak.jwk: failed to parse key: invalid key type from JSON ()`
+
+		err = cmd.Execute()
+		assert.ErrorContains(t, err, expectedErr, "wrong result for %s", testVec.name)
+	}
 }
 
 func Test_AttesterCmd_realm_key_invalid(t *testing.T) {
 	fs := afero.NewMemMapFs()
 
-	err := afero.WriteFile(fs, "claims.json", testValidCCAClaims, 0644)
-	require.NoError(t, err)
-
-	err = afero.WriteFile(fs, "iak.jwk", testValidIAK, 0644)
+	err := afero.WriteFile(fs, "iak.jwk", testValidIAK, 0644)
 	require.NoError(t, err)
 
 	err = afero.WriteFile(fs, "rak.jwk", testInvalidKey, 0644)
 	require.NoError(t, err)
 
-	cmd := NewAttesterCmd(fs, attesterVeraisonClient)
-	cmd.SetArgs(
-		[]string{
-			"--api-server=http://veraison.example/challenge-response/v1",
-			"--claims=claims.json",
-			"--iak=iak.jwk",
-			"--rak=rak.jwk",
-		},
-	)
+	for _, testVec := range testValidCCAClaimVecs {
+		err = afero.WriteFile(fs, "claims.json", testVec.data, 0644)
+		require.NoError(t, err)
 
-	expectedErr := `error decoding Realm signing key from rak.jwk: failed to parse key: invalid key type from JSON ()`
+		cmd := NewAttesterCmd(fs, attesterVeraisonClient)
+		cmd.SetArgs(
+			[]string{
+				"--api-server=http://veraison.example/challenge-response/v1",
+				"--claims=claims.json",
+				"--iak=iak.jwk",
+				"--rak=rak.jwk",
+			},
+		)
 
-	err = cmd.Execute()
-	assert.ErrorContains(t, err, expectedErr)
+		expectedErr := `error decoding Realm signing key from rak.jwk: failed to parse key: invalid key type from JSON ()`
+
+		err = cmd.Execute()
+		assert.ErrorContains(t, err, expectedErr, "wrong result for %s", testVec.name)
+	}
 }
 
 func Test_AttesterCmd_bad_server_url(t *testing.T) {
 	fs := afero.NewMemMapFs()
 
-	err := afero.WriteFile(fs, "claims.json", testValidCCAClaims, 0644)
-	require.NoError(t, err)
-
-	err = afero.WriteFile(fs, "iak.jwk", testValidIAK, 0644)
+	err := afero.WriteFile(fs, "iak.jwk", testValidIAK, 0644)
 	require.NoError(t, err)
 
 	err = afero.WriteFile(fs, "rak.jwk", testValidRAK, 0644)
 	require.NoError(t, err)
 
-	cmd := NewAttesterCmd(fs, attesterVeraisonClient)
-	cmd.SetArgs(
-		[]string{
-			"--api-server=http://vera:son",
-			"--claims=claims.json",
-			"--iak=iak.jwk",
-			"--rak=rak.jwk",
-		},
-	)
+	for _, testVec := range testValidCCAClaimVecs {
+		err = afero.WriteFile(fs, "claims.json", testVec.data, 0644)
+		require.NoError(t, err)
 
-	expectedErr := `malformed session URI: parse "http://vera:son": invalid port ":son" after host`
+		cmd := NewAttesterCmd(fs, attesterVeraisonClient)
+		cmd.SetArgs(
+			[]string{
+				"--api-server=http://vera:son",
+				"--claims=claims.json",
+				"--iak=iak.jwk",
+				"--rak=rak.jwk",
+			},
+		)
 
-	err = cmd.Execute()
-	assert.EqualError(t, err, expectedErr)
+		expectedErr := `malformed session URI: parse "http://vera:son": invalid port ":son" after host`
+
+		err = cmd.Execute()
+		assert.EqualError(t, err, expectedErr, "wrong result for %s", testVec.name)
+	}
 }
 
 func Test_AttesterCmd_ok(t *testing.T) {
@@ -210,37 +220,39 @@ func Test_AttesterCmd_ok(t *testing.T) {
 
 	mc := mock_deps.NewMockIVeraisonClient(ctrl)
 
-	mc.EXPECT().SetSessionURI(testSessionURI)
-	mc.EXPECT().SetEvidenceBuilder(gomock.Any())
-	mc.EXPECT().SetIsInsecure(false)
-	mc.EXPECT().SetCerts([]string{})
-	mc.EXPECT().SetDeleteSession(true)
-	mc.EXPECT().SetNonceSz(uint(64))
-	mc.EXPECT().Run().Return([]byte("ok"), nil)
-
 	fs := afero.NewMemMapFs()
 
-	err := afero.WriteFile(fs, "claims.json", testValidCCAClaims, 0644)
-	require.NoError(t, err)
-
-	err = afero.WriteFile(fs, "iak.jwk", testValidIAK, 0644)
+	err := afero.WriteFile(fs, "iak.jwk", testValidIAK, 0644)
 	require.NoError(t, err)
 
 	err = afero.WriteFile(fs, "rak.jwk", testValidRAK, 0644)
 	require.NoError(t, err)
 
-	cmd := NewAttesterCmd(fs, mc)
-	cmd.SetArgs(
-		[]string{
-			"--api-server=" + testSessionURI,
-			"--claims=claims.json",
-			"--iak=iak.jwk",
-			"--rak=rak.jwk",
-		},
-	)
+	for _, testVec := range testValidCCAClaimVecs {
+		err = afero.WriteFile(fs, "claims.json", testVec.data, 0644)
+		require.NoError(t, err)
 
-	err = cmd.Execute()
-	assert.NoError(t, err)
+		mc.EXPECT().SetSessionURI(testSessionURI)
+		mc.EXPECT().SetEvidenceBuilder(gomock.Any())
+		mc.EXPECT().SetIsInsecure(false)
+		mc.EXPECT().SetCerts([]string{})
+		mc.EXPECT().SetDeleteSession(true)
+		mc.EXPECT().SetNonceSz(uint(64))
+		mc.EXPECT().Run().Return([]byte("ok"), nil)
+
+		cmd := NewAttesterCmd(fs, mc)
+		cmd.SetArgs(
+			[]string{
+				"--api-server=" + testSessionURI,
+				"--claims=claims.json",
+				"--iak=iak.jwk",
+				"--rak=rak.jwk",
+			},
+		)
+
+		err = cmd.Execute()
+		assert.NoError(t, err, "wrong result for %s", testVec.name)
+	}
 }
 
 func Test_AttesterCmd_protocol_run_failed(t *testing.T) {
@@ -249,102 +261,109 @@ func Test_AttesterCmd_protocol_run_failed(t *testing.T) {
 
 	mc := mock_deps.NewMockIVeraisonClient(ctrl)
 
-	mc.EXPECT().SetSessionURI(testSessionURI)
-	mc.EXPECT().SetEvidenceBuilder(gomock.Any())
-	mc.EXPECT().SetIsInsecure(false)
-	mc.EXPECT().SetCerts([]string{})
-	mc.EXPECT().SetDeleteSession(true)
-	mc.EXPECT().SetNonceSz(uint(64))
-	mc.EXPECT().Run().Return(nil, errors.New("failed"))
-
 	fs := afero.NewMemMapFs()
 
-	err := afero.WriteFile(fs, "claims.json", testValidCCAClaims, 0644)
-	require.NoError(t, err)
-
-	err = afero.WriteFile(fs, "iak.jwk", testValidIAK, 0644)
+	err := afero.WriteFile(fs, "iak.jwk", testValidIAK, 0644)
 	require.NoError(t, err)
 
 	err = afero.WriteFile(fs, "rak.jwk", testValidRAK, 0644)
 	require.NoError(t, err)
 
-	cmd := NewAttesterCmd(fs, mc)
-	cmd.SetArgs(
-		[]string{
-			"--api-server=" + testSessionURI,
-			"--claims=claims.json",
-			"--iak=iak.jwk",
-			"--rak=rak.jwk",
-		},
-	)
+	for _, testVec := range testValidCCAClaimVecs {
+		err = afero.WriteFile(fs, "claims.json", testVec.data, 0644)
+		require.NoError(t, err)
 
-	err = cmd.Execute()
-	assert.EqualError(t, err, "error in attesterVeraisonClient Run failed")
+		mc.EXPECT().SetSessionURI(testSessionURI)
+		mc.EXPECT().SetEvidenceBuilder(gomock.Any())
+		mc.EXPECT().SetIsInsecure(false)
+		mc.EXPECT().SetCerts([]string{})
+		mc.EXPECT().SetDeleteSession(true)
+		mc.EXPECT().SetNonceSz(uint(64))
+		mc.EXPECT().Run().Return(nil, errors.New("failed"))
+
+		cmd := NewAttesterCmd(fs, mc)
+		cmd.SetArgs(
+			[]string{
+				"--api-server=" + testSessionURI,
+				"--claims=claims.json",
+				"--iak=iak.jwk",
+				"--rak=rak.jwk",
+			},
+		)
+
+		err = cmd.Execute()
+		assert.EqualError(t, err, "error in attesterVeraisonClient Run failed", "wrong result for %s", testVec.name)
+	}
 }
 
 func Test_attesterEvidenceBuilder_BuildCCAEvidence_ok(t *testing.T) {
-	fs := afero.NewMemMapFs()
-	err := afero.WriteFile(fs, "claims.json", testValidCCAClaimsNoNonce, 0644)
-	require.NoError(t, err)
-
-	pClaims, rClaims, err := loadUnValidatedCCAClaimsFromFile(fs, "claims.json")
-	assert.NoError(t, err)
 	pSigner, err := common.SignerFromJWK(testValidIAK)
 	assert.NoError(t, err)
 
 	rSigner, err := common.SignerFromJWK(testValidRAK)
 	assert.NoError(t, err)
 
-	mut := attesterEvidenceBuilder{
-		Pclaims: pClaims, Rclaims: rClaims,
-		Psigner: pSigner, Rsigner: rSigner,
-	}
+	for _, testVec := range testValidCCAClaimNoNonceVecs {
+		fs := afero.NewMemMapFs()
+		err := afero.WriteFile(fs, "claims.json", testVec.data, 0644)
+		require.NoError(t, err, "failed to write claims.json for %s", testVec.name)
 
-	supportedMediaTypes := []string{
-		"a", CCATokenMediaType, "b", "c",
-	}
+		pClaims, rClaims, err := loadUnValidatedCCAClaimsFromFile(fs, "claims.json")
+		assert.NoError(t, err, "failed to load claims.json for %s", testVec.name)
 
-	expectedMediaType := CCATokenMediaType
-	actualEvidence, actualMediaType, err := mut.BuildEvidence(testNonce, supportedMediaTypes)
-	fmt.Printf("e: %x\n", actualEvidence)
-	assert.NoError(t, err)
-	assert.Equal(t, expectedMediaType, actualMediaType)
+		mut := attesterEvidenceBuilder{
+			Pclaims: pClaims, Rclaims: rClaims,
+			Psigner: pSigner, Rsigner: rSigner,
+		}
+
+		supportedMediaTypes := []string{
+			"a", CCATokenMediaType, "b", "c",
+		}
+
+		expectedMediaType := CCATokenMediaType
+		actualEvidence, actualMediaType, err := mut.BuildEvidence(testNonce, supportedMediaTypes)
+		fmt.Printf("e: %x\n", actualEvidence)
+		assert.NoError(t, err, "failed to build evidence for %s", testVec.name)
+		assert.Equal(t, expectedMediaType, actualMediaType, "wrong media type for %s", testVec.name)
+	}
 }
 
 func Test_attesterEvidenceBuilder_BuildEvidence_unsupported_media_type(t *testing.T) {
-	fs := afero.NewMemMapFs()
-	err := afero.WriteFile(fs, "claims.json", testValidCCAClaimsNoNonce, 0644)
-	require.NoError(t, err)
-
-	pClaims, rClaims, err := loadUnValidatedCCAClaimsFromFile(fs, "claims.json")
-	assert.NoError(t, err)
-
 	pSigner, err := common.SignerFromJWK(testValidIAK)
 	assert.NoError(t, err)
 
 	rSigner, err := common.SignerFromJWK(testValidRAK)
 	assert.NoError(t, err)
 
-	mut := attesterEvidenceBuilder{
-		Pclaims: pClaims, Rclaims: rClaims,
-		Psigner: pSigner, Rsigner: rSigner,
+	for _, testVec := range testValidCCAClaimNoNonceVecs {
+		fs := afero.NewMemMapFs()
+		err := afero.WriteFile(fs, "claims.json", testVec.data, 0644)
+		require.NoError(t, err, "failed to write claims.json for %s", testVec.name)
+
+		pClaims, rClaims, err := loadUnValidatedCCAClaimsFromFile(fs, "claims.json")
+		assert.NoError(t, err, "failed to load claims.json for %s", testVec.name)
+
+		mut := attesterEvidenceBuilder{
+			Pclaims: pClaims, Rclaims: rClaims,
+			Psigner: pSigner, Rsigner: rSigner,
+		}
+
+		supportedMediaTypes := []string{
+			"a", "b", "c",
+		}
+
+		expectedEvidence := []byte(nil)
+		expectedMediaType := ""
+
+		actualEvidence, actualMediaType, err := mut.BuildEvidence(testNonce, supportedMediaTypes)
+
+		expectedErr := fmt.Sprintf(
+			"expecting media type %s, got %s",
+			CCATokenMediaType, strings.Join(supportedMediaTypes, ", "),
+		)
+
+		assert.EqualError(t, err, expectedErr, "wrong error for %s", testVec.name)
+		assert.Equal(t, expectedEvidence, actualEvidence, "wrong evidence for %s", testVec.name)
+		assert.Equal(t, expectedMediaType, actualMediaType, "wrong media type for %s", testVec.name)
 	}
-
-	supportedMediaTypes := []string{
-		"a", "b", "c",
-	}
-
-	expectedEvidence := []byte(nil)
-	expectedMediaType := ""
-
-	actualEvidence, actualMediaType, err := mut.BuildEvidence(testNonce, supportedMediaTypes)
-
-	expectedErr := fmt.Sprintf(
-		"expecting media type %s, got %s",
-		CCATokenMediaType, strings.Join(supportedMediaTypes, ", "),
-	)
-
-	assert.EqualError(t, err, expectedErr)
-	assert.Equal(t, expectedEvidence, actualEvidence)
-	assert.Equal(t, expectedMediaType, actualMediaType)
 }
