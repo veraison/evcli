@@ -210,8 +210,8 @@ github.com/subosito/gotenv v1.2.0 h1:Slr1R9HxAlEKefgq5jn9U+DnETlIUa6HfgEzj0g5d7s
 github.com/subosito/gotenv v1.2.0/go.mod h1:N0PQaV/YGNqwC0u51sEeR/aUtSLEXKX9iv69rRypqCw=
 github.com/veraison/apiclient v0.4.1-0.20260826100211-017a8838452e h1:sBZgs0BQDPBzKZOYAw9HsJdkH9SF28x1lY3wu1a2qwM=
 github.com/veraison/apiclient v0.4.1-0.20260826100211-017a8838452e/go.mod h1:XfEC4u05zv3u9c/vPy2RsVGckzoWhxFj97htzRR3ltA=
-github.com/veraison/ccatoken v1.4.1-0.20260825135807-84623d402f35 h1:ubBcxAEWczWK8As123en44DVtNl0BkeOHlCZU4IbUGE=
-github.com/veraison/ccatoken v1.4.1-0.20260825135807-84623d402f35/go.mod h1:YheIuCJOdorTOO2Zrx8msKRGmDj/xP5YSMt/yJHcvPk=
+github.com/veraison/ccatoken v1.4.1-0.20260928091004-4b95c09a70de h1:7az17SZNjGvqLU6A9ZzMcdAz+4FCR4k1+num1rBE0gw=
+github.com/veraison/ccatoken v1.4.1-0.20260928091004-4b95c09a70de/go.mod h1:YheIuCJOdorTOO2Zrx8msKRGmDj/xP5YSMt/yJHcvPk=
 github.com/veraison/cmw v0.2.0 h1:BWEvwZnD4nn5osq6XwQpTRcGxwV+Su4t6ytdAbVXAJY=
 github.com/veraison/cmw v0.2.0/go.mod h1:OiYKk1t6/Fmmg30ZpSMzi4nKr5kt3374sNTkgxC5BDs=
 github.com/veraison/eat v0.0.0-20251105185612-2c0e43e22ea9 h1:noS47o2qRghkF4gpxAhzjJEEzQBvSnaJnHHlnMxdDpU=
