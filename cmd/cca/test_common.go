@@ -99,7 +99,8 @@ var (
 			"cca-realm-hash-algo-id": "sha-256",
 			"cca-realm-public-key": "pCACIVgwgvvRMqm1w5aHn7sVNA2QUJeOVcedUnmiug6VhU834gzS9k87crVwu9dz7uLOdoQlIlgw7fVF7b6J/6/g6Wu9RuJw8geWxEi5ja9Gp2TSdELm5u2E+M7IF+bsxqcdOj3n1n7NAQI=",
 			"cca-realm-public-key-hash-algo-id": "sha-512",
-			"cca-realm-mec-policy": "private"
+			"cca-realm-mec-policy": 1,
+			"cca-realm-instance-id": "Ad6tvu/erb7v3q2+796tvu/erb7v3q2+796tvu/erb7v"
 		}
 	}`)
 	testValidCCAClaimsRev03All = []byte(`{
@@ -164,7 +165,8 @@ var (
 			"cca-realm-hash-algo-id": "sha-256",
 			"cca-realm-public-key": "pCACIVgwgvvRMqm1w5aHn7sVNA2QUJeOVcedUnmiug6VhU834gzS9k87crVwu9dz7uLOdoQlIlgw7fVF7b6J/6/g6Wu9RuJw8geWxEi5ja9Gp2TSdELm5u2E+M7IF+bsxqcdOj3n1n7NAQI=",
 			"cca-realm-public-key-hash-algo-id": "sha-512",
-			"cca-realm-mec-policy": "private"
+			"cca-realm-mec-policy": 1,
+			"cca-realm-instance-id": "Ad6tvu/erb7v3q2+796tvu/erb7v3q2+796tvu/erb7v"
 		}
 	}`)
 	testValidCCAClaimsNoNonce = []byte(`{
@@ -228,7 +230,8 @@ var (
 			"cca-realm-hash-algo-id": "sha-256",
 			"cca-realm-public-key": "pCACIVgwgvvRMqm1w5aHn7sVNA2QUJeOVcedUnmiug6VhU834gzS9k87crVwu9dz7uLOdoQlIlgw7fVF7b6J/6/g6Wu9RuJw8geWxEi5ja9Gp2TSdELm5u2E+M7IF+bsxqcdOj3n1n7NAQI=",
 			"cca-realm-public-key-hash-algo-id": "sha-256",
-			"cca-realm-mec-policy": "private"
+			"cca-realm-mec-policy": 1,
+			"cca-realm-instance-id": "Ad6tvu/erb7v3q2+796tvu/erb7v3q2+796tvu/erb7v"
 		}
 	}`)
 	testValidCCAClaimVecs = []struct {
