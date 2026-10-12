@@ -144,7 +144,6 @@ var (
 			"cca-platform-tbb-rotpk": [
 					{
 					"name": "DM",
-					"active-array-index": 0,
 					"index": 0,
 					"hash": "BwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwc="
 					}
