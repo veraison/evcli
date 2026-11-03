@@ -47,7 +47,7 @@ te-profile1.cbor:
 
 Create a PSA attestation token from claims contained in psa-claims-profile-rfc9783.json
 (using 'tag:psacertified.org,2023:psa#tfm'), sign with es256.jwk and save the result to
-psa-claims-profile-rfc9783.cbor.cbor:
+psa-claims-profile-rfc9783.cbor:
 
 	evcli psa create -c psa-claims-profile-rfc9783.json -k es256.jwk -p 'tag:psacertified.org,2023:psa#tfm'
 
