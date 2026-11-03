@@ -35,15 +35,26 @@ evcli psa create \
 ```
 
 By default, PSA tokens are created according to the "http://arm.com/psa/2.0.0"
-profile.  If you are using the legacy "PSA_IOT_PROFILE_1" instead, you will
-need to explicitly pass it via the command line using the `--profile` switch
-(abbrev. `-p`):
+profile.
+If you are using another profile you will need to explicitly pass it via the
+command line using the `--profile` switch (abbrev. `-p`):
+
+- for the legacy "PSA_IOT_PROFILE_1":
 
 ```shell
 evcli psa create \
     --claims=psa-claims-profile-1.json \
     --key=ec256.json \
     --profile=PSA_IOT_PROFILE_1
+```
+
+- for the profile "tag:psacertified.org,2023:psa#tfm" defined in RFC 9783:
+
+```shell
+evcli psa create \
+    --claims=psa-claims-profile-rfc9783.json \
+    --key=ec256.json \
+    --profile='tag:psacertified.org,2023:psa#tfm'
 ```
 
 ### Check

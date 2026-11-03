@@ -220,6 +220,8 @@ github.com/veraison/go-cose v1.3.0 h1:2/H5w8kdSpQJyVtIhx8gmwPJ2uSz1PkyWFx0idbd7r
 github.com/veraison/go-cose v1.3.0/go.mod h1:df09OV91aHoQWLmy1KsDdYiagtXgyAwAl8vFeFn1gMc=
 github.com/veraison/psatoken v1.2.1-0.20240723091511-b9c092a19d7b h1:6YJOkhWhor5I3LBllc71T2Pvch488thIdR8MxxvyDb0=
 github.com/veraison/psatoken v1.2.1-0.20240723091511-b9c092a19d7b/go.mod h1:6+WZzXr0ACXYiUAJJqTaCxW43gY2+gEaCoVNdDv3+Bw=
+github.com/veraison/psatoken v1.2.1-0.20251211083527-a6e46122bbca h1:7i2zVA9ed3BR077Ee5ytSZQ85mNZ2vXKueuGP7cD0Ks=
+github.com/veraison/psatoken v1.2.1-0.20251211083527-a6e46122bbca/go.mod h1:bXUwdYAGcRoclxe73JmO8Z9ngV9KDHqW20afM9Q0FKo=
 github.com/veraison/swid v1.1.1-0.20251003121634-fd1f7f1e1897 h1:ze1ulqK70S7PRignyZzFDBJHNVEDyISk5FDv9Uh3UFw=
 github.com/veraison/swid v1.1.1-0.20251003121634-fd1f7f1e1897/go.mod h1:d5jt76uMNbTfQ+f2qU4Lt8RvWOTsv6PFgstIM1QdMH0=
 github.com/x448/float16 v0.8.4 h1:qLwI1I70+NjRFUR3zs1JPUCgaCXSh3SW62uAKT1mSBM=

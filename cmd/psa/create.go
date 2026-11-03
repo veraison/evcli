@@ -45,6 +45,12 @@ te-profile1.cbor:
 
 	evcli psa create -c te-profile1.json -k es256.jwk -p PSA_IOT_PROFILE_1
 
+Create a PSA attestation token from claims contained in psa-claims-profile-rfc9783.json
+(using 'tag:psacertified.org,2023:psa#tfm'), sign with es256.jwk and save the result to
+psa-claims-profile-rfc9783.cbor.cbor:
+
+	evcli psa create -c psa-claims-profile-rfc9783.json -k es256.jwk -p 'tag:psacertified.org,2023:psa#tfm'
+
 Note that the default profile is http://arm.com/psa/2.0.0.
 	`,
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -142,13 +148,13 @@ func checkProfile(profile *string) error {
 	}
 
 	switch *profile {
-	case psatoken.Profile1Name, psatoken.Profile2Name:
+	case psatoken.Profile1Name, psatoken.Profile2Name, psatoken.RFC9783ProfileName:
 		return nil
 	}
 
 	return fmt.Errorf(
-		"wrong profile %s: allowed profiles are %s and %s",
-		*profile, psatoken.Profile2Name, psatoken.Profile1Name,
+		"wrong profile %s: allowed profiles are %s, %s and %s",
+		*profile, psatoken.Profile2Name, psatoken.Profile1Name, psatoken.RFC9783ProfileName,
 	)
 }
 
