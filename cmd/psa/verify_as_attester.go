@@ -48,6 +48,23 @@ to be created on the fly based on the attester's claims and signing IAK.
 	              --nonce-size=32
 	
 	`,
+		PreRunE: func(cmd *cobra.Command, args []string) error {
+			cmd.Flags().VisitAll(func(flag *pflag.Flag) {
+				cfgName := strings.ReplaceAll(flag.Name, "-", "_")
+				if cfgName == "claims" || cfgName == "key" {
+					// as claims and the corresponding key file are likely
+					// to be different on each invocation, it does not make
+					// sense for them be specified via the config.
+					return
+				}
+
+				err := viper.BindPFlag(cfgName, flag)
+				cobra.CheckErr(err)
+			})
+
+			return nil
+		},
+
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if err := attesterCheckSubmitArgs(); err != nil {
 				return err
@@ -122,19 +139,6 @@ to be created on the fly based on the attester's claims and signing IAK.
 	cmd.Flags().StringArrayP(
 		"ca-cert", "E", nil, "path to a CA cert that will be used in addition to system certs; may be specified multiple times",
 	)
-
-	cmd.Flags().VisitAll(func(flag *pflag.Flag) {
-		cfgName := strings.ReplaceAll(flag.Name, "-", "_")
-		if cfgName == "claims" || cfgName == "key" {
-			// as claims and the corresponding key file are likely
-			// to be different on each invocation, it does not make
-			// sense for them be specified via the config.
-			return
-		}
-
-		err := viper.BindPFlag(cfgName, flag)
-		cobra.CheckErr(err)
-	})
 
 	return cmd
 }
