@@ -45,6 +45,21 @@ previous invocation to "evcli psa create".
 	              --token=psa-token.cbor
 
 	`,
+		PreRunE: func(cmd *cobra.Command, args []string) error {
+			cmd.Flags().VisitAll(func(flag *pflag.Flag) {
+				cfgName := strings.ReplaceAll(flag.Name, "-", "_")
+				if cfgName == "token" {
+					// as token is likely to be different on each
+					// invocation, it does not make sense for it be
+					// specified via the config.
+					return
+				}
+				cobra.CheckErr(viper.BindPFlag(cfgName, flag))
+			})
+
+			return nil
+		},
+
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if err := relyingPartyCheckSubmitArgs(); err != nil {
 				return err
@@ -108,19 +123,6 @@ previous invocation to "evcli psa create".
 	cmd.Flags().StringArrayP(
 		"ca-cert", "E", nil, "path to a CA cert that will be used in addition to system certs; may be specified multiple times",
 	)
-
-	cmd.Flags().VisitAll(func(flag *pflag.Flag) {
-		cfgName := strings.ReplaceAll(flag.Name, "-", "_")
-		if cfgName == "token" {
-			// as token is likely to be different on each
-			// invocation, it does not make sense for it be
-			// specified via the config.
-			return
-		}
-
-		err := viper.BindPFlag(cfgName, flag)
-		cobra.CheckErr(err)
-	})
 
 	return cmd
 }
