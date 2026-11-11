@@ -13,7 +13,7 @@ require (
 	github.com/veraison/apiclient v0.4.1-0.20260826100211-017a8838452e
 	github.com/veraison/ccatoken v1.4.1-0.20261012112307-2cfb1d784802
 	github.com/veraison/go-cose v1.3.0
-	github.com/veraison/psatoken v1.2.1-0.20240723091511-b9c092a19d7b
+	github.com/veraison/psatoken v1.2.1-0.20251211083527-a6e46122bbca
 )
 
 require (
